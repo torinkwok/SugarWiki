@@ -133,4 +133,32 @@
     XCTAssertNil( positiveTestCase.ISOLanguageCode );
     }
 
+- ( void ) testSearch
+    {
+    XCTestExpectation* jsonExpectation = [ self expectationWithDescription: @"JSON Exception" ];
+
+    WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: @"en" ];
+    [ positiveTestCase searchAllPagesThatHaveValue: @"Ruby"
+                                              what: WikiEngineSearchWhatPageText
+                                             limit: 3
+                                           success:
+        ^( NSDictionary* _JSONDict )
+            {
+            NSLog( @"%@", _JSONDict );
+            [ jsonExpectation fulfill ];
+            }
+                                           failure:
+        ^( NSError* _Error )
+            {
+
+            } ];
+
+    [ self waitForExpectationsWithTimeout: 15
+                                  handler:
+        ^( NSError* __nullable _Error )
+            {
+            NSLog( @"%@", _Error );
+            } ];
+    }
+
 @end

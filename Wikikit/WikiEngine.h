@@ -11,6 +11,12 @@
 @class WikiHTTPSessionManager;
 @class WikiSessionDataTask;
 
+typedef NS_ENUM( NSUInteger, WikiEngineSearchWhat )
+    { WikiEngineSearchWhatPageTitles    = 0
+    , WikiEngineSearchWhatPageText      = 1
+    , WikiEngineSearchWhatNearMatch     = 2
+    };
+
 /**
   */
 @interface WikiEngine : NSObject
@@ -35,5 +41,12 @@
 - ( instancetype ) initWithISOLanguageCode: ( NSString* )_ISOLanguageCode;
 
 + ( instancetype ) commonsEngine;
+
+#pragma mark Search
+- ( void ) searchAllPagesThatHaveValue: ( NSString* )_SearchValue
+                                  what: ( WikiEngineSearchWhat )_SearchWhat
+                                 limit: ( NSUInteger )_Limit
+                               success: ( void (^)( NSDictionary* _JSONDict ) )_SuccessBlock
+                               failure: ( void (^)( NSError* _Error ) )_FailureBlock;
 
 @end // WikiEngine class

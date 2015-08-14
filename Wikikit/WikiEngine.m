@@ -7,6 +7,7 @@
 //
 
 #import "WikiEngine.h"
+#import "AFNetworking.h"
 #import "WikiHTTPSessionManager.h"
 #import "WikiSessionDataTask.h"
 
@@ -72,11 +73,54 @@
     return [ [ [ self class ] alloc ] _initWithCommonsEndpoint ];
     }
 
+#pragma mark Search
+- ( void ) searchAllPagesThatHaveValue: ( NSString* )_SearchValue
+                                  what: ( WikiEngineSearchWhat )_SearchWhat
+                                 limit: ( NSUInteger )_Limit
+                               success: ( void (^)( NSDictionary* _JSONDict ) )_SuccessBlock
+                               failure: ( void (^)( NSError* _Error ) )_FailureBlock
+    {
+    NSDictionary* parameters = @{ @"action" : @"query"
+                                , @"format" : @"json"
+                                , @"generator" : @"search"
+                                , @"gsrsearch" : _SearchValue
+                                , @"gsrprop" : @"size|wordcount|timestamp|snippet|titlesnippet|sectionsnippet"
+                                , @"gsrlimit" : @( _Limit ).stringValue
+                                , @"prop" : @"info|pageprops|categories|categoryinfo|imageinfo"
+                                };
+
+    NSURLSessionDataTask* dataTask = [ self->_wikiHTTPSessionManager
+               GET: @"GET"
+        parameters: parameters
+           success:
+        ^( NSURLSessionDataTask* __nonnull _Task, id  __nonnull _ResponseObject )
+            {
+            if ( _SuccessBlock )
+                _SuccessBlock( ( NSDictionary* )_ResponseObject );
+            }
+           failure:
+        ^( NSURLSessionDataTask* __nonnull _Task, NSError* __nonnull _Error )
+            {
+            if ( _Error && _FailureBlock )
+                _FailureBlock( _Error );
+            } ];
+
+    if ( !self->_wikiDataSessionTasks )
+        self->_wikiDataSessionTasks = [ NSMutableArray array ];
+
+    [ self->_wikiDataSessionTasks addObject: dataTask ];
+    [ dataTask resume ];
+    }
+
 #pragma mark Private Interfaces
 - ( void ) _initEndpoint: ( NSURL* )_EndpointURL
     {
     self->_endpoint = _EndpointURL;
     self->_wikiHTTPSessionManager = [ [ WikiHTTPSessionManager alloc ] initWithBaseURL: self->_endpoint ];
+
+    AFJSONResponseSerializer* jsonSerializer = [ [ AFJSONResponseSerializer alloc ] init ];
+
+    [ self->_wikiHTTPSessionManager setResponseSerializer: jsonSerializer ];
     }
 
 - ( instancetype ) _initWithCommonsEndpoint
