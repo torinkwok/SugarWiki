@@ -64,6 +64,11 @@
 
 #pragma mark Dynamic Properties
 
+- ( NSDictionary* ) json
+    {
+    return self->_json;
+    }
+
 - ( SInt64 ) ID
     {
     return self->_ID;

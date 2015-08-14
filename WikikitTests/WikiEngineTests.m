@@ -7,6 +7,7 @@
 //
 
 #import "WikiEngine.h"
+#import "WikiPage.h"
 #import "AFNetworking.h"
 
 @import XCTest;
@@ -144,7 +145,30 @@
                                            success:
         ^( NSArray* _MatchedPages )
             {
-            NSLog( @"%@", _MatchedPages.firstObject );
+
+            for ( WikiPage* _Page in _MatchedPages )
+                {
+                NSLog( @"%@", _MatchedPages.firstObject );
+                printf( "===========================================\n" );
+
+                XCTAssertNotNil( _Page.json );
+
+                XCTAssertGreaterThanOrEqual( _Page.ID, 0 );
+                XCTAssertGreaterThanOrEqual( _Page.wikiNamespace, 0 );
+
+                XCTAssertNotNil( _Page.title );
+                XCTAssertNotNil( _Page.displayTitle );
+                XCTAssertNotNil( _Page.contentModel );
+                XCTAssertNotNil( _Page.language );
+                XCTAssertNotNil( _Page.touched );
+
+                XCTAssertNotNil( _Page.URL );
+                XCTAssertNotNil( _Page.editURL );
+                XCTAssertNotNil( _Page.canonicalURL );
+
+                XCTAssertGreaterThanOrEqual( _Page.talkID, 0 );
+                }
+
             [ jsonExpectation fulfill ];
             }
                                            failure:
