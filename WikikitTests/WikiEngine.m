@@ -14,6 +14,10 @@
 @interface WikiEngineTests : XCTestCase
     {
     AFHTTPSessionManager __strong* _httpSessionManager;
+
+    // Samples 0
+    NSArray __strong* _languageCodesSamples0;
+    NSDictionary __strong* _parametersSamples0;
     }
 
 @end
@@ -27,6 +31,14 @@
     self->_httpSessionManager = [ [ AFHTTPSessionManager alloc ] initWithSessionConfiguration: [ NSURLSessionConfiguration defaultSessionConfiguration ] ];
     AFJSONResponseSerializer* JSONSerializer = [ [ AFJSONResponseSerializer alloc ] init ];
     [ self->_httpSessionManager setResponseSerializer: JSONSerializer ];
+
+    // Samples 0
+    self->_languageCodesSamples0 = @[ @"en", @"zh", @"fr", @"ja", @"de" ];
+    self->_parametersSamples0 = @{ @"action" : @"query"
+                                 , @"meta" : @"siteinfo"
+                                 , @"format" : @"json"
+                                 , @"sipro" : @"general|languages|namespaces"
+                                 };
     }
 
 - ( void ) tearDown
@@ -37,26 +49,18 @@
 
 - ( void ) test_engineWithISOLanguageCode_
     {
-    NSArray* languageCodes = @[ @"en", @"zh", @"fr", @"ja", @"de" ];
-
-    NSDictionary* paras = @{ @"action" : @"query"
-                           , @"meta" : @"siteinfo"
-                           , @"format" : @"json"
-                           , @"sipro" : @"general|languages|namespaces"
-                           };
-
-    for ( NSString* _LauguageCode in languageCodes )
+    for ( NSString* _LauguageCode in _languageCodesSamples0 )
         {
-        WikiEngine* positiveTestCase0 = [ WikiEngine engineWithISOLanguageCode: _LauguageCode ];
-        XCTAssertNotNil( positiveTestCase0 );
+        WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: _LauguageCode ];
+        XCTAssertNotNil( positiveTestCase );
 
-        NSURL* positiveEndpoint0 = positiveTestCase0.endpoint;
+        NSURL* positiveEndpoint0 = positiveTestCase.endpoint;
         XCTAssertNotNil( positiveEndpoint0 );
 
-        XCTestExpectation* jsonException = [ self expectationWithDescription: [ NSString stringWithFormat: @"JSON Exception (%@) \nParas: ?%@", positiveEndpoint0, paras ] ];
+        XCTestExpectation* jsonException = [ self expectationWithDescription: [ NSString stringWithFormat: @"JSON Exception (%@) \nParas: ?%@", positiveEndpoint0, _parametersSamples0 ] ];
         NSURLSessionDataTask* positiveSessionDataTask0 =
             [ self->_httpSessionManager GET: positiveEndpoint0.absoluteString
-                                 parameters: paras
+                                 parameters: _parametersSamples0
                                     success:
             ^( NSURLSessionDataTask* __nonnull _Task, id  __nonnull _ResponseObject )
                 {
@@ -83,9 +87,50 @@
                 XCTAssertNil( _Error );
                 } ];
 
-        XCTAssertNotNil( positiveTestCase0.wikiHTTPSessionManager );
-        XCTAssertNotNil( positiveTestCase0.ISOLanguageCode );
+        XCTAssertNotNil( positiveTestCase.wikiHTTPSessionManager );
+        XCTAssertNotNil( positiveTestCase.ISOLanguageCode );
         }
+    }
+
+- ( void ) test_commonsEngine_
+    {
+    WikiEngine* positiveTestCase = [ WikiEngine commonsEngine ];
+
+    NSURL* positiveEndpoint0 = positiveTestCase.endpoint;
+    XCTAssertNotNil( positiveEndpoint0 );
+
+    XCTestExpectation* jsonException = [ self expectationWithDescription: [ NSString stringWithFormat: @"JSON Exception (%@) \nParas: ?%@", positiveEndpoint0, self->_parametersSamples0 ] ];
+    NSURLSessionDataTask* positiveSessionDataTask0 =
+        [ self->_httpSessionManager GET: positiveEndpoint0.absoluteString
+                             parameters: self->_parametersSamples0
+                                success:
+        ^( NSURLSessionDataTask* __nonnull _Task, id  __nonnull _ResponseObject )
+            {
+            NSLog( @"%@", _ResponseObject );
+            [ jsonException fulfill ];
+            }
+                                failure:
+        ^( NSURLSessionDataTask* __nonnull _Task, NSError* __nonnull _Error )
+            {
+            NSLog( @"%@", _Error );
+            } ];
+
+    [ positiveSessionDataTask0 resume ];
+
+    [ self waitForExpectationsWithTimeout: 15
+                                  handler:
+        ^( NSError* __nullable _Error )
+            {
+            if ( !_Error )
+                NSLog( @"✅Succeeded to test execute asynchronously" );
+            else
+                NSLog( @"❌Failed to test execute asynchronously: %@", _Error );
+
+            XCTAssertNil( _Error );
+            } ];
+
+    XCTAssertNotNil( positiveTestCase.wikiHTTPSessionManager );
+    XCTAssertNil( positiveTestCase.ISOLanguageCode );
     }
 
 @end

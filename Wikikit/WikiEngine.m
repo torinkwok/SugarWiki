@@ -67,6 +67,18 @@
     return self;
     }
 
++ ( instancetype ) commonsEngine
+    {
+    return [ [ [ self class ] alloc ] _initWithCommonsEndpoint ];
+    }
+
+#pragma mark Private Interfaces
+- ( void ) _initEndpoint: ( NSURL* )_EndpointURL
+    {
+    self->_endpoint = _EndpointURL;
+    self->_wikiHTTPSessionManager = [ [ WikiHTTPSessionManager alloc ] initWithBaseURL: self->_endpoint ];
+    }
+
 - ( instancetype ) _initWithCommonsEndpoint
     {
     if ( self = [ super init ] )
@@ -76,13 +88,6 @@
         }
 
     return self;
-    }
-
-#pragma mark Private Interfaces
-- ( void ) _initEndpoint: ( NSURL* )_EndpointURL
-    {
-    self->_endpoint = _EndpointURL;
-    self->_wikiHTTPSessionManager = [ [ WikiHTTPSessionManager alloc ] initWithBaseURL: self->_endpoint ];
     }
 
 @end // WikiEngine class
