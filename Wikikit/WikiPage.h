@@ -52,11 +52,18 @@ typedef NS_ENUM( SInt64, WikiNamespace )
     NSDictionary __strong* _json;
 
     SInt64 _id;
+    WikiNamespace _namespace;
     NSString __strong* _title;
+    NSString __strong* _displayTitle;
     NSString __strong* _contentModel;
     NSString __strong* _language;
     NSDate __strong* _touched;
 
+    NSURL __strong* _URL;
+    NSURL __strong* _editURL;
+    NSURL __strong* _canonicalURL;
+
+    SInt64 _talkID;
     }
 
 @property ( strong, readonly ) NSDictionary* json;
