@@ -51,8 +51,8 @@ typedef NS_ENUM( SInt64, WikiNamespace )
 @protected
     NSDictionary __strong* _json;
 
-    SInt64 _id;
-    WikiNamespace _namespace;
+    SInt64 _ID;
+    WikiNamespace _wikiNamespace;
     NSString __strong* _title;
     NSString __strong* _displayTitle;
     NSString __strong* _contentModel;
@@ -67,6 +67,20 @@ typedef NS_ENUM( SInt64, WikiNamespace )
     }
 
 @property ( strong, readonly ) NSDictionary* json;
+
+@property ( assign, readonly ) SInt64 ID;
+@property ( assign, readonly ) WikiNamespace wikiNamespace;
+@property ( strong, readonly ) NSString* title;
+@property ( strong, readonly ) NSString* displayTitle;
+@property ( strong, readonly ) NSString* contentModel;
+@property ( strong, readonly ) NSString* language;
+@property ( strong, readonly ) NSDate* touched;
+
+@property ( strong, readonly ) NSURL* URL;
+@property ( strong, readonly ) NSURL* editURL;
+@property ( strong, readonly ) NSURL* canonicalURL;
+
+@property ( assign, readonly ) SInt64 talkID;
 
 + ( instancetype ) pageWithJSONDict: ( NSDictionary* )_JSONDict;
 - ( instancetype ) initWithJSONDict: ( NSDictionary* )_JSONDict;

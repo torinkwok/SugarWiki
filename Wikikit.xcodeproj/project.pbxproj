@@ -193,8 +193,8 @@
 		83B7944B1B7DCEC300F4544E /* Wikikit */ = {
 			isa = PBXGroup;
 			children = (
-				83B75E131B7E69AB00E9C05E /* internal */,
 				83B7944C1B7DCEC300F4544E /* Wikikit.h */,
+				83B75E131B7E69AB00E9C05E /* internal */,
 				83B75DFC1B7DE1DA00E9C05E /* WikiEngine.h */,
 				83B75DFD1B7DE1DA00E9C05E /* WikiEngine.m */,
 				83B75E0B1B7E52EC00E9C05E /* WikiContinuation.h */,
