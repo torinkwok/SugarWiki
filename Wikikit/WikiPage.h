@@ -9,7 +9,7 @@
 @import Foundation;
 
 typedef NS_ENUM( SInt64, WikiNamespace )
-    { WikiNamespaceUnknown = 0
+    { WikiNamespaceDefault = 0
     , WikiNamespaceMedia = -2
     , WikiNamespaceSpecial = -1
     , WikiNamespaceTalk = 1

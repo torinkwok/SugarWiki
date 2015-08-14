@@ -61,13 +61,14 @@ NSArray* _WikiArrayValueWhichHasBeenParsedOutOfJSON( NSDictionary* _JSONObject
     {
     NSMutableArray* wrappedObjects = nil;
 
-    NSArray* objects = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( _JSONObject, _JSONPropertyKey );
+    NSDictionary* objects = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( _JSONObject, _JSONPropertyKey );
     if ( objects.count > 0 )
         {
         wrappedObjects = [ NSMutableArray array ];
-        for ( NSDictionary* objectElem in objects )
+        for ( NSDictionary* objectElem in objects.allValues )
             @try {
-                [ wrappedObjects addObject: objc_msgSend( _KindOfElements, _InitMethodsOfElements, objectElem ) ];
+                id cocoaObject = objc_msgSend( _KindOfElements, _InitMethodsOfElements, objectElem );
+                [ wrappedObjects addObject: cocoaObject ];
                 } @catch ( NSException* _Ex )
                     { NSLog( @"%@", _Ex ); }
         }

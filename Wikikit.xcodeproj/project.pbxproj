@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		836E6EEB1B7E858F0063273C /* NSDate+Wikikit.h in Headers */ = {isa = PBXBuildFile; fileRef = 836E6EE91B7E858F0063273C /* NSDate+Wikikit.h */; };
+		836E6EEC1B7E858F0063273C /* NSDate+Wikikit.m in Sources */ = {isa = PBXBuildFile; fileRef = 836E6EEA1B7E858F0063273C /* NSDate+Wikikit.m */; };
 		83B75C921B7DDAD200E9C05E /* AFHTTPRequestOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 83B75C7F1B7DDAD200E9C05E /* AFHTTPRequestOperation.h */; };
 		83B75C931B7DDAD200E9C05E /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B75C801B7DDAD200E9C05E /* AFHTTPRequestOperation.m */; };
 		83B75C941B7DDAD200E9C05E /* AFHTTPRequestOperationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 83B75C811B7DDAD200E9C05E /* AFHTTPRequestOperationManager.h */; };
@@ -58,6 +60,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		836E6EE91B7E858F0063273C /* NSDate+Wikikit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Wikikit.h"; sourceTree = "<group>"; };
+		836E6EEA1B7E858F0063273C /* NSDate+Wikikit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Wikikit.m"; sourceTree = "<group>"; };
 		83B75C7F1B7DDAD200E9C05E /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
 		83B75C801B7DDAD200E9C05E /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
 		83B75C811B7DDAD200E9C05E /* AFHTTPRequestOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperationManager.h; sourceTree = "<group>"; };
@@ -194,6 +198,8 @@
 			isa = PBXGroup;
 			children = (
 				83B7944C1B7DCEC300F4544E /* Wikikit.h */,
+				836E6EE91B7E858F0063273C /* NSDate+Wikikit.h */,
+				836E6EEA1B7E858F0063273C /* NSDate+Wikikit.m */,
 				83B75E131B7E69AB00E9C05E /* internal */,
 				83B75DFC1B7DE1DA00E9C05E /* WikiEngine.h */,
 				83B75DFD1B7DE1DA00E9C05E /* WikiEngine.m */,
@@ -239,6 +245,7 @@
 				83B75DFE1B7DE1DA00E9C05E /* WikiEngine.h in Headers */,
 				83B75C961B7DDAD200E9C05E /* AFHTTPSessionManager.h in Headers */,
 				83B75C9D1B7DDAD200E9C05E /* AFURLConnectionOperation.h in Headers */,
+				836E6EEB1B7E858F0063273C /* NSDate+Wikikit.h in Headers */,
 				83B75C991B7DDAD200E9C05E /* AFNetworkReachabilityManager.h in Headers */,
 				83B75C9B1B7DDAD200E9C05E /* AFSecurityPolicy.h in Headers */,
 				83B75C941B7DDAD200E9C05E /* AFHTTPRequestOperationManager.h in Headers */,
@@ -344,6 +351,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				83B75CA41B7DDAD200E9C05E /* AFURLSessionManager.m in Sources */,
+				836E6EEC1B7E858F0063273C /* NSDate+Wikikit.m in Sources */,
 				83B75C971B7DDAD200E9C05E /* AFHTTPSessionManager.m in Sources */,
 				83B75E061B7DEEBF00E9C05E /* WikiHTTPSessionManager.m in Sources */,
 				83B75C9C1B7DDAD200E9C05E /* AFSecurityPolicy.m in Sources */,

@@ -7,6 +7,7 @@
 //
 
 #import "WikiPage.h"
+#import "NSDate+Wikikit.h"
 
 #import "_WikiJSON.h"
 
@@ -42,22 +43,20 @@
         {
         self->_json = _JSONDict;
 
-        NSDictionary* values = [ self->_json allValues ].firstObject;
+        self->_ID = _WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"pageid" );
+        self->_wikiNamespace = ( WikiNamespace )_WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"ns" );
+        self->_title = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"contentmodel" );
+        self->_displayTitle = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"displaytitle" );
+        self->_contentModel = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"contentmodel" );
+        self->_language = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"pagelanguage" );
 
-        self->_ID = _WikiSInt64WhichHasBeenParsedOutOfJSON( values, @"pageid" );
-        self->_wikiNamespace = ( WikiNamespace )_WikiSInt64WhichHasBeenParsedOutOfJSON( values, @"ns" );
-        self->_title = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( values, @"contentmodel" );
-        self->_displayTitle = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( values, @"displaytitle" );
-        self->_contentModel = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( values, @"contentmodel" );
-        self->_language = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( values, @"pagelanguage" );
+        self->_touched = [ NSDate dateWithMediaWikiJSONDateString: _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"touched" ) ];
 
-//        self->_touched =
+        self->_URL = [ NSURL URLWithString: _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"fullurl" ) ];
+        self->_editURL = [ NSURL URLWithString: _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"editurl" ) ];
+        self->_canonicalURL = [ NSURL URLWithString: _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"canonicalurl" ) ];
 
-        self->_URL = [ NSURL URLWithString: _WikiCocoaValueWhichHasBeenParsedOutOfJSON( values, @"fullurl" ) ];
-        self->_editURL = [ NSURL URLWithString: _WikiCocoaValueWhichHasBeenParsedOutOfJSON( values, @"editurl" ) ];
-        self->_canonicalURL = [ NSURL URLWithString: _WikiCocoaValueWhichHasBeenParsedOutOfJSON( values, @"canonicalurl" ) ];
-
-        self->_talkID = _WikiSInt64WhichHasBeenParsedOutOfJSON( values, @"talkid" );
+        self->_talkID = _WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"talkid" );
         }
 
     return self;
@@ -118,6 +117,34 @@
 - ( SInt64 ) talkID
     {
     return self->_talkID;
+    }
+
+#pragma mark Debugging
+- ( NSString* ) description
+    {
+    return [ NSString stringWithFormat: @"ID: %@\n"
+                                         "Wiki Namespace: %@\n"
+                                         "Title: %@\n"
+                                         "Display Title: %@\n"
+                                         "Content Model: %@\n"
+                                         "Language: %@\n"
+                                         "Touched: %@\n"
+                                         "URL: %@\n"
+                                         "Edit URL: %@\n"
+                                         "Conanical URL: %@\n"
+                                         "Talk ID: %@\n"
+           , @( self->_ID )
+           , @( self->_wikiNamespace )
+           , self->_title
+           , self->_displayTitle
+           , self->_contentModel
+           , self->_language
+           , self->_touched
+           , self->_URL
+           , self->_editURL
+           , self->_canonicalURL
+           , @( self->_talkID )
+           ];
     }
 
 @end

@@ -142,9 +142,9 @@
                                               what: WikiEngineSearchWhatPageText
                                              limit: 3
                                            success:
-        ^( NSDictionary* _JSONDict )
+        ^( NSArray* _MatchedPages )
             {
-            NSLog( @"%@", _JSONDict );
+            NSLog( @"%@", _MatchedPages.firstObject );
             [ jsonExpectation fulfill ];
             }
                                            failure:

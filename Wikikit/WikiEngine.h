@@ -10,6 +10,7 @@
 
 @class WikiHTTPSessionManager;
 @class WikiSessionDataTask;
+@class WikiPage;
 
 typedef NS_ENUM( NSUInteger, WikiEngineSearchWhat )
     { WikiEngineSearchWhatPageTitles    = 0
@@ -46,7 +47,7 @@ typedef NS_ENUM( NSUInteger, WikiEngineSearchWhat )
 - ( void ) searchAllPagesThatHaveValue: ( NSString* )_SearchValue
                                   what: ( WikiEngineSearchWhat )_SearchWhat
                                  limit: ( NSUInteger )_Limit
-                               success: ( void (^)( NSDictionary* _JSONDict ) )_SuccessBlock
+                               success: ( void (^)( NSArray* _MatchedPages ) )_SuccessBlock
                                failure: ( void (^)( NSError* _Error ) )_FailureBlock;
 
 @end // WikiEngine class

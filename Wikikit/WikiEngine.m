@@ -10,6 +10,9 @@
 #import "AFNetworking.h"
 #import "WikiHTTPSessionManager.h"
 #import "WikiSessionDataTask.h"
+#import "WikiPage.h"
+
+#import "_WikiJSON.h"
 
 // Private Interfaces
 @interface WikiEngine ()
@@ -77,7 +80,7 @@
 - ( void ) searchAllPagesThatHaveValue: ( NSString* )_SearchValue
                                   what: ( WikiEngineSearchWhat )_SearchWhat
                                  limit: ( NSUInteger )_Limit
-                               success: ( void (^)( NSDictionary* _JSONDict ) )_SuccessBlock
+                               success: ( void (^)( NSArray* _MatchedPages ) )_SuccessBlock
                                failure: ( void (^)( NSError* _Error ) )_FailureBlock
     {
     NSDictionary* parameters = @{ @"action" : @"query"
@@ -87,6 +90,7 @@
                                 , @"gsrprop" : @"size|wordcount|timestamp|snippet|titlesnippet|sectionsnippet"
                                 , @"gsrlimit" : @( _Limit ).stringValue
                                 , @"prop" : @"info|pageprops|categories|categoryinfo|imageinfo"
+                                , @"inprop" : @"url|watched|talkid|preload|displaytitle"
                                 };
 
     NSURLSessionDataTask* dataTask = [ self->_wikiHTTPSessionManager
@@ -96,7 +100,11 @@
         ^( NSURLSessionDataTask* __nonnull _Task, id  __nonnull _ResponseObject )
             {
             if ( _SuccessBlock )
-                _SuccessBlock( ( NSDictionary* )_ResponseObject );
+                {
+                NSDictionary* pagesJSON = ( ( NSDictionary* )_ResponseObject )[ @"query" ];
+                NSArray* matchedPages = _WikiArrayValueWhichHasBeenParsedOutOfJSON( pagesJSON, @"pages", [ WikiPage class ], @selector( pageWithJSONDict: ) );
+                _SuccessBlock( matchedPages );
+                }
             }
            failure:
         ^( NSURLSessionDataTask* __nonnull _Task, NSError* __nonnull _Error )
