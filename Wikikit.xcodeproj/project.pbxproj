@@ -38,6 +38,8 @@
 		83B75E0A1B7DEED900E9C05E /* WikiSessionDataTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B75E081B7DEED900E9C05E /* WikiSessionDataTask.m */; };
 		83B75E0D1B7E52EC00E9C05E /* WikiContinuation.h in Headers */ = {isa = PBXBuildFile; fileRef = 83B75E0B1B7E52EC00E9C05E /* WikiContinuation.h */; };
 		83B75E0E1B7E52EC00E9C05E /* WikiContinuation.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B75E0C1B7E52EC00E9C05E /* WikiContinuation.m */; };
+		83B75E111B7E5AA800E9C05E /* WikiPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 83B75E0F1B7E5AA800E9C05E /* WikiPage.h */; };
+		83B75E121B7E5AA800E9C05E /* WikiPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B75E101B7E5AA800E9C05E /* WikiPage.m */; };
 		83B7944D1B7DCEC300F4544E /* Wikikit.h in Headers */ = {isa = PBXBuildFile; fileRef = 83B7944C1B7DCEC300F4544E /* Wikikit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		83B794541B7DCEC300F4544E /* Wikikit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83B794491B7DCEC300F4544E /* Wikikit.framework */; };
 		83B794591B7DCEC300F4544E /* WikikitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B794581B7DCEC300F4544E /* WikikitTests.m */; };
@@ -85,6 +87,8 @@
 		83B75E081B7DEED900E9C05E /* WikiSessionDataTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WikiSessionDataTask.m; sourceTree = "<group>"; };
 		83B75E0B1B7E52EC00E9C05E /* WikiContinuation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WikiContinuation.h; sourceTree = "<group>"; };
 		83B75E0C1B7E52EC00E9C05E /* WikiContinuation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WikiContinuation.m; sourceTree = "<group>"; };
+		83B75E0F1B7E5AA800E9C05E /* WikiPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WikiPage.h; sourceTree = "<group>"; };
+		83B75E101B7E5AA800E9C05E /* WikiPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WikiPage.m; sourceTree = "<group>"; };
 		83B794491B7DCEC300F4544E /* Wikikit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Wikikit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		83B7944C1B7DCEC300F4544E /* Wikikit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Wikikit.h; sourceTree = "<group>"; };
 		83B7944E1B7DCEC300F4544E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -181,6 +185,8 @@
 				83B75DFD1B7DE1DA00E9C05E /* WikiEngine.m */,
 				83B75E0B1B7E52EC00E9C05E /* WikiContinuation.h */,
 				83B75E0C1B7E52EC00E9C05E /* WikiContinuation.m */,
+				83B75E0F1B7E5AA800E9C05E /* WikiPage.h */,
+				83B75E101B7E5AA800E9C05E /* WikiPage.m */,
 				83B75E031B7DEEBF00E9C05E /* WikiHTTPSessionManager.h */,
 				83B75E041B7DEEBF00E9C05E /* WikiHTTPSessionManager.m */,
 				83B75E071B7DEED900E9C05E /* WikiSessionDataTask.h */,
@@ -208,6 +214,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				83B75E051B7DEEBF00E9C05E /* WikiHTTPSessionManager.h in Headers */,
+				83B75E111B7E5AA800E9C05E /* WikiPage.h in Headers */,
 				83B75CA31B7DDAD200E9C05E /* AFURLSessionManager.h in Headers */,
 				83B75E0D1B7E52EC00E9C05E /* WikiContinuation.h in Headers */,
 				83B75E091B7DEED900E9C05E /* WikiSessionDataTask.h in Headers */,
@@ -327,6 +334,7 @@
 				83B75C9C1B7DDAD200E9C05E /* AFSecurityPolicy.m in Sources */,
 				83B75DFF1B7DE1DA00E9C05E /* WikiEngine.m in Sources */,
 				83B75E0A1B7DEED900E9C05E /* WikiSessionDataTask.m in Sources */,
+				83B75E121B7E5AA800E9C05E /* WikiPage.m in Sources */,
 				83B75C951B7DDAD200E9C05E /* AFHTTPRequestOperationManager.m in Sources */,
 				83B75C9A1B7DDAD200E9C05E /* AFNetworkReachabilityManager.m in Sources */,
 				83B75C9E1B7DDAD200E9C05E /* AFURLConnectionOperation.m in Sources */,
