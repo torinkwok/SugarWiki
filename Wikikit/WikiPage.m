@@ -45,7 +45,7 @@
 
         self->_ID = _WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"pageid" );
         self->_wikiNamespace = ( WikiNamespace )_WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"ns" );
-        self->_title = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"contentmodel" );
+        self->_title = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"title" );
         self->_displayTitle = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"displaytitle" );
         self->_contentModel = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"contentmodel" );
         self->_language = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"pagelanguage" );
@@ -57,6 +57,14 @@
         self->_canonicalURL = [ NSURL URLWithString: _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"canonicalurl" ) ];
 
         self->_talkID = _WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"talkid" );
+
+        NSDictionary* pagepropsJSON = self->_json[ @"pageprops" ];
+        if ( pagepropsJSON )
+            {
+            self->_defaultSort = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( pagepropsJSON, @"defaultsort" );
+            self->_pageImageName = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( pagepropsJSON, @"page_image" );
+            self->_wikiBaseItem = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( pagepropsJSON, @"wikibase_item" );
+            }
         }
 
     return self;
@@ -124,6 +132,21 @@
     return self->_talkID;
     }
 
+- ( NSString* ) defaultSort
+    {
+    return self->_defaultSort;
+    }
+
+- ( NSString* ) pageImageName
+    {
+    return self->_pageImageName;
+    }
+
+- ( NSString* ) wikiBaseItem
+    {
+    return self->_wikiBaseItem;
+    }
+
 #pragma mark Debugging
 - ( NSString* ) description
     {
@@ -138,6 +161,9 @@
                                          "Edit URL: %@\n"
                                          "Conanical URL: %@\n"
                                          "Talk ID: %@\n"
+                                         "Default Sort: %@\n"
+                                         "Page Image Name: %@\n"
+                                         "WikiBase Item: %@\n"
            , @( self->_ID )
            , @( self->_wikiNamespace )
            , self->_title
@@ -149,6 +175,9 @@
            , self->_editURL
            , self->_canonicalURL
            , @( self->_talkID )
+           , self->_defaultSort
+           , self->_pageImageName
+           , self->_wikiBaseItem
            ];
     }
 

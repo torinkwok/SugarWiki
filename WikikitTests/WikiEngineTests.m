@@ -141,7 +141,7 @@
     WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: @"en" ];
     [ positiveTestCase searchAllPagesThatHaveValue: @"Ruby"
                                               what: WikiEngineSearchWhatPageText
-                                             limit: 3
+                                             limit: 10
                                            success:
         ^( NSArray* _MatchedPages )
             {
@@ -149,7 +149,7 @@
             for ( WikiPage* _Page in _MatchedPages )
                 {
                 NSLog( @"%@", _MatchedPages.firstObject );
-                printf( "===========================================\n" );
+                printf( "==============================================================\n" );
 
                 XCTAssertNotNil( _Page.json );
 
