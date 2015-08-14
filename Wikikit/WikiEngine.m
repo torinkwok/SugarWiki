@@ -48,7 +48,7 @@
 
 - ( instancetype ) initWithISOLanguageCode: ( NSString* )_Code
     {
-    if ( !_ISOLanguageCode )
+    if ( !_Code )
         return nil;
 
     NSArray* allCodes = [ NSLocale ISOLanguageCodes ];

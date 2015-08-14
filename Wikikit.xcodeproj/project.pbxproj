@@ -76,7 +76,6 @@
 		83B75CA91B7DDAFE00E9C05E /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		83B75DFC1B7DE1DA00E9C05E /* WikiEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WikiEngine.h; sourceTree = "<group>"; };
 		83B75DFD1B7DE1DA00E9C05E /* WikiEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WikiEngine.m; sourceTree = "<group>"; };
-		83B75E001B7DE22C00E9C05E /* WikiEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WikiEngine.h; sourceTree = "<group>"; };
 		83B75E011B7DE22C00E9C05E /* WikiEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WikiEngine.m; sourceTree = "<group>"; };
 		83B75E031B7DEEBF00E9C05E /* WikiHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WikiHTTPSessionManager.h; sourceTree = "<group>"; };
 		83B75E041B7DEEBF00E9C05E /* WikiHTTPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WikiHTTPSessionManager.m; sourceTree = "<group>"; };
@@ -189,7 +188,6 @@
 			isa = PBXGroup;
 			children = (
 				83B794581B7DCEC300F4544E /* WikikitTests.m */,
-				83B75E001B7DE22C00E9C05E /* WikiEngine.h */,
 				83B75E011B7DE22C00E9C05E /* WikiEngine.m */,
 				83B7945A1B7DCEC300F4544E /* Info.plist */,
 			);
