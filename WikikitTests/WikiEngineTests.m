@@ -139,17 +139,16 @@
     XCTestExpectation* jsonExpectation = [ self expectationWithDescription: @"JSON Exception" ];
 
     WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: @"en" ];
-    [ positiveTestCase searchAllPagesThatHaveValue: @"Ruby"
+    [ positiveTestCase searchAllPagesThatHaveValue: @"C++"
                                               what: WikiEngineSearchWhatPageText
-                                             limit: 3
+                                             limit: 10
                                            success:
         ^( NSArray* _MatchedPages )
             {
-
             for ( WikiPage* _Page in _MatchedPages )
                 {
-                NSLog( @"%@", _MatchedPages.firstObject );
-                printf( "===========================================\n" );
+                NSLog( @"%@", _Page );
+                printf( "==============================================================\n" );
 
                 XCTAssertNotNil( _Page.json );
 

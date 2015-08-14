@@ -64,6 +64,10 @@ typedef NS_ENUM( SInt64, WikiNamespace )
     NSURL __strong* _canonicalURL;
 
     SInt64 _talkID;
+
+    NSString __strong* _defaultSort;
+    NSString __strong* _pageImageName;
+    NSString __strong* _wikiBaseItem;
     }
 
 @property ( strong, readonly ) NSDictionary* json;
@@ -81,6 +85,10 @@ typedef NS_ENUM( SInt64, WikiNamespace )
 @property ( strong, readonly ) NSURL* canonicalURL;
 
 @property ( assign, readonly ) SInt64 talkID;
+
+@property ( strong, readonly ) NSString* defaultSort;
+@property ( strong, readonly ) NSString* pageImageName;
+@property ( strong, readonly ) NSString* wikiBaseItem;
 
 + ( instancetype ) pageWithJSONDict: ( NSDictionary* )_JSONDict;
 - ( instancetype ) initWithJSONDict: ( NSDictionary* )_JSONDict;
