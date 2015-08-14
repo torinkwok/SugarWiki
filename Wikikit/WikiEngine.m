@@ -53,13 +53,15 @@
 
     NSArray* allCodes = [ NSLocale ISOLanguageCodes ];
     if ( [ allCodes containsObject: _Code ] )
-    if ( self = [ super init ] )
         {
-        self->_ISOLanguageCode = _Code;
-        NSURL* url = [ NSURL URLWithString:
-            [ NSString stringWithFormat: @"https://%@.wikipedia.org/w/api.php/", self->_ISOLanguageCode ] ];
+        if ( self = [ super init ] )
+            {
+            self->_ISOLanguageCode = _Code;
+            NSURL* url = [ NSURL URLWithString:
+                [ NSString stringWithFormat: @"https://%@.wikipedia.org/w/api.php/", self->_ISOLanguageCode ] ];
 
-        [ self _initEndpoint: url ];
+            [ self _initEndpoint: url ];
+            }
         }
 
     return self;
