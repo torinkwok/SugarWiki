@@ -32,6 +32,10 @@
 		83B75DFE1B7DE1DA00E9C05E /* WikiEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 83B75DFC1B7DE1DA00E9C05E /* WikiEngine.h */; };
 		83B75DFF1B7DE1DA00E9C05E /* WikiEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B75DFD1B7DE1DA00E9C05E /* WikiEngine.m */; };
 		83B75E021B7DE22C00E9C05E /* WikiEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B75E011B7DE22C00E9C05E /* WikiEngine.m */; };
+		83B75E051B7DEEBF00E9C05E /* WikiHTTPSessionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 83B75E031B7DEEBF00E9C05E /* WikiHTTPSessionManager.h */; };
+		83B75E061B7DEEBF00E9C05E /* WikiHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B75E041B7DEEBF00E9C05E /* WikiHTTPSessionManager.m */; };
+		83B75E091B7DEED900E9C05E /* WikiSessionDataTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 83B75E071B7DEED900E9C05E /* WikiSessionDataTask.h */; };
+		83B75E0A1B7DEED900E9C05E /* WikiSessionDataTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B75E081B7DEED900E9C05E /* WikiSessionDataTask.m */; };
 		83B7944D1B7DCEC300F4544E /* Wikikit.h in Headers */ = {isa = PBXBuildFile; fileRef = 83B7944C1B7DCEC300F4544E /* Wikikit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		83B794541B7DCEC300F4544E /* Wikikit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83B794491B7DCEC300F4544E /* Wikikit.framework */; };
 		83B794591B7DCEC300F4544E /* WikikitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B794581B7DCEC300F4544E /* WikikitTests.m */; };
@@ -74,6 +78,10 @@
 		83B75DFD1B7DE1DA00E9C05E /* WikiEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WikiEngine.m; sourceTree = "<group>"; };
 		83B75E001B7DE22C00E9C05E /* WikiEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WikiEngine.h; sourceTree = "<group>"; };
 		83B75E011B7DE22C00E9C05E /* WikiEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WikiEngine.m; sourceTree = "<group>"; };
+		83B75E031B7DEEBF00E9C05E /* WikiHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WikiHTTPSessionManager.h; sourceTree = "<group>"; };
+		83B75E041B7DEEBF00E9C05E /* WikiHTTPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WikiHTTPSessionManager.m; sourceTree = "<group>"; };
+		83B75E071B7DEED900E9C05E /* WikiSessionDataTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WikiSessionDataTask.h; sourceTree = "<group>"; };
+		83B75E081B7DEED900E9C05E /* WikiSessionDataTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WikiSessionDataTask.m; sourceTree = "<group>"; };
 		83B794491B7DCEC300F4544E /* Wikikit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Wikikit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		83B7944C1B7DCEC300F4544E /* Wikikit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Wikikit.h; sourceTree = "<group>"; };
 		83B7944E1B7DCEC300F4544E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -168,6 +176,10 @@
 				83B7944C1B7DCEC300F4544E /* Wikikit.h */,
 				83B75DFC1B7DE1DA00E9C05E /* WikiEngine.h */,
 				83B75DFD1B7DE1DA00E9C05E /* WikiEngine.m */,
+				83B75E031B7DEEBF00E9C05E /* WikiHTTPSessionManager.h */,
+				83B75E041B7DEEBF00E9C05E /* WikiHTTPSessionManager.m */,
+				83B75E071B7DEED900E9C05E /* WikiSessionDataTask.h */,
+				83B75E081B7DEED900E9C05E /* WikiSessionDataTask.m */,
 				83B7944E1B7DCEC300F4544E /* Info.plist */,
 			);
 			path = Wikikit;
@@ -191,7 +203,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83B75E051B7DEEBF00E9C05E /* WikiHTTPSessionManager.h in Headers */,
 				83B75CA31B7DDAD200E9C05E /* AFURLSessionManager.h in Headers */,
+				83B75E091B7DEED900E9C05E /* WikiSessionDataTask.h in Headers */,
 				83B75C9F1B7DDAD200E9C05E /* AFURLRequestSerialization.h in Headers */,
 				83B7944D1B7DCEC300F4544E /* Wikikit.h in Headers */,
 				83B75C921B7DDAD200E9C05E /* AFHTTPRequestOperation.h in Headers */,
@@ -304,8 +318,10 @@
 			files = (
 				83B75CA41B7DDAD200E9C05E /* AFURLSessionManager.m in Sources */,
 				83B75C971B7DDAD200E9C05E /* AFHTTPSessionManager.m in Sources */,
+				83B75E061B7DEEBF00E9C05E /* WikiHTTPSessionManager.m in Sources */,
 				83B75C9C1B7DDAD200E9C05E /* AFSecurityPolicy.m in Sources */,
 				83B75DFF1B7DE1DA00E9C05E /* WikiEngine.m in Sources */,
+				83B75E0A1B7DEED900E9C05E /* WikiSessionDataTask.m in Sources */,
 				83B75C951B7DDAD200E9C05E /* AFHTTPRequestOperationManager.m in Sources */,
 				83B75C9A1B7DDAD200E9C05E /* AFNetworkReachabilityManager.m in Sources */,
 				83B75C9E1B7DDAD200E9C05E /* AFURLConnectionOperation.m in Sources */,
