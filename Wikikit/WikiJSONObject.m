@@ -7,6 +7,7 @@
 //
 
 #import "WikiJSONObject.h"
+#import "WikiMacros.h"
 
 @implementation WikiJSONObject
 
@@ -17,6 +18,13 @@
 - ( NSDictionary* ) json
     {
     return self->_json;
+    }
+
+#pragma mark Pure Virtual Initializations
+- ( instancetype ) initWithJSONDict: ( NSDictionary* )_JSONDict
+    {
+    __THROW_EXCEPTION__WHEN_INVOKED_PURE_VIRTUAL_METHOD_;
+    return nil;
     }
 
 @end

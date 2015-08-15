@@ -16,4 +16,7 @@
 
 @property ( strong, readonly ) NSDictionary* json;
 
+#pragma mark Pure Virtual Initializations
+- ( instancetype ) initWithJSONDict: ( NSDictionary* )_JSONDict;
+
 @end

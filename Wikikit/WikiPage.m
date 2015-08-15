@@ -32,6 +32,7 @@
     return [ [ [ self class ] alloc ] initWithJSONDict: _JSONDict ];
     }
 
+// Overrides WikiJSONObject
 - ( instancetype ) initWithJSONDict: ( NSDictionary* )_JSONDict
     {
     if ( !_JSONDict )

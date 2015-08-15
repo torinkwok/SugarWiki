@@ -89,6 +89,5 @@ typedef NS_ENUM( SInt64, WikiNamespace )
 @property ( strong, readonly ) NSString* wikiBaseItem;
 
 + ( instancetype ) pageWithJSONDict: ( NSDictionary* )_JSONDict;
-- ( instancetype ) initWithJSONDict: ( NSDictionary* )_JSONDict;
 
 @end
