@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		836E6EEB1B7E858F0063273C /* NSDate+Wikikit.h in Headers */ = {isa = PBXBuildFile; fileRef = 836E6EE91B7E858F0063273C /* NSDate+Wikikit.h */; };
 		836E6EEC1B7E858F0063273C /* NSDate+Wikikit.m in Sources */ = {isa = PBXBuildFile; fileRef = 836E6EEA1B7E858F0063273C /* NSDate+Wikikit.m */; };
+		836E6EEF1B7F2E270063273C /* WikiJSONObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 836E6EED1B7F2E270063273C /* WikiJSONObject.h */; };
+		836E6EF01B7F2E270063273C /* WikiJSONObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 836E6EEE1B7F2E270063273C /* WikiJSONObject.m */; };
 		83B75C921B7DDAD200E9C05E /* AFHTTPRequestOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 83B75C7F1B7DDAD200E9C05E /* AFHTTPRequestOperation.h */; };
 		83B75C931B7DDAD200E9C05E /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B75C801B7DDAD200E9C05E /* AFHTTPRequestOperation.m */; };
 		83B75C941B7DDAD200E9C05E /* AFHTTPRequestOperationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 83B75C811B7DDAD200E9C05E /* AFHTTPRequestOperationManager.h */; };
@@ -62,6 +64,8 @@
 /* Begin PBXFileReference section */
 		836E6EE91B7E858F0063273C /* NSDate+Wikikit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Wikikit.h"; sourceTree = "<group>"; };
 		836E6EEA1B7E858F0063273C /* NSDate+Wikikit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Wikikit.m"; sourceTree = "<group>"; };
+		836E6EED1B7F2E270063273C /* WikiJSONObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WikiJSONObject.h; sourceTree = "<group>"; };
+		836E6EEE1B7F2E270063273C /* WikiJSONObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WikiJSONObject.m; sourceTree = "<group>"; };
 		83B75C7F1B7DDAD200E9C05E /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
 		83B75C801B7DDAD200E9C05E /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
 		83B75C811B7DDAD200E9C05E /* AFHTTPRequestOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperationManager.h; sourceTree = "<group>"; };
@@ -203,6 +207,8 @@
 				83B75E131B7E69AB00E9C05E /* internal */,
 				83B75DFC1B7DE1DA00E9C05E /* WikiEngine.h */,
 				83B75DFD1B7DE1DA00E9C05E /* WikiEngine.m */,
+				836E6EED1B7F2E270063273C /* WikiJSONObject.h */,
+				836E6EEE1B7F2E270063273C /* WikiJSONObject.m */,
 				83B75E0B1B7E52EC00E9C05E /* WikiContinuation.h */,
 				83B75E0C1B7E52EC00E9C05E /* WikiContinuation.m */,
 				83B75E0F1B7E5AA800E9C05E /* WikiPage.h */,
@@ -242,6 +248,7 @@
 				83B75C9F1B7DDAD200E9C05E /* AFURLRequestSerialization.h in Headers */,
 				83B7944D1B7DCEC300F4544E /* Wikikit.h in Headers */,
 				83B75C921B7DDAD200E9C05E /* AFHTTPRequestOperation.h in Headers */,
+				836E6EEF1B7F2E270063273C /* WikiJSONObject.h in Headers */,
 				83B75DFE1B7DE1DA00E9C05E /* WikiEngine.h in Headers */,
 				83B75C961B7DDAD200E9C05E /* AFHTTPSessionManager.h in Headers */,
 				83B75C9D1B7DDAD200E9C05E /* AFURLConnectionOperation.h in Headers */,
@@ -354,6 +361,7 @@
 				836E6EEC1B7E858F0063273C /* NSDate+Wikikit.m in Sources */,
 				83B75C971B7DDAD200E9C05E /* AFHTTPSessionManager.m in Sources */,
 				83B75E061B7DEEBF00E9C05E /* WikiHTTPSessionManager.m in Sources */,
+				836E6EF01B7F2E270063273C /* WikiJSONObject.m in Sources */,
 				83B75C9C1B7DDAD200E9C05E /* AFSecurityPolicy.m in Sources */,
 				83B75DFF1B7DE1DA00E9C05E /* WikiEngine.m in Sources */,
 				83B75E171B7E69D600E9C05E /* _WikiJSON.m in Sources */,

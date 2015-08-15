@@ -13,8 +13,6 @@
 
 @implementation WikiPage
 
-@dynamic json;
-
 @dynamic ID;
 @dynamic wikiNamespace;
 @dynamic title;
@@ -71,11 +69,6 @@
     }
 
 #pragma mark Dynamic Properties
-
-- ( NSDictionary* ) json
-    {
-    return self->_json;
-    }
 
 - ( SInt64 ) ID
     {

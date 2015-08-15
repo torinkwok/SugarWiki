@@ -139,7 +139,7 @@
     XCTestExpectation* jsonExpectation = [ self expectationWithDescription: @"JSON Exception" ];
 
     WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: @"en" ];
-    [ positiveTestCase searchAllPagesThatHaveValue: @"C++"
+    [ positiveTestCase searchAllPagesThatHaveValue: @"Ruby"
                                               what: WikiEngineSearchWhatPageText
                                              limit: 10
                                            success:

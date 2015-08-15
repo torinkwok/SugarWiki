@@ -8,6 +8,8 @@
 
 @import Foundation;
 
+#import "WikiJSONObject.h"
+
 typedef NS_ENUM( SInt64, WikiNamespace )
     { WikiNamespaceDefault = 0
     , WikiNamespaceMedia = -2
@@ -46,11 +48,9 @@ typedef NS_ENUM( SInt64, WikiNamespace )
     , WikiNamespaceTopic = 2600
     };
 
-@interface WikiPage : NSObject
+@interface WikiPage : WikiJSONObject
     {
 @protected
-    NSDictionary __strong* _json;
-
     SInt64 _ID;
     WikiNamespace _wikiNamespace;
     NSString __strong* _title;
@@ -69,8 +69,6 @@ typedef NS_ENUM( SInt64, WikiNamespace )
     NSString __strong* _pageImageName;
     NSString __strong* _wikiBaseItem;
     }
-
-@property ( strong, readonly ) NSDictionary* json;
 
 @property ( assign, readonly ) SInt64 ID;
 @property ( assign, readonly ) WikiNamespace wikiNamespace;
