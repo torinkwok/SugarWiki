@@ -23,12 +23,9 @@ typedef NS_ENUM( NSUInteger, WikiEngineSearchWhat )
 @interface WikiEngine : NSObject
     {
 @protected
-    NSURL __strong* _endpoint;
-
-    WikiHTTPSessionManager __strong* _wikiHTTPSessionManager;
-
-    // @[ WikiSessionDataTask, WikiSessionDataTask, WikiSessionDataTask, … ]
-    NSMutableArray __strong* _wikiDataSessionTasks;
+    NSURL                   __strong* _endpoint;
+    WikiHTTPSessionManager  __strong* _wikiHTTPSessionManager;
+    NSMutableArray          __strong* _tmpSessionTasksPool;
 
     NSString __strong* _ISOLanguageCode;
     }

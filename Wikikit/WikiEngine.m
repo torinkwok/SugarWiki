@@ -102,6 +102,9 @@
             {
             if ( _SuccessBlock )
                 {
+                // Done! Kill task by removing it from the temporary session tasks pool😈
+                [ self->_tmpSessionTasksPool removeObject: _Task ];
+
                 NSDictionary* pagesJSON = ( ( NSDictionary* )_ResponseObject )[ @"query" ];
                 NSArray* matchedPages = _WikiArrayValueWhichHasBeenParsedOutOfJSON( pagesJSON, @"pages", [ WikiPage class ], @selector( pageWithJSONDict: ) );
                 _SuccessBlock( matchedPages );
@@ -110,14 +113,17 @@
            failure:
         ^( NSURLSessionDataTask* __nonnull _Task, NSError* __nonnull _Error )
             {
+            // Error occured! Kill task by removing it from the temporary session tasks pool😈
+            [ self->_tmpSessionTasksPool removeObject: _Task ];
+
             if ( _Error && _FailureBlock )
                 _FailureBlock( _Error );
             } ];
 
-    if ( !self->_wikiDataSessionTasks )
-        self->_wikiDataSessionTasks = [ NSMutableArray array ];
+    if ( !self->_tmpSessionTasksPool )
+        self->_tmpSessionTasksPool = [ NSMutableArray array ];
 
-    [ self->_wikiDataSessionTasks addObject: dataTask ];
+    [ self->_tmpSessionTasksPool addObject: dataTask ];
     [ dataTask resume ];
     }
 
