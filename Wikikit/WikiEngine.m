@@ -89,8 +89,9 @@
                                 , @"gsrsearch" : _SearchValue
                                 , @"gsrprop" : @"size|wordcount|timestamp|snippet|titlesnippet|sectionsnippet"
                                 , @"gsrlimit" : @( _Limit ).stringValue
-                                , @"prop" : @"info|pageprops|categories|categoryinfo|imageinfo"
+                                , @"prop" : @"info|pageprops|categories|categoryinfo|imageinfo|revisions"
                                 , @"inprop" : @"url|watched|talkid|preload|displaytitle"
+                                , @"rvprop" : @"content|ids|flags|timestamp|user|userid|comment|parsedcomment|size|sha1"
                                 };
 
     NSURLSessionDataTask* dataTask = [ self->_wikiHTTPSessionManager

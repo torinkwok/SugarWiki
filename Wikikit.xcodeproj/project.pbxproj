@@ -13,6 +13,8 @@
 		836E6EF01B7F2E270063273C /* WikiJSONObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 836E6EEE1B7F2E270063273C /* WikiJSONObject.m */; };
 		836E6EF31B7F2F5A0063273C /* WikiMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 836E6EF11B7F2F5A0063273C /* WikiMacros.h */; };
 		836E6EF61B7F2FC70063273C /* WikiJSONObjectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 836E6EF51B7F2FC70063273C /* WikiJSONObjectTests.m */; };
+		836E6EF91B7F33A60063273C /* WikiRevision.h in Headers */ = {isa = PBXBuildFile; fileRef = 836E6EF71B7F33A60063273C /* WikiRevision.h */; };
+		836E6EFA1B7F33A60063273C /* WikiRevision.m in Sources */ = {isa = PBXBuildFile; fileRef = 836E6EF81B7F33A60063273C /* WikiRevision.m */; };
 		83B75C921B7DDAD200E9C05E /* AFHTTPRequestOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 83B75C7F1B7DDAD200E9C05E /* AFHTTPRequestOperation.h */; };
 		83B75C931B7DDAD200E9C05E /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B75C801B7DDAD200E9C05E /* AFHTTPRequestOperation.m */; };
 		83B75C941B7DDAD200E9C05E /* AFHTTPRequestOperationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 83B75C811B7DDAD200E9C05E /* AFHTTPRequestOperationManager.h */; };
@@ -70,6 +72,8 @@
 		836E6EEE1B7F2E270063273C /* WikiJSONObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WikiJSONObject.m; sourceTree = "<group>"; };
 		836E6EF11B7F2F5A0063273C /* WikiMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WikiMacros.h; sourceTree = "<group>"; };
 		836E6EF51B7F2FC70063273C /* WikiJSONObjectTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WikiJSONObjectTests.m; sourceTree = "<group>"; };
+		836E6EF71B7F33A60063273C /* WikiRevision.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WikiRevision.h; sourceTree = "<group>"; };
+		836E6EF81B7F33A60063273C /* WikiRevision.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WikiRevision.m; sourceTree = "<group>"; };
 		83B75C7F1B7DDAD200E9C05E /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
 		83B75C801B7DDAD200E9C05E /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
 		83B75C811B7DDAD200E9C05E /* AFHTTPRequestOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperationManager.h; sourceTree = "<group>"; };
@@ -218,6 +222,8 @@
 				83B75E0C1B7E52EC00E9C05E /* WikiContinuation.m */,
 				83B75E0F1B7E5AA800E9C05E /* WikiPage.h */,
 				83B75E101B7E5AA800E9C05E /* WikiPage.m */,
+				836E6EF71B7F33A60063273C /* WikiRevision.h */,
+				836E6EF81B7F33A60063273C /* WikiRevision.m */,
 				83B75E031B7DEEBF00E9C05E /* WikiHTTPSessionManager.h */,
 				83B75E041B7DEEBF00E9C05E /* WikiHTTPSessionManager.m */,
 				83B75E071B7DEED900E9C05E /* WikiSessionDataTask.h */,
@@ -249,6 +255,7 @@
 				83B75E111B7E5AA800E9C05E /* WikiPage.h in Headers */,
 				83B75CA31B7DDAD200E9C05E /* AFURLSessionManager.h in Headers */,
 				83B75E161B7E69D600E9C05E /* _WikiJSON.h in Headers */,
+				836E6EF91B7F33A60063273C /* WikiRevision.h in Headers */,
 				83B75E0D1B7E52EC00E9C05E /* WikiContinuation.h in Headers */,
 				83B75E091B7DEED900E9C05E /* WikiSessionDataTask.h in Headers */,
 				83B75C9F1B7DDAD200E9C05E /* AFURLRequestSerialization.h in Headers */,
@@ -372,6 +379,7 @@
 				83B75C9C1B7DDAD200E9C05E /* AFSecurityPolicy.m in Sources */,
 				83B75DFF1B7DE1DA00E9C05E /* WikiEngine.m in Sources */,
 				83B75E171B7E69D600E9C05E /* _WikiJSON.m in Sources */,
+				836E6EFA1B7F33A60063273C /* WikiRevision.m in Sources */,
 				83B75E0A1B7DEED900E9C05E /* WikiSessionDataTask.m in Sources */,
 				83B75E121B7E5AA800E9C05E /* WikiPage.m in Sources */,
 				83B75C951B7DDAD200E9C05E /* AFHTTPRequestOperationManager.m in Sources */,

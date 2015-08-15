@@ -7,6 +7,7 @@
 //
 
 #import "WikiPage.h"
+#import "WikiRevision.h"
 #import "NSDate+Wikikit.h"
 
 #import "_WikiJSON.h"
@@ -35,13 +36,8 @@
 // Overrides WikiJSONObject
 - ( instancetype ) initWithJSONDict: ( NSDictionary* )_JSONDict
     {
-    if ( !_JSONDict )
-        return nil;
-
-    if ( self = [ super init ] )
+    if ( self = [ super initWithJSONDict: _JSONDict ] )
         {
-        self->_json = _JSONDict;
-
         self->_ID = _WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"pageid" );
         self->_wikiNamespace = ( WikiNamespace )_WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"ns" );
         self->_title = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"title" );
@@ -64,6 +60,10 @@
             self->_pageImageName = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( pagepropsJSON, @"page_image" );
             self->_wikiBaseItem = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( pagepropsJSON, @"wikibase_item" );
             }
+
+        NSArray* revisionsJSON  = self->_json[ @"revisions" ];
+        if ( revisionsJSON.count > 0 )
+            self->_lastRevision = [ WikiRevision revisionWithJSONDict: revisionsJSON.firstObject ];
         }
 
     return self;

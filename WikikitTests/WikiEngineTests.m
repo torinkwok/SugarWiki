@@ -8,6 +8,7 @@
 
 #import "WikiEngine.h"
 #import "WikiPage.h"
+#import "WikiRevision.h"
 #import "AFNetworking.h"
 
 @import XCTest;
@@ -166,6 +167,29 @@
                 XCTAssertNotNil( _Page.canonicalURL );
 
                 XCTAssertGreaterThanOrEqual( _Page.talkID, 0 );
+
+                WikiRevision* lastRevision = _Page.lastRevision;
+                XCTAssertNotNil( lastRevision );
+                    XCTAssertNotNil( lastRevision.json );
+                    XCTAssertGreaterThanOrEqual( lastRevision.ID, 0 );
+                    XCTAssertGreaterThanOrEqual( lastRevision.parentID, 0 );
+                    XCTAssertNotNil( lastRevision.userName );
+                    XCTAssertGreaterThanOrEqual( lastRevision.userID, 0 );
+                    XCTAssertNotNil( lastRevision.timestamp );
+                    XCTAssertNotNil( lastRevision.contentFormat );
+                    XCTAssertNotNil( lastRevision.contentModel );
+                    XCTAssertNotNil( lastRevision.content );
+                    XCTAssertGreaterThanOrEqual( lastRevision.sizeInBytes, 0 );
+                    XCTAssertNotNil( lastRevision.comment );
+                    XCTAssertNotNil( lastRevision.parsedComment );
+
+                    NSData* lastRevisionContentData = [ lastRevision.content dataUsingEncoding: NSUTF8StringEncoding ];
+                    XCTAssertEqual( lastRevisionContentData.length, lastRevision.sizeInBytes );
+
+                    XCTAssert( lastRevision.isMinorEdit || !lastRevision.isMinorEdit );
+
+                    XCTAssertNotNil( lastRevision.SHA1 );
+                    XCTAssertEqual( lastRevision.SHA1.length, 40 /* SHA-1 hash value is 40 digits long */ );
                 }
 
             [ jsonExpectation fulfill ];

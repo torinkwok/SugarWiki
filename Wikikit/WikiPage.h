@@ -10,6 +10,8 @@
 
 #import "WikiJSONObject.h"
 
+@class WikiRevision;
+
 typedef NS_ENUM( SInt64, WikiNamespace )
     { WikiNamespaceDefault = 0
     , WikiNamespaceMedia = -2
@@ -68,6 +70,8 @@ typedef NS_ENUM( SInt64, WikiNamespace )
     NSString __strong* _defaultSort;
     NSString __strong* _pageImageName;
     NSString __strong* _wikiBaseItem;
+
+    WikiRevision __strong* _lastRevision;
     }
 
 @property ( assign, readonly ) SInt64 ID;
@@ -87,6 +91,8 @@ typedef NS_ENUM( SInt64, WikiNamespace )
 @property ( strong, readonly ) NSString* defaultSort;
 @property ( strong, readonly ) NSString* pageImageName;
 @property ( strong, readonly ) NSString* wikiBaseItem;
+
+@property ( strong, readonly ) WikiRevision* lastRevision;
 
 + ( instancetype ) pageWithJSONDict: ( NSDictionary* )_JSONDict;
 

@@ -30,20 +30,15 @@
 
 - ( void ) test_pureVirtual_initWithJSONDict_
     {
-    WikiJSONObject* positiveTestCase0 = nil;
-    XCTAssertThrowsSpecificNamed( positiveTestCase0 = [ [ WikiJSONObject alloc ] initWithJSONDict: @{} ]
-                                , NSException
-                                , NSGenericException
-                                );
-    }
+    WikiJSONObject* positiveTestCase0 = [ [ WikiJSONObject alloc ] initWithJSONDict: @{} ];
+    XCTAssertNotNil( positiveTestCase0 );
+    XCTAssertNotNil( positiveTestCase0.json );
 
-- ( void ) testPerformanceExample
-    {
-    // This is an example of a performance test case.
-    [ self measureBlock:
-        ^{
-        // Put the code you want to measure the time of here.
-        } ];
-}
+    WikiJSONObject* negativeTestCase0 = [ [ WikiJSONObject alloc ] initWithJSONDict: nil ];
+    XCTAssertNil( negativeTestCase0 );
+
+    WikiJSONObject* negativeTestCase1 = [ [ WikiJSONObject alloc ] initWithJSONDict: ( NSDictionary* )@[ @"testItem0", @"testItem1" ] ];
+    XCTAssertNil( negativeTestCase1 );
+    }
 
 @end

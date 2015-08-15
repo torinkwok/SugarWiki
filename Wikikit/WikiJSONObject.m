@@ -23,8 +23,13 @@
 #pragma mark Pure Virtual Initializations
 - ( instancetype ) initWithJSONDict: ( NSDictionary* )_JSONDict
     {
-    __THROW_EXCEPTION__WHEN_INVOKED_PURE_VIRTUAL_METHOD_;
-    return nil;
+    if ( !_JSONDict || ![ _JSONDict isKindOfClass: [ NSDictionary class ] ] )
+        return nil;
+
+    if ( self = [ super init ] )
+        self->_json = _JSONDict;
+
+    return self;
     }
 
 @end
