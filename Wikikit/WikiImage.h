@@ -20,6 +20,7 @@
     NSString __strong* _user;
     SInt64 _userID;
 
+    NSUInteger _sizeInByte;
     CGFloat _width;
     CGFloat _height;
 
@@ -29,7 +30,7 @@
     NSURL __strong* _URL;
     NSURL __strong* _descriptionURL;
 
-    NSString __strong* SHA1;
+    NSString __strong* _SHA1;
 
     NSUInteger _bitDepth;
     WikiNamespace _wikiNamespace;

@@ -27,6 +27,13 @@ NSUInteger _WikiSInt64WhichHasBeenParsedOutOfJSON( NSDictionary* _JSONObject, NS
     return cocoaNumber ? cocoaNumber.longLongValue : 0;
     }
 
+CGFloat _WikiCGFloatWhichHasBeenParsedOutOfJSON( NSDictionary* _JSONObject, NSString* _JSONPropertyKey )
+    {
+    NSNumber* cocoaNumber = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( _JSONObject, _JSONPropertyKey );
+    assert( !cocoaNumber || [ cocoaNumber respondsToSelector: @selector( doubleValue ) ] );
+    return cocoaNumber ? cocoaNumber.doubleValue : 0.f;
+    }
+
 NSUInteger _WikiUnsignedIntWhichHasBeenParsedOutOfJSON( NSDictionary* _JSONObject, NSString* _JSONPropertyKey )
     {
     NSNumber* cocoaNumber = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( _JSONObject, _JSONPropertyKey );
