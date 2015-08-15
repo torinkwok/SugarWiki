@@ -78,11 +78,16 @@
 
 #pragma mark Search
 - ( void ) searchAllPagesThatHaveValue: ( NSString* )_SearchValue
+                          inNamespaces: ( NSArray* )_Namespaces
                                   what: ( WikiEngineSearchWhat )_SearchWhat
                                  limit: ( NSUInteger )_Limit
                                success: ( void (^)( NSArray* _MatchedPages ) )_SuccessBlock
                                failure: ( void (^)( NSError* _Error ) )_FailureBlock
     {
+    NSString* srnamespace = nil;
+    if ( _Namespaces.count > 0 )
+        srnamespace = [ _Namespaces componentsJoinedByString: @"|" ];
+
     NSDictionary* parameters = @{ @"action" : @"query"
                                 , @"format" : @"json"
                                 , @"generator" : @"search"
@@ -92,6 +97,7 @@
                                 , @"prop" : @"info|pageprops|categories|categoryinfo|imageinfo|revisions"
                                 , @"inprop" : @"url|watched|talkid|preload|displaytitle"
                                 , @"rvprop" : @"content|ids|flags|timestamp|user|userid|comment|parsedcomment|size|sha1"
+                                , @"gsrnamespace" : srnamespace ?: @"0"
                                 };
 
     NSURLSessionDataTask* dataTask = [ self->_wikiHTTPSessionManager
@@ -109,16 +115,15 @@
                 NSArray* matchedPages = _WikiArrayValueWhichHasBeenParsedOutOfJSON( pagesJSON, @"pages", [ WikiPage class ], @selector( pageWithJSONDict: ) );
                 _SuccessBlock( matchedPages );
                 }
-            }
-           failure:
-        ^( NSURLSessionDataTask* __nonnull _Task, NSError* __nonnull _Error )
-            {
-            // Error occured! Kill task by removing it from the temporary session tasks pool😈
-            [ self->_tmpSessionTasksPool removeObject: _Task ];
+            } failure:
+                ^( NSURLSessionDataTask* __nonnull _Task, NSError* __nonnull _Error )
+                    {
+                    // Error occured! Kill task by removing it from the temporary session tasks pool😈
+                    [ self->_tmpSessionTasksPool removeObject: _Task ];
 
-            if ( _Error && _FailureBlock )
-                _FailureBlock( _Error );
-            } ];
+                    if ( _Error && _FailureBlock )
+                        _FailureBlock( _Error );
+                    } ];
 
     if ( !self->_tmpSessionTasksPool )
         self->_tmpSessionTasksPool = [ NSMutableArray array ];

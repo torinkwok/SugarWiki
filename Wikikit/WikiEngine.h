@@ -8,6 +8,8 @@
 
 @import Foundation;
 
+#import "WikiConstants.h"
+
 @class WikiHTTPSessionManager;
 @class WikiSessionDataTask;
 @class WikiPage;
@@ -42,6 +44,7 @@ typedef NS_ENUM( NSUInteger, WikiEngineSearchWhat )
 
 #pragma mark Search
 - ( void ) searchAllPagesThatHaveValue: ( NSString* )_SearchValue
+                          inNamespaces: ( NSArray* )_Namespaces
                                   what: ( WikiEngineSearchWhat )_SearchWhat
                                  limit: ( NSUInteger )_Limit
                                success: ( void (^)( NSArray* _MatchedPages ) )_SuccessBlock

@@ -194,6 +194,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection )
 
     WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: @"en" ];
     [ positiveTestCase searchAllPagesThatHaveValue: @"Ruby"
+                                      inNamespaces: nil
                                               what: WikiEngineSearchWhatPageText
                                              limit: 10
                                            success:
@@ -210,6 +211,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection )
                     } ];
 
     [ positiveTestCase searchAllPagesThatHaveValue: @"C++"
+                                      inNamespaces: @[ @( WikiNamespaceDraft ), @( WikiNamespaceWikipedia ) ]
                                               what: WikiEngineSearchWhatPageText
                                              limit: 10
                                            success:
