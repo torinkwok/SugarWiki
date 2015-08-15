@@ -50,4 +50,8 @@ typedef NS_ENUM( NSUInteger, WikiEngineSearchWhat )
                                success: ( void (^)( NSArray* _MatchedPages ) )_SuccessBlock
                                failure: ( void (^)( NSError* _Error ) )_FailureBlock;
 
+- ( void ) searchImage: ( NSString* )_ImageName
+               success: ( void (^)( NSDictionary* _ImageJSON ) )_SuccessBlock
+               failure: ( void (^)( NSError* _Error ) )_FailureBlock;
+
 @end // WikiEngine class

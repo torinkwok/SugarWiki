@@ -132,6 +132,13 @@
     [ dataTask resume ];
     }
 
+- ( void ) searchImage: ( NSString* )_ImageName
+               success: ( void (^)( NSDictionary* _ImageJSON ) )_SuccessBlock
+               failure: ( void (^)( NSError* _Error ) )_FailureBlock
+    {
+    
+    }
+
 #pragma mark Private Interfaces
 - ( void ) _initEndpoint: ( NSURL* )_EndpointURL
     {
