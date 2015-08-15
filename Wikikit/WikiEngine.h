@@ -8,6 +8,8 @@
 
 @import Foundation;
 
+#import "WikiConstants.h"
+
 @class WikiHTTPSessionManager;
 @class WikiSessionDataTask;
 @class WikiPage;
@@ -23,12 +25,9 @@ typedef NS_ENUM( NSUInteger, WikiEngineSearchWhat )
 @interface WikiEngine : NSObject
     {
 @protected
-    NSURL __strong* _endpoint;
-
-    WikiHTTPSessionManager __strong* _wikiHTTPSessionManager;
-
-    // @[ WikiSessionDataTask, WikiSessionDataTask, WikiSessionDataTask, … ]
-    NSMutableArray __strong* _wikiDataSessionTasks;
+    NSURL                   __strong* _endpoint;
+    WikiHTTPSessionManager  __strong* _wikiHTTPSessionManager;
+    NSMutableArray          __strong* _tmpSessionTasksPool;
 
     NSString __strong* _ISOLanguageCode;
     }
@@ -45,9 +44,14 @@ typedef NS_ENUM( NSUInteger, WikiEngineSearchWhat )
 
 #pragma mark Search
 - ( void ) searchAllPagesThatHaveValue: ( NSString* )_SearchValue
+                          inNamespaces: ( NSArray* )_Namespaces
                                   what: ( WikiEngineSearchWhat )_SearchWhat
                                  limit: ( NSUInteger )_Limit
                                success: ( void (^)( NSArray* _MatchedPages ) )_SuccessBlock
                                failure: ( void (^)( NSError* _Error ) )_FailureBlock;
+
+- ( void ) searchImage: ( NSString* )_ImageName
+               success: ( void (^)( NSDictionary* _ImageJSON ) )_SuccessBlock
+               failure: ( void (^)( NSError* _Error ) )_FailureBlock;
 
 @end // WikiEngine class

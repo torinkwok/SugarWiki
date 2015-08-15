@@ -8,6 +8,7 @@
 
 #import "WikiEngine.h"
 #import "WikiPage.h"
+#import "WikiRevision.h"
 #import "AFNetworking.h"
 
 @import XCTest;
@@ -134,47 +135,97 @@
     XCTAssertNil( positiveTestCase.ISOLanguageCode );
     }
 
+- ( void ) _testWikiPage: ( WikiPage* )_Page
+    {
+    NSLog( @"%@", _Page );
+    printf( "==============================================================\n" );
+
+    XCTAssertNotNil( _Page.json );
+
+    XCTAssertGreaterThanOrEqual( _Page.ID, 0 );
+    XCTAssertGreaterThanOrEqual( _Page.wikiNamespace, 0 );
+
+    XCTAssertNotNil( _Page.title );
+    XCTAssertNotNil( _Page.displayTitle );
+    XCTAssertNotNil( _Page.contentModel );
+    XCTAssertNotNil( _Page.language );
+    XCTAssertNotNil( _Page.touched );
+
+    XCTAssertNotNil( _Page.URL );
+    XCTAssertNotNil( _Page.editURL );
+    XCTAssertNotNil( _Page.canonicalURL );
+
+    XCTAssertGreaterThanOrEqual( _Page.talkID, 0 );
+
+    WikiRevision* lastRevision = _Page.lastRevision;
+    XCTAssertNotNil( lastRevision );
+        XCTAssertNotNil( lastRevision.json );
+        XCTAssertGreaterThanOrEqual( lastRevision.ID, 0 );
+        XCTAssertGreaterThanOrEqual( lastRevision.parentID, 0 );
+        XCTAssertNotNil( lastRevision.userName );
+        XCTAssertGreaterThanOrEqual( lastRevision.userID, 0 );
+        XCTAssertNotNil( lastRevision.timestamp );
+        XCTAssertNotNil( lastRevision.contentFormat );
+        XCTAssertNotNil( lastRevision.contentModel );
+        XCTAssertNotNil( lastRevision.content );
+        XCTAssertGreaterThanOrEqual( lastRevision.sizeInBytes, 0 );
+        XCTAssertNotNil( lastRevision.comment );
+        XCTAssertNotNil( lastRevision.parsedComment );
+
+        NSData* lastRevisionContentData = [ lastRevision.content dataUsingEncoding: NSUTF8StringEncoding ];
+        XCTAssertEqual( lastRevisionContentData.length, lastRevision.sizeInBytes );
+
+        XCTAssert( lastRevision.isMinorEdit || !lastRevision.isMinorEdit );
+
+        XCTAssertNotNil( lastRevision.SHA1 );
+        XCTAssertEqual( lastRevision.SHA1.length, 40 /* SHA-1 hash value is 40 digits long */ );
+    }
+
+void WikiFulfillExpectation( XCTestExpectation* _Expection )
+    {
+    NSLog( @"🍺Fulfilled %@(%p)", _Expection, _Expection );
+    [ _Expection fulfill ];
+    }
+
 - ( void ) testSearch
     {
-    XCTestExpectation* jsonExpectation = [ self expectationWithDescription: @"JSON Exception" ];
+    XCTestExpectation* jsonExpectation0 = [ self expectationWithDescription: @"JSON Exception 0⃣️" ];
+    XCTestExpectation* jsonExpectation1 = [ self expectationWithDescription: @"JSON Exception 1⃣️" ];
 
     WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: @"en" ];
-    [ positiveTestCase searchAllPagesThatHaveValue: @"C++"
+    [ positiveTestCase searchAllPagesThatHaveValue: @"Ruby"
+                                      inNamespaces: nil
                                               what: WikiEngineSearchWhatPageText
                                              limit: 10
                                            success:
         ^( NSArray* _MatchedPages )
             {
             for ( WikiPage* _Page in _MatchedPages )
-                {
-                NSLog( @"%@", _Page );
-                printf( "==============================================================\n" );
+                [ self _testWikiPage: _Page ];
 
-                XCTAssertNotNil( _Page.json );
+            WikiFulfillExpectation( jsonExpectation0 );
+            } failure:
+                ^( NSError* _Error )
+                    {
 
-                XCTAssertGreaterThanOrEqual( _Page.ID, 0 );
-                XCTAssertGreaterThanOrEqual( _Page.wikiNamespace, 0 );
+                    } ];
 
-                XCTAssertNotNil( _Page.title );
-                XCTAssertNotNil( _Page.displayTitle );
-                XCTAssertNotNil( _Page.contentModel );
-                XCTAssertNotNil( _Page.language );
-                XCTAssertNotNil( _Page.touched );
-
-                XCTAssertNotNil( _Page.URL );
-                XCTAssertNotNil( _Page.editURL );
-                XCTAssertNotNil( _Page.canonicalURL );
-
-                XCTAssertGreaterThanOrEqual( _Page.talkID, 0 );
-                }
-
-            [ jsonExpectation fulfill ];
-            }
-                                           failure:
-        ^( NSError* _Error )
+    [ positiveTestCase searchAllPagesThatHaveValue: @"C++"
+                                      inNamespaces: @[ @( WikiNamespaceDraft ), @( WikiNamespaceWikipedia ) ]
+                                              what: WikiEngineSearchWhatPageText
+                                             limit: 10
+                                           success:
+        ^( NSArray* _MatchedPages )
             {
+            for ( WikiPage* _Page in _MatchedPages )
+                [ self _testWikiPage: _Page ];
 
-            } ];
+            WikiFulfillExpectation( jsonExpectation1 );
+            } failure:
+                ^( NSError* _Error )
+                    {
+
+                    } ];
 
     [ self waitForExpectationsWithTimeout: 15
                                   handler:

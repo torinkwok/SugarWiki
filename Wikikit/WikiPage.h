@@ -8,49 +8,14 @@
 
 @import Foundation;
 
-typedef NS_ENUM( SInt64, WikiNamespace )
-    { WikiNamespaceDefault = 0
-    , WikiNamespaceMedia = -2
-    , WikiNamespaceSpecial = -1
-    , WikiNamespaceTalk = 1
-    , WikiNamespaceUser = 2
-    , WikiNamespaceUserTalk = 3
-    , WikiNamespaceWikipedia = 4
-    , WikiNamespaceWikipediaTalk = 5
-    , WikiNamespaceFile = 6
-    , WikiNamespaceFileTalk = 7
-    , WikiNamespaceMediaWiki = 8
-    , WikiNamespaceMediaWikiTalk = 9
-    , WikiNamespaceTemplate = 10
-    , WikiNamespaceTamplateTalk = 11
-    , WikiNamespaceHelp = 12
-    , WikiNamespaceHelpTalk = 13
-    , WikiNamespaceCategory = 14
-    , WikiNamespaceCategoryTalk = 15
-    , WikiNamespacePortal = 100
-    , WikiNamespacePortalTalk = 101
-    , WikiNamespaceBook = 108
-    , WikiNamespaceBookTalk = 109
-    , WikiNamespaceDraft = 118
-    , WikiNamespaceDraftTalk = 119
-    , WikiNamespaceEducationProgram = 446
-    , WikiNamespaceEducationProgramTalk = 447
-    , WikiNamespaceTimedText = 710
-    , WikiNamespaceTimedTextTalk = 711
-    , WikiNamespaceModule = 828
-    , WikiNamespaceModuleTalk = 829
-    , WikiNamespaceGadget = 2300
-    , WikiNamespaceGadgetTalk = 2301
-    , WikiNamespaceGadgetDefinition = 2302
-    , WikiNamespaceGadgetDefinitionTalk = 2303
-    , WikiNamespaceTopic = 2600
-    };
+#import "WikiJSONObject.h"
+#import "WikiConstants.h"
 
-@interface WikiPage : NSObject
+@class WikiRevision;
+
+@interface WikiPage : WikiJSONObject
     {
 @protected
-    NSDictionary __strong* _json;
-
     SInt64 _ID;
     WikiNamespace _wikiNamespace;
     NSString __strong* _title;
@@ -68,9 +33,9 @@ typedef NS_ENUM( SInt64, WikiNamespace )
     NSString __strong* _defaultSort;
     NSString __strong* _pageImageName;
     NSString __strong* _wikiBaseItem;
-    }
 
-@property ( strong, readonly ) NSDictionary* json;
+    WikiRevision __strong* _lastRevision;
+    }
 
 @property ( assign, readonly ) SInt64 ID;
 @property ( assign, readonly ) WikiNamespace wikiNamespace;
@@ -90,7 +55,8 @@ typedef NS_ENUM( SInt64, WikiNamespace )
 @property ( strong, readonly ) NSString* pageImageName;
 @property ( strong, readonly ) NSString* wikiBaseItem;
 
+@property ( strong, readonly ) WikiRevision* lastRevision;
+
 + ( instancetype ) pageWithJSONDict: ( NSDictionary* )_JSONDict;
-- ( instancetype ) initWithJSONDict: ( NSDictionary* )_JSONDict;
 
 @end
