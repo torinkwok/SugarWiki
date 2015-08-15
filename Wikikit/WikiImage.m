@@ -13,6 +13,30 @@
 
 @implementation WikiImage
 
+@dynamic name;
+@dynamic title;
+@dynamic canonicalTitle;
+
+@dynamic timestamp;
+@dynamic user;
+@dynamic userID;
+
+@dynamic sizeInByte;
+
+@dynamic width;
+@dynamic height;
+
+@dynamic comment;
+@dynamic parsedComment;
+
+@dynamic URL;
+@dynamic descriptionURL;
+
+@dynamic SHA1;
+
+@dynamic bitDepth;
+@dynamic wikiNamespace;
+
 + ( instancetype ) imageWithJSONDict: ( NSDictionary* )_JSONDict
     {
     return [ [ [ self class ] alloc ] initWithJSONDict: _JSONDict ];
@@ -47,7 +71,87 @@
         }
 
     return self;
+    }
 
+#pragma mark Dynamic Properties
+- ( NSString* ) name
+    {
+    return self->_name;
+    }
+
+- ( NSString* ) title
+    {
+    return self->_title;
+    }
+
+- ( NSString* ) canonicalTitle
+    {
+    return self->_canonicalTitle;
+    }
+
+- ( NSDate* ) timestamp
+    {
+    return self->_timestamp;
+    }
+
+- ( NSString* ) user
+    {
+    return self->_user;
+    }
+
+- ( SInt64 ) userID
+    {
+    return self->_userID;
+    }
+
+- ( NSUInteger ) sizeInByte
+    {
+    return self->_sizeInByte;
+    }
+
+- ( CGFloat ) width
+    {
+    return self->_width;
+    }
+
+- ( CGFloat ) height
+    {
+    return self->_height;
+    }
+
+- ( NSString* ) comment
+    {
+    return self->_comment;
+    }
+
+- ( NSString* ) parsedComment
+    {
+    return self->_parsedComment;
+    }
+
+- ( NSURL* ) URL
+    {
+    return self->_URL;
+    }
+
+- ( NSURL* ) descriptionURL
+    {
+    return self->_descriptionURL;
+    }
+
+- ( NSString* ) SHA1
+    {
+    return self->_SHA1;
+    }
+
+- ( NSUInteger ) bitDepth
+    {
+    return self->_bitDepth;
+    }
+
+- ( WikiNamespace ) wikiNamespace
+    {
+    return self->_wikiNamespace;
     }
 
 @end

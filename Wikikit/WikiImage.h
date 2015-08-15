@@ -21,6 +21,7 @@
     SInt64 _userID;
 
     NSUInteger _sizeInByte;
+
     CGFloat _width;
     CGFloat _height;
 
@@ -35,6 +36,30 @@
     NSUInteger _bitDepth;
     WikiNamespace _wikiNamespace;
     }
+
+@property ( strong, readonly ) NSString* name;
+@property ( strong, readonly ) NSString* title;
+@property ( strong, readonly ) NSString* canonicalTitle;
+
+@property ( strong, readonly ) NSDate* timestamp;
+@property ( strong, readonly ) NSString* user;
+@property ( assign, readonly ) SInt64 userID;
+
+@property ( assign, readonly ) NSUInteger sizeInByte;
+
+@property ( assign, readonly ) CGFloat width;
+@property ( assign, readonly ) CGFloat height;
+
+@property ( strong, readonly ) NSString* comment;
+@property ( strong, readonly ) NSString* parsedComment;
+
+@property ( strong, readonly ) NSURL* URL;
+@property ( strong, readonly ) NSURL* descriptionURL;
+
+@property ( strong, readonly ) NSString* SHA1;
+
+@property ( assign, readonly ) NSUInteger bitDepth;
+@property ( assign, readonly ) WikiNamespace wikiNamespace;
 
 + ( instancetype ) imageWithJSONDict: ( NSDictionary* )_JSONDict;
 

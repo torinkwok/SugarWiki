@@ -8,6 +8,7 @@
 
 #import "WikiEngine.h"
 #import "WikiPage.h"
+#import "WikiImage.h"
 #import "WikiRevision.h"
 #import "AFNetworking.h"
 
@@ -140,6 +141,7 @@
     NSLog( @"%@", _Page );
     printf( "==============================================================\n" );
 
+    XCTAssertNotNil( _Page );
     XCTAssertNotNil( _Page.json );
 
     XCTAssertGreaterThanOrEqual( _Page.ID, 0 );
@@ -181,6 +183,35 @@
         XCTAssertEqual( lastRevision.SHA1.length, 40 /* SHA-1 hash value is 40 digits long */ );
     }
 
+- ( void ) _testWikiImage: ( WikiImage* )_Image
+    {
+    XCTAssertNotNil( _Image );
+    XCTAssertNotNil( _Image.json );
+
+    XCTAssertNotNil( _Image.name );
+    XCTAssertNotNil( _Image.title );
+    XCTAssertNotNil( _Image.canonicalTitle );
+
+    XCTAssertNotNil( _Image.timestamp );
+    XCTAssertNotNil( _Image.user );
+    XCTAssertGreaterThanOrEqual( _Image.userID, 0 );
+
+    XCTAssertGreaterThanOrEqual( _Image.sizeInByte, 0 );
+
+    XCTAssertGreaterThanOrEqual( _Image.width, 0.f );
+    XCTAssertGreaterThanOrEqual( _Image.height, 0.f );
+
+    XCTAssertNotNil( _Image.comment );
+    XCTAssertNotNil( _Image.parsedComment );
+
+    XCTAssertNotNil( _Image.URL );
+    XCTAssertNotNil( _Image.descriptionURL );
+
+    XCTAssertNotNil( _Image.SHA1 );
+
+    XCTAssertGreaterThanOrEqual( _Image.bitDepth, 0 );
+    }
+
 void WikiFulfillExpectation( XCTestExpectation* _Expection )
     {
     NSLog( @"🍺Fulfilled %@(%p)", _Expection, _Expection );
@@ -189,8 +220,8 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection )
 
 - ( void ) testSearch
     {
-    XCTestExpectation* jsonExpectation0 = [ self expectationWithDescription: @"JSON Exception 0⃣️" ];
-    XCTestExpectation* jsonExpectation1 = [ self expectationWithDescription: @"JSON Exception 1⃣️" ];
+    XCTestExpectation* jsonExpectation0 = [ self expectationWithDescription: @"🔍JSON Exception 0⃣️" ];
+    XCTestExpectation* jsonExpectation1 = [ self expectationWithDescription: @"🔍JSON Exception 1⃣️" ];
 
     WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: @"en" ];
     [ positiveTestCase searchAllPagesThatHaveValue: @"Ruby"
@@ -221,6 +252,31 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection )
                 [ self _testWikiPage: _Page ];
 
             WikiFulfillExpectation( jsonExpectation1 );
+            } failure:
+                ^( NSError* _Error )
+                    {
+
+                    } ];
+
+    [ self waitForExpectationsWithTimeout: 15
+                                  handler:
+        ^( NSError* __nullable _Error )
+            {
+            NSLog( @"%@", _Error );
+            } ];
+    }
+
+- ( void ) testFetchImage_success_failure_
+    {
+    XCTestExpectation* jsonExpectation0 = [ self expectationWithDescription: @"🌋JSON Exception 0⃣️" ];
+
+    WikiEngine* positiveTestCase = [ WikiEngine commonsEngine ];
+    [ positiveTestCase fetchImage: @"CPP ‒ Convention People's Party logo.jpg"
+                          success:
+        ^( WikiImage* _Image )
+            {
+            [ self _testWikiImage: _Image ];
+            WikiFulfillExpectation( jsonExpectation0 );
             } failure:
                 ^( NSError* _Error )
                     {
