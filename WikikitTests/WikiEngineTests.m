@@ -183,7 +183,7 @@
 
 void WikiFulfillExpectation( XCTestExpectation* _Expection )
     {
-    NSLog( @"😄Fulfill %@(%p)", _Expection, _Expection );
+    NSLog( @"🍺Fulfilled %@(%p)", _Expection, _Expection );
     [ _Expection fulfill ];
     }
 
