@@ -13,6 +13,7 @@
 @class WikiHTTPSessionManager;
 @class WikiSessionDataTask;
 @class WikiPage;
+@class WikiImage;
 
 typedef NS_ENUM( NSUInteger, WikiEngineSearchWhat )
     { WikiEngineSearchWhatPageTitles    = 0
@@ -50,8 +51,8 @@ typedef NS_ENUM( NSUInteger, WikiEngineSearchWhat )
                                success: ( void (^)( NSArray* _MatchedPages ) )_SuccessBlock
                                failure: ( void (^)( NSError* _Error ) )_FailureBlock;
 
-- ( void ) searchImage: ( NSString* )_ImageName
-               success: ( void (^)( NSDictionary* _ImageJSON ) )_SuccessBlock
-               failure: ( void (^)( NSError* _Error ) )_FailureBlock;
+- ( void ) fetchImage: ( NSString* )_ImageName
+              success: ( void (^)( WikiImage* _Image ) )_SuccessBlock
+              failure: ( void (^)( NSError* _Error ) )_FailureBlock;
 
 @end // WikiEngine class

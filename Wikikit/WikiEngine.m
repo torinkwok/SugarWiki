@@ -11,6 +11,7 @@
 #import "WikiHTTPSessionManager.h"
 #import "WikiSessionDataTask.h"
 #import "WikiPage.h"
+#import "WikiImage.h"
 
 #import "_WikiJSON.h"
 
@@ -132,11 +133,60 @@
     [ dataTask resume ];
     }
 
-- ( void ) searchImage: ( NSString* )_ImageName
-               success: ( void (^)( NSDictionary* _ImageJSON ) )_SuccessBlock
-               failure: ( void (^)( NSError* _Error ) )_FailureBlock
+- ( void ) fetchImage: ( NSString* )_ImageName
+              success: ( void (^)( WikiImage* _Image ) )_SuccessBlock
+              failure: ( void (^)( NSError* _Error ) )_FailureBlock
     {
-    
+    NSString* normalizedImageName = [ _ImageName stringByReplacingOccurrencesOfString: @" " withString: @"_" ];
+    NSDictionary* parameters = @{ @"action" : @"query"
+                                , @"format" : @"json"
+                                , @"list" : @"allimages"
+                                , @"aifrom" : normalizedImageName
+                                , @"aisort" : @"name"
+                                , @"aiprop" : @"timestamp|url|metadata|commonmetadata|extmetadata|dimensions|userid|user|parsedcomment|canonicaltitle|sha1|bitdepth|comment|parsedcomment"
+
+                                , @"ailimit" : @"1"
+                                };
+
+    NSURLSessionDataTask* dataTask = [ self->_wikiHTTPSessionManager
+               GET: @"GET"
+        parameters: parameters
+           success:
+        ^( NSURLSessionDataTask* __nonnull _Task, id  __nonnull _ResponseObject )
+            {
+            // Done! Kill task by removing it from the temporary session tasks pool😈
+            [ self->_tmpSessionTasksPool removeObject: _Task ];
+
+            // If the image exists
+            NSDictionary* imageJSON = [ ( ( NSDictionary* )_ResponseObject )[ @"query" ][ @"allimages" ] firstObject ];
+            if ( [ imageJSON[ @"name" ] isEqualToString: normalizedImageName ] )
+                {
+                WikiImage* wikiImage = [ WikiImage imageWithJSONDict: imageJSON ];
+
+                if ( _SuccessBlock )
+                    _SuccessBlock( wikiImage );
+                }
+            else
+                {
+                if ( _FailureBlock )
+                    // TODO:
+                    _FailureBlock( [ NSError errorWithDomain: @"fuck" code: 134 userInfo: nil ] );
+                }
+            } failure:
+                ^( NSURLSessionDataTask* __nonnull _Task, NSError* __nonnull _Error )
+                    {
+                    // Error occured! Kill task by removing it from the temporary session tasks pool😈
+                    [ self->_tmpSessionTasksPool removeObject: _Task ];
+
+                    if ( _Error && _FailureBlock )
+                        _FailureBlock( _Error );
+                    } ];
+
+    if ( !self->_tmpSessionTasksPool )
+        self->_tmpSessionTasksPool = [ NSMutableArray array ];
+
+    [ self->_tmpSessionTasksPool addObject: dataTask ];
+    [ dataTask resume ];
     }
 
 #pragma mark Private Interfaces

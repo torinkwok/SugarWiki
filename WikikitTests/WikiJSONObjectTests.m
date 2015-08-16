@@ -10,6 +10,7 @@
 
 #import "WikiJSONObject.h"
 
+// WikiJSONObjectTests class
 @interface WikiJSONObjectTests : XCTestCase
 
 @end
@@ -41,4 +42,4 @@
     XCTAssertNil( negativeTestCase1 );
     }
 
-@end
+@end // WikiJSONObjectTests class
