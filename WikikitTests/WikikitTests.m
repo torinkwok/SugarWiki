@@ -8,6 +8,9 @@
 
 @import XCTest;
 
+#import "WikikitInfo.h"
+
+// WikikitTests class
 @interface WikikitTests : XCTestCase
 
 @end
@@ -26,10 +29,10 @@
     [ super tearDown ];
     }
 
-- ( void ) testExample
+- ( void ) testVersionNumber
     {
-    // This is an example of a functional test case.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
+    XCTAssertEqual( [ WikikitInfo versionNumber ], 1.f );
+    XCTAssertEqualObjects( [ WikikitInfo versionString ], @"1.0" );
     }
 
 - ( void ) testPerformanceExample
@@ -40,4 +43,4 @@
         } ];
     }
 
-@end
+@end // WikikitTests class

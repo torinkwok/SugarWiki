@@ -15,6 +15,12 @@
 
 #import "_WikiJSON.h"
 
+////! Project version number for Wikikit.
+//double WikikitInfoNumber = 1.0;
+//
+////! Project version string for Wikikit.
+//NSString const* WikikitInfoString = @"1.0";
+
 // Private Interfaces
 @interface WikiEngine ()
 
