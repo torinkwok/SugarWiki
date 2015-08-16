@@ -14,6 +14,7 @@
 
 @import XCTest;
 
+// WikiEngineTests class
 @interface WikiEngineTests : XCTestCase
     {
     AFHTTPSessionManager __strong* _httpSessionManager;
@@ -24,6 +25,14 @@
     }
 
 @end
+
+// Private Interfaces
+@interface WikiEngineTests ()
+
+- ( void ) _testWikiPage: ( WikiPage* )_Page;
+- ( void ) _testWikiImage: ( WikiImage* )_Image;
+
+@end // Private Interfaces
 
 @implementation WikiEngineTests
 
@@ -136,82 +145,6 @@
     XCTAssertNil( positiveTestCase.ISOLanguageCode );
     }
 
-- ( void ) _testWikiPage: ( WikiPage* )_Page
-    {
-    NSLog( @"%@", _Page );
-    printf( "==============================================================\n" );
-
-    XCTAssertNotNil( _Page );
-    XCTAssertNotNil( _Page.json );
-
-    XCTAssertGreaterThanOrEqual( _Page.ID, 0 );
-    XCTAssertGreaterThanOrEqual( _Page.wikiNamespace, 0 );
-
-    XCTAssertNotNil( _Page.title );
-    XCTAssertNotNil( _Page.displayTitle );
-    XCTAssertNotNil( _Page.contentModel );
-    XCTAssertNotNil( _Page.language );
-    XCTAssertNotNil( _Page.touched );
-
-    XCTAssertNotNil( _Page.URL );
-    XCTAssertNotNil( _Page.editURL );
-    XCTAssertNotNil( _Page.canonicalURL );
-
-    XCTAssertGreaterThanOrEqual( _Page.talkID, 0 );
-
-    WikiRevision* lastRevision = _Page.lastRevision;
-    XCTAssertNotNil( lastRevision );
-        XCTAssertNotNil( lastRevision.json );
-        XCTAssertGreaterThanOrEqual( lastRevision.ID, 0 );
-        XCTAssertGreaterThanOrEqual( lastRevision.parentID, 0 );
-        XCTAssertNotNil( lastRevision.userName );
-        XCTAssertGreaterThanOrEqual( lastRevision.userID, 0 );
-        XCTAssertNotNil( lastRevision.timestamp );
-        XCTAssertNotNil( lastRevision.contentFormat );
-        XCTAssertNotNil( lastRevision.contentModel );
-        XCTAssertNotNil( lastRevision.content );
-        XCTAssertGreaterThanOrEqual( lastRevision.sizeInBytes, 0 );
-        XCTAssertNotNil( lastRevision.comment );
-        XCTAssertNotNil( lastRevision.parsedComment );
-
-        NSData* lastRevisionContentData = [ lastRevision.content dataUsingEncoding: NSUTF8StringEncoding ];
-        XCTAssertEqual( lastRevisionContentData.length, lastRevision.sizeInBytes );
-
-        XCTAssert( lastRevision.isMinorEdit || !lastRevision.isMinorEdit );
-
-        XCTAssertNotNil( lastRevision.SHA1 );
-        XCTAssertEqual( lastRevision.SHA1.length, 40 /* SHA-1 hash value is 40 digits long */ );
-    }
-
-- ( void ) _testWikiImage: ( WikiImage* )_Image
-    {
-    XCTAssertNotNil( _Image );
-    XCTAssertNotNil( _Image.json );
-
-    XCTAssertNotNil( _Image.name );
-    XCTAssertNotNil( _Image.title );
-    XCTAssertNotNil( _Image.canonicalTitle );
-
-    XCTAssertNotNil( _Image.timestamp );
-    XCTAssertNotNil( _Image.user );
-    XCTAssertGreaterThanOrEqual( _Image.userID, 0 );
-
-    XCTAssertGreaterThanOrEqual( _Image.sizeInByte, 0 );
-
-    XCTAssertGreaterThanOrEqual( _Image.width, 0.f );
-    XCTAssertGreaterThanOrEqual( _Image.height, 0.f );
-
-    XCTAssertNotNil( _Image.comment );
-    XCTAssertNotNil( _Image.parsedComment );
-
-    XCTAssertNotNil( _Image.URL );
-    XCTAssertNotNil( _Image.descriptionURL );
-
-    XCTAssertNotNil( _Image.SHA1 );
-
-    XCTAssertGreaterThanOrEqual( _Image.bitDepth, 0 );
-    }
-
 void WikiFulfillExpectation( XCTestExpectation* _Expection )
     {
     NSLog( @"🍺Fulfilled %@(%p)", _Expection, _Expection );
@@ -291,4 +224,81 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection )
             } ];
     }
 
-@end
+#pragma mark Private Interfaces
+- ( void ) _testWikiPage: ( WikiPage* )_Page
+    {
+    NSLog( @"%@", _Page );
+    printf( "==============================================================\n" );
+
+    XCTAssertNotNil( _Page );
+    XCTAssertNotNil( _Page.json );
+
+    XCTAssertGreaterThanOrEqual( _Page.ID, 0 );
+    XCTAssertGreaterThanOrEqual( _Page.wikiNamespace, 0 );
+
+    XCTAssertNotNil( _Page.title );
+    XCTAssertNotNil( _Page.displayTitle );
+    XCTAssertNotNil( _Page.contentModel );
+    XCTAssertNotNil( _Page.language );
+    XCTAssertNotNil( _Page.touched );
+
+    XCTAssertNotNil( _Page.URL );
+    XCTAssertNotNil( _Page.editURL );
+    XCTAssertNotNil( _Page.canonicalURL );
+
+    XCTAssertGreaterThanOrEqual( _Page.talkID, 0 );
+
+    WikiRevision* lastRevision = _Page.lastRevision;
+    XCTAssertNotNil( lastRevision );
+        XCTAssertNotNil( lastRevision.json );
+        XCTAssertGreaterThanOrEqual( lastRevision.ID, 0 );
+        XCTAssertGreaterThanOrEqual( lastRevision.parentID, 0 );
+        XCTAssertNotNil( lastRevision.userName );
+        XCTAssertGreaterThanOrEqual( lastRevision.userID, 0 );
+        XCTAssertNotNil( lastRevision.timestamp );
+        XCTAssertNotNil( lastRevision.contentFormat );
+        XCTAssertNotNil( lastRevision.contentModel );
+        XCTAssertNotNil( lastRevision.content );
+        XCTAssertGreaterThanOrEqual( lastRevision.sizeInBytes, 0 );
+        XCTAssertNotNil( lastRevision.comment );
+        XCTAssertNotNil( lastRevision.parsedComment );
+
+        NSData* lastRevisionContentData = [ lastRevision.content dataUsingEncoding: NSUTF8StringEncoding ];
+        XCTAssertEqual( lastRevisionContentData.length, lastRevision.sizeInBytes );
+
+        XCTAssert( lastRevision.isMinorEdit || !lastRevision.isMinorEdit );
+
+        XCTAssertNotNil( lastRevision.SHA1 );
+        XCTAssertEqual( lastRevision.SHA1.length, 40 /* SHA-1 hash value is 40 digits long */ );
+    }
+
+- ( void ) _testWikiImage: ( WikiImage* )_Image
+    {
+    XCTAssertNotNil( _Image );
+    XCTAssertNotNil( _Image.json );
+
+    XCTAssertNotNil( _Image.name );
+    XCTAssertNotNil( _Image.title );
+    XCTAssertNotNil( _Image.canonicalTitle );
+
+    XCTAssertNotNil( _Image.timestamp );
+    XCTAssertNotNil( _Image.user );
+    XCTAssertGreaterThanOrEqual( _Image.userID, 0 );
+
+    XCTAssertGreaterThanOrEqual( _Image.sizeInByte, 0 );
+
+    XCTAssertGreaterThanOrEqual( _Image.width, 0.f );
+    XCTAssertGreaterThanOrEqual( _Image.height, 0.f );
+
+    XCTAssertNotNil( _Image.comment );
+    XCTAssertNotNil( _Image.parsedComment );
+
+    XCTAssertNotNil( _Image.URL );
+    XCTAssertNotNil( _Image.descriptionURL );
+
+    XCTAssertNotNil( _Image.SHA1 );
+
+    XCTAssertGreaterThanOrEqual( _Image.bitDepth, 0 );
+    }
+
+@end // WikiEngineTests class
