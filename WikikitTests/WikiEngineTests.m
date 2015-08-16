@@ -14,6 +14,9 @@
 
 @import XCTest;
 
+// Utility Functions
+void WikiFulfillExpectation( XCTestExpectation* _Expection );
+
 // WikiEngineTests class
 @interface WikiEngineTests : XCTestCase
     {
@@ -143,12 +146,6 @@
 
     XCTAssertNotNil( positiveTestCase.wikiHTTPSessionManager );
     XCTAssertNil( positiveTestCase.ISOLanguageCode );
-    }
-
-void WikiFulfillExpectation( XCTestExpectation* _Expection )
-    {
-    NSLog( @"🍺Fulfilled %@(%p)", _Expection, _Expection );
-    [ _Expection fulfill ];
     }
 
 - ( void ) testSearch
@@ -302,3 +299,10 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection )
     }
 
 @end // WikiEngineTests class
+
+// Utility Functions
+void WikiFulfillExpectation( XCTestExpectation* _Expection )
+    {
+    NSLog( @"🍺Fulfilled %@(%p)", _Expection, _Expection );
+    [ _Expection fulfill ];
+    }
