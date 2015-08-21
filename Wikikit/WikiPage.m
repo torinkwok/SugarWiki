@@ -85,6 +85,13 @@
     return self;
     }
 
+#pragma mark Conforms to <NSCopying>
+- ( id ) copyWithZone: ( nullable NSZone* )_Zone
+    {
+    WikiPage* newWikiPage = self;
+    return newWikiPage;
+    }
+
 #pragma mark Dynamic Properties
 
 - ( SInt64 ) ID

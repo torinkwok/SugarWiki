@@ -43,6 +43,8 @@
 - ( void ) _initEndpoint: ( NSURL* )_EndpointURL;
 - ( instancetype ) _initWithCommonsEndpoint;
 
+- ( void ) _cancelAll;
+
 @end // Private Interfaces
 
 // WikiEngine class
@@ -99,6 +101,12 @@
     return [ [ [ self class ] alloc ] _initWithCommonsEndpoint ];
     }
 
+#pragma mark Controlling Task Progress
+- ( void ) cancelAll
+    {
+    [ self _cancelAll ];
+    }
+
 #pragma mark Search
 - ( void ) searchAllPagesThatHaveValue: ( NSString* )_SearchValue
                           inNamespaces: ( NSArray* )_Namespaces
@@ -106,6 +114,23 @@
                                  limit: ( NSUInteger )_Limit
                                success: ( void (^)( NSArray* _MatchedPages ) )_SuccessBlock
                                failure: ( void (^)( NSError* _Error ) )_FailureBlock
+    {
+    [ self searchAllPagesThatHaveValue: _SearchValue
+                          inNamespaces: _Namespaces
+                                  what: _SearchWhat
+                                 limit: _Limit
+                               success: _SuccessBlock
+                               failure: _FailureBlock
+                     stopAllOtherTasks: NO ];
+    }
+
+- ( void ) searchAllPagesThatHaveValue: ( NSString* )_SearchValue
+                          inNamespaces: ( NSArray* )_Namespaces
+                                  what: ( WikiEngineSearchWhat )_SearchWhat
+                                 limit: ( NSUInteger )_Limit
+                               success: ( void (^)( NSArray* _MatchedPages ) )_SuccessBlock
+                               failure: ( void (^)( NSError* _Error ) )_FailureBlock
+                     stopAllOtherTasks: ( BOOL )_WillStop
     {
     NSString* srnamespace = nil;
     if ( _Namespaces.count > 0 )
@@ -131,6 +156,7 @@
             {
             if ( _SuccessBlock )
                 {
+                NSLog( @"🍺%s %@", __PRETTY_FUNCTION__, _Task );
                 // Done! Kill task by removing it from the temporary session tasks pool😈
                 [ self->_tmpSessionTasksPool removeObject: _Task ];
 
@@ -150,6 +176,9 @@
 
     if ( !self->_tmpSessionTasksPool )
         self->_tmpSessionTasksPool = [ NSMutableArray array ];
+
+    if ( _WillStop )
+        [ self _cancelAll ];
 
     [ self->_tmpSessionTasksPool addObject: dataTask ];
     [ dataTask resume ];
@@ -231,6 +260,17 @@
         }
 
     return self;
+    }
+
+- ( void ) _cancelAll
+    {
+    if ( self->_tmpSessionTasksPool.count > 0 )
+        {
+        for ( NSURLSessionDataTask* _RunningDataTask in self->_tmpSessionTasksPool )
+            [ _RunningDataTask cancel ];
+
+        [ self->_tmpSessionTasksPool removeAllObjects ];
+        }
     }
 
 @end // WikiEngine class
