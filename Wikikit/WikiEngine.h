@@ -60,6 +60,9 @@ typedef NS_ENUM( NSUInteger, WikiEngineSearchWhat )
 
 + ( instancetype ) commonsEngine;
 
+#pragma mark Controlling Task Progress
+- ( void ) cancelAll;
+
 #pragma mark Search
 - ( void ) searchAllPagesThatHaveValue: ( NSString* )_SearchValue
                           inNamespaces: ( NSArray* )_Namespaces
@@ -67,6 +70,14 @@ typedef NS_ENUM( NSUInteger, WikiEngineSearchWhat )
                                  limit: ( NSUInteger )_Limit
                                success: ( void (^)( NSArray* _MatchedPages ) )_SuccessBlock
                                failure: ( void (^)( NSError* _Error ) )_FailureBlock;
+
+- ( void ) searchAllPagesThatHaveValue: ( NSString* )_SearchValue
+                          inNamespaces: ( NSArray* )_Namespaces
+                                  what: ( WikiEngineSearchWhat )_SearchWhat
+                                 limit: ( NSUInteger )_Limit
+                               success: ( void (^)( NSArray* _MatchedPages ) )_SuccessBlock
+                               failure: ( void (^)( NSError* _Error ) )_FailureBlock
+                     stopAllOtherTasks: ( BOOL )_WillStop;
 
 - ( void ) fetchImage: ( NSString* )_ImageName
               success: ( void (^)( WikiImage* _Image ) )_SuccessBlock

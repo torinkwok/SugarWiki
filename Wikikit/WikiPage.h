@@ -29,7 +29,7 @@
 
 @class WikiRevision;
 
-@interface WikiPage : WikiJSONObject
+@interface WikiPage : WikiJSONObject <NSCopying>
     {
 @protected
     SInt64 _ID;
