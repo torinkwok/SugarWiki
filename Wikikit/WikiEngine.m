@@ -156,7 +156,6 @@
             {
             if ( _SuccessBlock )
                 {
-                NSLog( @"🍺%s %@", __PRETTY_FUNCTION__, _Task );
                 // Done! Kill task by removing it from the temporary session tasks pool😈
                 [ self->_tmpSessionTasksPool removeObject: _Task ];
 
