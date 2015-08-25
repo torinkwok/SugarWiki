@@ -61,6 +61,7 @@ typedef NS_ENUM( NSUInteger, WikiEngineSearchWhat )
 + ( instancetype ) commonsEngine;
 
 #pragma mark Controlling Task Progress
+@property ( assign, readonly ) BOOL hasCompletedAllQueryThreads;
 - ( void ) cancelAll;
 
 #pragma mark Search

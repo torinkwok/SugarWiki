@@ -102,6 +102,13 @@
     }
 
 #pragma mark Controlling Task Progress
+@dynamic hasCompletedAllQueryThreads;
+
+- ( BOOL ) hasCompletedAllQueryThreads
+    {
+    return self->_tmpSessionTasksPool.count == 0;
+    }
+
 - ( void ) cancelAll
     {
     [ self _cancelAll ];
