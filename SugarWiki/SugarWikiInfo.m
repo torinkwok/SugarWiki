@@ -28,12 +28,12 @@
 
 + ( double ) versionNumber
     {
-    return 1.0f;
+    return 0.1f;
     }
 
 + ( NSString* ) versionString
     {
-    return @"1.0";
+    return @"0.1";
     }
 
 @end
