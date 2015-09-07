@@ -28,6 +28,7 @@
 
 #import "__WikiJSONObject.h"
 #import "__WikiPage.h"
+#import "__WikiRevision.h"
 
 #import "__WikiJSON.h"
 
@@ -202,7 +203,7 @@
 
         NSArray* revisionsJSON  = self->_json[ @"revisions" ];
         if ( revisionsJSON.count > 0 )
-            self->_lastRevision = [ WikiRevision revisionWithJSONDict: revisionsJSON.firstObject ];
+            self->_lastRevision = [ WikiRevision __revisionWithJSONDict: revisionsJSON.firstObject ];
         }
 
     return self;

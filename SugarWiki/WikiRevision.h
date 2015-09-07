@@ -24,6 +24,7 @@
 
 #import "WikiJSONObject.h"
 
+// WikiRevision class
 @interface WikiRevision : WikiJSONObject
     {
 @protected
@@ -68,9 +69,7 @@
 
 @property ( assign, readonly ) NSString* SHA1;
 
-+ ( instancetype ) revisionWithJSONDict: ( NSDictionary* )_JSONDict;
-
-@end
+@end // WikiRevision class
 
 /*================================================================================┐
 |                              The MIT License (MIT)                              |
