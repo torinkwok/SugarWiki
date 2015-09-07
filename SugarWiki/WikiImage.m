@@ -57,10 +57,10 @@
 
 + ( instancetype ) imageWithJSONDict: ( NSDictionary* )_JSONDict
     {
-    return [ [ [ self class ] alloc ] initWithJSONDict: _JSONDict ];
+    return [ [ [ self class ] alloc ] __initWithJSONDict: _JSONDict ];
     }
 
-- ( instancetype ) initWithJSONDict: ( NSDictionary* )_JSONDict
+- ( instancetype ) __initWithJSONDict: ( NSDictionary* )_JSONDict
     {
     if ( self = [ super __initWithJSONDict: _JSONDict ] )
         {

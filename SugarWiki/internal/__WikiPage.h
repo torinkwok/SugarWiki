@@ -22,87 +22,14 @@
   ████████████████████████████████████████████████████████████████████████████████
   ██████████████████████████████████████████████████████████████████████████████*/
 
-#import "WikiSearchResult.h"
-#import "NSDate+SugarWiki.h"
+#import "WikiPage.h"
 
-#import "__WikiJSONObject.h"
+// WikiPage + SugarWikiPrivate
+@interface WikiPage ( SugarWikiPrivate )
 
-#import "_WikiJSON.h"
++ ( instancetype ) __pageWithJSONDict: ( NSDictionary* )_JSONDict;
 
-// WikiSearchResult class
-@implementation WikiSearchResult
-
-@dynamic wikiNamespace;
-
-@dynamic title;
-@dynamic resultSnippet;
-@dynamic resultTitleSnippet;
-
-@dynamic size;
-@dynamic wordCount;
-
-#pragma mark Initializations
-+ ( instancetype ) searchResultWithJSONDict: ( NSDictionary* )_JSONDict
-    {
-    return [ [ self alloc ] __initWithJSONDict: _JSONDict ];
-    }
-
-- ( instancetype ) __initWithJSONDict: ( NSDictionary* )_JSONDict
-    {
-    if ( self = [ super __initWithJSONDict: _JSONDict ] )
-        {
-        self->_wikiNamespace = ( WikiNamespace )_WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"namespace" );
-
-        self->_title = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"title" );
-        self->_resultSnippet = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"snippet" );
-        self->_resultTitleSnippet = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"titlesnippet" );
-
-        self->_size = _WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"size" );
-        self->_wordCount = _WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"wordcount" );
-
-        self->_timestamp = [ NSDate dateWithMediaWikiJSONDateString: _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"timestamp" ) ];
-        }
-
-    return self;
-    }
-
-#pragma mark Dynamic Properties
-- ( WikiNamespace ) wikiNamespace
-    {
-    return self->_wikiNamespace;
-    }
-
-- ( NSString* ) title
-    {
-    return self->_title;
-    }
-
-- ( NSString* ) resultSnippet
-    {
-    return self->_resultSnippet;
-    }
-
-- ( NSString* ) resultTitleSnippet
-    {
-    return self->_resultTitleSnippet;
-    }
-
-- ( SInt64 ) size
-    {
-    return self->_size;
-    }
-
-- ( SInt64 ) wordCount
-    {
-    return self->_wordCount;
-    }
-
-- ( NSDate* ) timestamp
-    {
-    return self->_timestamp;
-    }
-
-@end // WikiSearchResult class
+@end // WikiPage + SugarWikiPrivate
 
 /*================================================================================┐
 |                              The MIT License (MIT)                              |

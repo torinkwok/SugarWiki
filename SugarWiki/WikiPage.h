@@ -29,6 +29,7 @@
 
 @class WikiRevision;
 
+// WikiPage class
 @interface WikiPage : WikiJSONObject <NSCopying>
     {
 @protected
@@ -73,9 +74,7 @@
 
 @property ( strong, readonly ) WikiRevision* lastRevision;
 
-+ ( instancetype ) pageWithJSONDict: ( NSDictionary* )_JSONDict;
-
-@end
+@end // WikiPage class
 
 /*================================================================================┐
 |                              The MIT License (MIT)                              |

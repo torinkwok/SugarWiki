@@ -27,9 +27,11 @@
 #import "NSDate+SugarWiki.h"
 
 #import "__WikiJSONObject.h"
+#import "__WikiPage.h"
 
 #import "_WikiJSON.h"
 
+// WikiPage class
 @implementation WikiPage
 
 @dynamic ID;
@@ -45,47 +47,6 @@
 @dynamic canonicalURL;
 
 @dynamic talkID;
-
-+ ( instancetype ) pageWithJSONDict: ( NSDictionary* )_JSONDict
-    {
-    return [ [ [ self class ] alloc ] initWithJSONDict: _JSONDict ];
-    }
-
-// Overrides WikiJSONObject
-- ( instancetype ) initWithJSONDict: ( NSDictionary* )_JSONDict
-    {
-    if ( self = [ super __initWithJSONDict: _JSONDict ] )
-        {
-        self->_ID = _WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"pageid" );
-        self->_wikiNamespace = ( WikiNamespace )_WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"ns" );
-        self->_title = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"title" );
-        self->_displayTitle = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"displaytitle" );
-        self->_contentModel = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"contentmodel" );
-        self->_language = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"pagelanguage" );
-
-        self->_touched = [ NSDate dateWithMediaWikiJSONDateString: _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"touched" ) ];
-
-        self->_URL = [ NSURL URLWithString: _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"fullurl" ) ];
-        self->_editURL = [ NSURL URLWithString: _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"editurl" ) ];
-        self->_canonicalURL = [ NSURL URLWithString: _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"canonicalurl" ) ];
-
-        self->_talkID = _WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"talkid" );
-
-        NSDictionary* pagepropsJSON = self->_json[ @"pageprops" ];
-        if ( pagepropsJSON )
-            {
-            self->_defaultSort = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( pagepropsJSON, @"defaultsort" );
-            self->_pageImageName = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( pagepropsJSON, @"page_image" );
-            self->_wikiBaseItem = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( pagepropsJSON, @"wikibase_item" );
-            }
-
-        NSArray* revisionsJSON  = self->_json[ @"revisions" ];
-        if ( revisionsJSON.count > 0 )
-            self->_lastRevision = [ WikiRevision revisionWithJSONDict: revisionsJSON.firstObject ];
-        }
-
-    return self;
-    }
 
 #pragma mark Conforms to <NSCopying>
 - ( id ) copyWithZone: ( nullable NSZone* )_Zone
@@ -200,7 +161,53 @@
            ];
     }
 
-@end
+@end // WikiPage class
+
+// WikiPage + SugarWikiPrivate
+@implementation WikiPage ( SugarWikiPrivate )
+
++ ( instancetype ) __pageWithJSONDict: ( NSDictionary* )_JSONDict
+    {
+    return [ [ [ self class ] alloc ] __initWithJSONDict: _JSONDict ];
+    }
+
+// Overrides WikiJSONObject + SugarWikiPrivate
+- ( instancetype ) __initWithJSONDict: ( NSDictionary* )_JSONDict
+    {
+    if ( self = [ super __initWithJSONDict: _JSONDict ] )
+        {
+        self->_ID = _WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"pageid" );
+        self->_wikiNamespace = ( WikiNamespace )_WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"ns" );
+        self->_title = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"title" );
+        self->_displayTitle = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"displaytitle" );
+        self->_contentModel = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"contentmodel" );
+        self->_language = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"pagelanguage" );
+
+        self->_touched = [ NSDate dateWithMediaWikiJSONDateString: _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"touched" ) ];
+
+        self->_URL = [ NSURL URLWithString: _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"fullurl" ) ];
+        self->_editURL = [ NSURL URLWithString: _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"editurl" ) ];
+        self->_canonicalURL = [ NSURL URLWithString: _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"canonicalurl" ) ];
+
+        self->_talkID = _WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"talkid" );
+
+        NSDictionary* pagepropsJSON = self->_json[ @"pageprops" ];
+        if ( pagepropsJSON )
+            {
+            self->_defaultSort = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( pagepropsJSON, @"defaultsort" );
+            self->_pageImageName = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( pagepropsJSON, @"page_image" );
+            self->_wikiBaseItem = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( pagepropsJSON, @"wikibase_item" );
+            }
+
+        NSArray* revisionsJSON  = self->_json[ @"revisions" ];
+        if ( revisionsJSON.count > 0 )
+            self->_lastRevision = [ WikiRevision revisionWithJSONDict: revisionsJSON.firstObject ];
+        }
+
+    return self;
+    }
+
+@end // WikiPage + SugarWikiPrivate
 
 /*================================================================================┐
 |                              The MIT License (MIT)                              |

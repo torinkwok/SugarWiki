@@ -49,11 +49,11 @@
 
 + ( instancetype ) revisionWithJSONDict: ( NSDictionary* )_JSONDict
     {
-    return [ [ [ self class ] alloc ] initWithJSONDict: _JSONDict ];
+    return [ [ [ self class ] alloc ] __initWithJSONDict: _JSONDict ];
     }
 
 // Overrides WikiJSONObject
-- ( instancetype ) initWithJSONDict: ( NSDictionary* )_JSONDict
+- ( instancetype ) __initWithJSONDict: ( NSDictionary* )_JSONDict
     {
     if ( self = [ super __initWithJSONDict: _JSONDict ] )
         {
