@@ -83,15 +83,15 @@ typedef NSArray <__kindof WikiSearchResult*> WikiSearchResults;
 #pragma mark Generic Methods to Query
 - ( WikiSessionTask* ) queryList: ( NSString* )_ListValue
                  otherParameters: ( NSDictionary* )_ParamsDict
-                         success: ( void (^)( NSURLSessionDataTask* _Task, id _ResponseObject ) )_SuccessBlock
-                         failure: ( void (^)( NSURLSessionDataTask* _Task, NSError* _Error ) )_FailureBlock
+                         success: ( void (^)( NSDictionary* _ResultsJSONDict ) )_SuccessBlock
+                         failure: ( void (^)( NSError* _Error ) )_FailureBlock
                stopAllOtherTasks: ( BOOL )_WillStop;
 
 // Convenience
 - ( WikiSessionTask* ) queryList: ( NSString* )_ListValue
                  otherParameters: ( NSDictionary* )_ParamsDict
-                         success: ( void (^)( NSURLSessionDataTask* _Task, id _ResponseObject ) )_SuccessBlock
-                         failure: ( void (^)( NSURLSessionDataTask* _Task, NSError* _Error ) )_FailureBlock;
+                         success: ( void (^)( NSDictionary* _ResultsJSONDict ) )_SuccessBlock
+                         failure: ( void (^)( NSError* _Error ) )_FailureBlock;
 
 #pragma mark Search API
 - ( WikiSessionTask* ) searchAllPagesThatHaveValue: ( NSString* )_SearchValue

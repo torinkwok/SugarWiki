@@ -185,8 +185,8 @@ NSString* const kParamValListAllImages = @"allimages";
 #pragma mark Generic Methods to Query
 - ( WikiSessionTask* ) queryList: ( NSString* )_ListValue
                  otherParameters: ( NSDictionary* )_ParamsDict
-                         success: ( void (^)( NSURLSessionDataTask* _Task, id _ResponseObject ) )_SuccessBlock
-                         failure: ( void (^)( NSURLSessionDataTask* _Task, NSError* _Error ) )_FailureBlock
+                         success: ( void (^)( NSDictionary* _ResultsJSONDict ) )_SuccessBlock
+                         failure: ( void (^)( NSError* _Error ) )_FailureBlock
                stopAllOtherTasks: ( BOOL )_WillStop
     {
     NSParameterAssert( _ListValue && _ParamsDict );
@@ -199,16 +199,28 @@ NSString* const kParamValListAllImages = @"allimages";
 
     return [ self fetchResourceWithParameters: paramsDict
                                    HTTPMethod: kGET
-                                      success: _SuccessBlock
-                                      failure: _FailureBlock
-                            stopAllOtherTasks: _WillStop ];
+                                      success:
+        ^( NSURLSessionDataTask* __nonnull _Task, id  __nonnull _ResponseObject )
+            {
+            // If the image exists
+            NSDictionary* resultsJSONDict = ( NSDictionary* )_ResponseObject;
+
+            if ( resultsJSONDict )
+                if ( _SuccessBlock )
+                    _SuccessBlock( resultsJSONDict );
+            } failure:
+                ^( NSURLSessionDataTask* __nonnull _Task, NSError* __nonnull _Error )
+                    {
+                    if ( _Error && _FailureBlock )
+                        _FailureBlock( _Error );
+                    }       stopAllOtherTasks: _WillStop ];
     }
 
 // Convenience
 - ( WikiSessionTask* ) queryList: ( NSString* )_ListValue
                  otherParameters: ( NSDictionary* )_ParamsDict
-                         success: ( void (^)( NSURLSessionDataTask* _Task, id _ResponseObject ) )_SuccessBlock
-                         failure: ( void (^)( NSURLSessionDataTask* _Task, NSError* _Error ) )_FailureBlock
+                         success: ( void (^)( NSDictionary* _ResultsJSONDict ) )_SuccessBlock
+                         failure: ( void (^)( NSError* _Error ) )_FailureBlock
     {
     return [ self queryList: _ListValue
             otherParameters: _ParamsDict
@@ -239,21 +251,21 @@ NSString* const kParamValListAllImages = @"allimages";
     return [ self queryList: kParamValListSearch
             otherParameters: parameters
                     success:
-        ^( NSURLSessionDataTask* __nonnull _Task, id  __nonnull _ResponseObject )
+        ^( NSDictionary* _ResultsJSONDict )
             {
             if ( _SuccessBlock )
                 {
-                NSDictionary* searchResultJSON = ( ( NSDictionary* )_ResponseObject )[ @"query" ];
+                NSDictionary* searchResultJSON = _ResultsJSONDict[ @"query" ];
                 NSArray* searchResults = _WikiArrayValueWhichHasBeenParsedOutOfJSON( searchResultJSON, @"search", [ WikiSearchResult class ], @selector( searchResultWithJSONDict: ) );
                 _SuccessBlock( searchResults );
                 }
             } failure:
-                ^( NSURLSessionDataTask* __nonnull _Task, NSError* __nonnull _Error )
+                ^( NSError* _Error )
                     {
                     if ( _Error && _FailureBlock )
                         _FailureBlock( _Error );
                     }
-                stopAllOtherTasks: _WillStop ];
+          stopAllOtherTasks: _WillStop ];
     }
 
 // Convenience
@@ -289,10 +301,10 @@ NSString* const kParamValListAllImages = @"allimages";
     return [ self queryList: kParamValListAllImages
             otherParameters: parameters
                     success:
-        ^( NSURLSessionDataTask* __nonnull _Task, id  __nonnull _ResponseObject )
+        ^( NSDictionary* _ResultsJSONDict )
             {
             // If the image exists
-            NSDictionary* imageJSON = [ ( ( NSDictionary* )_ResponseObject )[ @"query" ][ @"allimages" ] firstObject ];
+            NSDictionary* imageJSON = [ _ResultsJSONDict[ @"query" ][ @"allimages" ] firstObject ];
             if ( [ imageJSON[ @"name" ] isEqualToString: normalizedImageName ] )
                 {
                 WikiImage* wikiImage = [ WikiImage imageWithJSONDict: imageJSON ];
@@ -307,12 +319,12 @@ NSString* const kParamValListAllImages = @"allimages";
                     _FailureBlock( [ NSError errorWithDomain: @"fuck" code: 134 userInfo: nil ] );
                 }
             } failure:
-                ^( NSURLSessionDataTask* __nonnull _Task, NSError* __nonnull _Error )
+                ^( NSError* __nonnull _Error )
                     {
                     if ( _Error && _FailureBlock )
                         _FailureBlock( _Error );
                     }
-                stopAllOtherTasks: _WillStop ];
+          stopAllOtherTasks: _WillStop ];
     }
 
 // Convenience
@@ -320,7 +332,10 @@ NSString* const kParamValListAllImages = @"allimages";
                           success: ( void (^)( WikiImage* _Image ) )_SuccessBlock
                           failure: ( void (^)( NSError* _Error ) )_FailureBlock
     {
-    return [ self fetchImage: _ImageName success: _SuccessBlock failure: _FailureBlock stopAllOtherTasks: NO ];
+    return [ self fetchImage: _ImageName
+                     success: _SuccessBlock
+                     failure: _FailureBlock
+           stopAllOtherTasks: NO ];
     }
 
 #pragma mark Dynamic Properties

@@ -47,8 +47,8 @@
 
 - ( void ) testVersionNumber
     {
-    XCTAssertEqual( [ SugarWikiInfo versionNumber ], 1.f );
-    XCTAssertEqualObjects( [ SugarWikiInfo versionString ], @"1.0" );
+    XCTAssertEqual( [ SugarWikiInfo versionNumber ], 0.1f );
+    XCTAssertEqualObjects( [ SugarWikiInfo versionString ], @"0.1" );
     }
 
 - ( void ) testPerformanceExample
