@@ -68,21 +68,6 @@ NSString* const kParamValListAllImages = @"allimages";
 @dynamic wikiHTTPSessionManager;
 @dynamic ISOLanguageCode;
 
-- ( NSURL* ) endpoint
-    {
-    return self->_endpoint;
-    }
-
-- ( WikiHTTPSessionManager* ) wikiHTTPSessionManager
-    {
-    return self->_wikiHTTPSessionManager;
-    }
-
-- ( NSString* ) ISOLanguageCode
-    {
-    return self->_ISOLanguageCode;
-    }
-
 #pragma mark Creating Engine
 + ( instancetype ) engineWithISOLanguageCode: ( NSString* )_Code
     {
@@ -232,7 +217,7 @@ NSString* const kParamValListAllImages = @"allimages";
           stopAllOtherTasks: NO ];
     }
 
-#pragma mark Search
+#pragma mark Search API
 - ( WikiSessionTask* ) searchAllPagesThatHaveValue: ( NSString* )_SearchValue
                                       inNamespaces: ( NSArray* )_Namespaces
                                           approach: ( WikiEngineSearchApproach )_SearchApproach
@@ -336,6 +321,22 @@ NSString* const kParamValListAllImages = @"allimages";
                           failure: ( void (^)( NSError* _Error ) )_FailureBlock
     {
     return [ self fetchImage: _ImageName success: _SuccessBlock failure: _FailureBlock stopAllOtherTasks: NO ];
+    }
+
+#pragma mark Dynamic Properties
+- ( NSURL* ) endpoint
+    {
+    return self->_endpoint;
+    }
+
+- ( WikiHTTPSessionManager* ) wikiHTTPSessionManager
+    {
+    return self->_wikiHTTPSessionManager;
+    }
+
+- ( NSString* ) ISOLanguageCode
+    {
+    return self->_ISOLanguageCode;
     }
 
 #pragma mark Private Interfaces
