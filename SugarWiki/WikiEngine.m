@@ -134,7 +134,7 @@ NSString* const kParamValListAllImages = @"allimages";
     [ self _cancelAll ];
     }
 
-#pragma mark Generic Methods
+#pragma mark Generic Methods to GET and POST
 - ( WikiSessionTask* ) fetchResourceWithParameters: ( NSDictionary* )_Params
                                         HTTPMethod: ( NSString* )_HTTPMethod
                                            success: ( void (^)( NSURLSessionDataTask* _Task, id _ResponseObject ) )_SuccessBlock
@@ -197,6 +197,41 @@ NSString* const kParamValListAllImages = @"allimages";
                             stopAllOtherTasks: NO ];
     }
 
+#pragma mark Generic Methods to Query
+- ( WikiSessionTask* ) queryList: ( NSString* )_ListValue
+                 otherParameters: ( NSDictionary* )_ParamsDict
+                         success: ( void (^)( NSURLSessionDataTask* _Task, id _ResponseObject ) )_SuccessBlock
+                         failure: ( void (^)( NSURLSessionDataTask* _Task, NSError* _Error ) )_FailureBlock
+               stopAllOtherTasks: ( BOOL )_WillStop
+    {
+    NSParameterAssert( _ListValue && _ParamsDict );
+
+    NSMutableDictionary* paramsDict = [ NSMutableDictionary dictionaryWithDictionary: _ParamsDict ];
+    [ paramsDict addEntriesFromDictionary: @{ kParamKeyAction : kParamValActionQuery
+                                            , kParamKeyFormat : kParamValFormatJSON
+                                            , kParamKeyList : _ListValue
+                                            } ];
+
+    return [ self fetchResourceWithParameters: paramsDict
+                                   HTTPMethod: kGET
+                                      success: _SuccessBlock
+                                      failure: _FailureBlock
+                            stopAllOtherTasks: _WillStop ];
+    }
+
+// Convenience
+- ( WikiSessionTask* ) queryList: ( NSString* )_ListValue
+                 otherParameters: ( NSDictionary* )_ParamsDict
+                         success: ( void (^)( NSURLSessionDataTask* _Task, id _ResponseObject ) )_SuccessBlock
+                         failure: ( void (^)( NSURLSessionDataTask* _Task, NSError* _Error ) )_FailureBlock
+    {
+    return [ self queryList: _ListValue
+            otherParameters: _ParamsDict
+                    success: _SuccessBlock
+                    failure: _FailureBlock
+          stopAllOtherTasks: NO ];
+    }
+
 #pragma mark Search
 - ( WikiSessionTask* ) searchAllPagesThatHaveValue: ( NSString* )_SearchValue
                                       inNamespaces: ( NSArray* )_Namespaces
@@ -210,18 +245,15 @@ NSString* const kParamValListAllImages = @"allimages";
     if ( _Namespaces.count > 0 )
         srnamespace = [ _Namespaces componentsJoinedByString: @"|" ];
 
-    NSDictionary* parameters = @{ kParamKeyAction : kParamValActionQuery
-                                , kParamKeyFormat : kParamValFormatJSON
-                                , kParamKeyList : kParamValListSearch
-                                , @"srsearch" : _SearchValue
+    NSDictionary* parameters = @{ @"srsearch" : _SearchValue
                                 , @"srprop" : @"size|wordcount|timestamp|snippet|titlesnippet|sectionsnippet"
                                 , @"srlimit" : @( _Limit ).stringValue
                                 , @"srnamespace" : srnamespace ?: @"0"
                                 };
 
-    return [ self fetchResourceWithParameters: parameters
-                                   HTTPMethod: kGET
-                                      success:
+    return [ self queryList: kParamValListSearch
+            otherParameters: parameters
+                    success:
         ^( NSURLSessionDataTask* __nonnull _Task, id  __nonnull _ResponseObject )
             {
             if ( _SuccessBlock )
@@ -236,7 +268,7 @@ NSString* const kParamValListAllImages = @"allimages";
                     if ( _Error && _FailureBlock )
                         _FailureBlock( _Error );
                     }
-             stopAllOtherTasks: _WillStop ];
+                stopAllOtherTasks: _WillStop ];
     }
 
 // Convenience
@@ -263,18 +295,15 @@ NSString* const kParamValListAllImages = @"allimages";
                 stopAllOtherTasks: ( BOOL )_WillStop
     {
     NSString* normalizedImageName = [ _ImageName stringByReplacingOccurrencesOfString: @" " withString: @"_" ];
-    NSDictionary* parameters = @{ kParamKeyAction : kParamValActionQuery
-                                , kParamKeyFormat : kParamValFormatJSON
-                                , kParamKeyList : kParamValListAllImages
-                                , @"aifrom" : normalizedImageName
+    NSDictionary* parameters = @{ @"aifrom" : normalizedImageName
                                 , @"aisort" : @"name"
                                 , @"aiprop" : @"timestamp|url|metadata|commonmetadata|extmetadata|dimensions|userid|user|parsedcomment|canonicaltitle|sha1|bitdepth|comment|parsedcomment"
                                 , @"ailimit" : @"1"
                                 };
 
-    return [ self fetchResourceWithParameters: parameters
-                                   HTTPMethod: kGET
-                                      success:
+    return [ self queryList: kParamValListAllImages
+            otherParameters: parameters
+                    success:
         ^( NSURLSessionDataTask* __nonnull _Task, id  __nonnull _ResponseObject )
             {
             // If the image exists
@@ -298,7 +327,7 @@ NSString* const kParamValListAllImages = @"allimages";
                     if ( _Error && _FailureBlock )
                         _FailureBlock( _Error );
                     }
-             stopAllOtherTasks: _WillStop ];
+                stopAllOtherTasks: _WillStop ];
     }
 
 // Convenience

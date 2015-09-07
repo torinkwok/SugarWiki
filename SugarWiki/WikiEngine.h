@@ -67,7 +67,7 @@ typedef NSArray <__kindof WikiSearchResult*> WikiSearchResults;
 @property ( assign, readonly ) NSUInteger numberOfRunningQueryTasks;
 - ( void ) cancelAll;
 
-#pragma mark Generic Methods
+#pragma mark Generic Methods to GET and POST
 - ( WikiSessionTask* ) fetchResourceWithParameters: ( NSDictionary* )_Params
                                         HTTPMethod: ( NSString* )_HTTPMethod
                                            success: ( void (^)( NSURLSessionDataTask* _Task, id _ResponseObject ) )_SuccessBlock
@@ -79,6 +79,20 @@ typedef NSArray <__kindof WikiSearchResult*> WikiSearchResults;
                                         HTTPMethod: ( NSString* )_HTTPMethod
                                            success: ( void (^)( NSURLSessionDataTask* _Task, id _ResponseObject ) )_SuccessBlock
                                            failure: ( void (^)( NSURLSessionDataTask* _Task, NSError* _Error ) )_FailureBlock;
+
+#pragma mark Generic Methods to Query
+- ( WikiSessionTask* ) queryList: ( NSString* )_ListValue
+                 otherParameters: ( NSDictionary* )_ParamsDict
+                         success: ( void (^)( NSURLSessionDataTask* _Task, id _ResponseObject ) )_SuccessBlock
+                         failure: ( void (^)( NSURLSessionDataTask* _Task, NSError* _Error ) )_FailureBlock
+               stopAllOtherTasks: ( BOOL )_WillStop;
+
+// Convenience
+- ( WikiSessionTask* ) queryList: ( NSString* )_ListValue
+                 otherParameters: ( NSDictionary* )_ParamsDict
+                         success: ( void (^)( NSURLSessionDataTask* _Task, id _ResponseObject ) )_SuccessBlock
+                         failure: ( void (^)( NSURLSessionDataTask* _Task, NSError* _Error ) )_FailureBlock;
+
 #pragma mark Search API
 - ( WikiSessionTask* ) searchAllPagesThatHaveValue: ( NSString* )_SearchValue
                                       inNamespaces: ( NSArray* )_Namespaces
