@@ -79,7 +79,6 @@ typedef NSArray <__kindof WikiSearchResult*> WikiSearchResults;
                                         HTTPMethod: ( NSString* )_HTTPMethod
                                            success: ( void (^)( NSURLSessionDataTask* _Task, id _ResponseObject ) )_SuccessBlock
                                            failure: ( void (^)( NSURLSessionDataTask* _Task, NSError* _Error ) )_FailureBlock;
-
 #pragma mark Search API
 - ( WikiSessionTask* ) searchAllPagesThatHaveValue: ( NSString* )_SearchValue
                                       inNamespaces: ( NSArray* )_Namespaces
@@ -96,7 +95,6 @@ typedef NSArray <__kindof WikiSearchResult*> WikiSearchResults;
                                              limit: ( NSUInteger )_Limit
                                            success: ( void (^)( WikiSearchResults* _SearchResults ) )_SuccessBlock
                                            failure: ( void (^)( NSError* _Error ) )_FailureBlock;
-
 #pragma Images API
 - ( WikiSessionTask* ) fetchImage: ( NSString* )_ImageName
                           success: ( void (^)( WikiImage* _Image ) )_SuccessBlock

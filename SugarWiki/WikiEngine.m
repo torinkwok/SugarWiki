@@ -39,6 +39,18 @@ NSString* const kPUS = @"PUS";
 NSString* const kPATCH = @"PATCH";
 NSString* const kDELETE = @"DELETE";
 
+NSString* const kParamKeyAction = @"action";
+NSString* const kParamKeyFormat = @"format";
+NSString* const kParamKeyList = @"list";
+
+NSString* const kParamValActionQuery = @"query";
+
+NSString* const kParamValFormatJSON = @"json";
+NSString* const kParamValFormatHTML = @"jsonfm";
+
+NSString* const kParamValListSearch = @"search";
+NSString* const kParamValListAllImages = @"allimages";
+
 // Private Interfaces
 @interface WikiEngine ()
 
@@ -198,9 +210,9 @@ NSString* const kDELETE = @"DELETE";
     if ( _Namespaces.count > 0 )
         srnamespace = [ _Namespaces componentsJoinedByString: @"|" ];
 
-    NSDictionary* parameters = @{ @"action" : @"query"
-                                , @"format" : @"json"
-                                , @"list" : @"search"
+    NSDictionary* parameters = @{ kParamKeyAction : kParamValActionQuery
+                                , kParamKeyFormat : kParamValFormatJSON
+                                , kParamKeyList : kParamValListSearch
                                 , @"srsearch" : _SearchValue
                                 , @"srprop" : @"size|wordcount|timestamp|snippet|titlesnippet|sectionsnippet"
                                 , @"srlimit" : @( _Limit ).stringValue
@@ -251,13 +263,12 @@ NSString* const kDELETE = @"DELETE";
                 stopAllOtherTasks: ( BOOL )_WillStop
     {
     NSString* normalizedImageName = [ _ImageName stringByReplacingOccurrencesOfString: @" " withString: @"_" ];
-    NSDictionary* parameters = @{ @"action" : @"query"
-                                , @"format" : @"json"
-                                , @"list" : @"allimages"
+    NSDictionary* parameters = @{ kParamKeyAction : kParamValActionQuery
+                                , kParamKeyFormat : kParamValFormatJSON
+                                , kParamKeyList : kParamValListAllImages
                                 , @"aifrom" : normalizedImageName
                                 , @"aisort" : @"name"
                                 , @"aiprop" : @"timestamp|url|metadata|commonmetadata|extmetadata|dimensions|userid|user|parsedcomment|canonicaltitle|sha1|bitdepth|comment|parsedcomment"
-
                                 , @"ailimit" : @"1"
                                 };
 
