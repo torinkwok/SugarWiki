@@ -25,6 +25,7 @@
 #import "WikiJSONObject.h"
 #import "WikiConstants.h"
 
+// WikiImage class
 @interface WikiImage : WikiJSONObject
     {
 @protected
@@ -77,7 +78,7 @@
 @property ( assign, readonly ) NSUInteger bitDepth;
 @property ( assign, readonly ) WikiNamespace wikiNamespace;
 
-@end
+@end // WikiImage class
 
 /*================================================================================┐
 |                              The MIT License (MIT)                              |
