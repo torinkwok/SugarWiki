@@ -166,6 +166,7 @@
 // WikiPage + SugarWikiPrivate
 @implementation WikiPage ( SugarWikiPrivate )
 
+#pragma mark Private Initializations ( only used by friend classes )
 + ( instancetype ) __pageWithJSONDict: ( NSDictionary* )_JSONDict
     {
     return [ [ [ self class ] alloc ] __initWithJSONDict: _JSONDict ];

@@ -77,8 +77,6 @@
 @property ( assign, readonly ) NSUInteger bitDepth;
 @property ( assign, readonly ) WikiNamespace wikiNamespace;
 
-+ ( instancetype ) imageWithJSONDict: ( NSDictionary* )_JSONDict;
-
 @end
 
 /*================================================================================┐

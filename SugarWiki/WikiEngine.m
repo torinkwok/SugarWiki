@@ -31,6 +31,7 @@
 #import "WikiSearchResult.h"
 
 #import "__WikiSessionTask.h"
+#import "__WikiImage.h"
 
 #import "__WikiJSON.h"
 
@@ -310,7 +311,7 @@ NSString* const kParamValListAllImages = @"allimages";
             NSDictionary* imageJSON = [ _ResultsJSONDict[ @"query" ][ @"allimages" ] firstObject ];
             if ( [ imageJSON[ @"name" ] isEqualToString: normalizedImageName ] )
                 {
-                WikiImage* wikiImage = [ WikiImage imageWithJSONDict: imageJSON ];
+                WikiImage* wikiImage = [ WikiImage __imageWithJSONDict: imageJSON ];
 
                 if ( _SuccessBlock )
                     _SuccessBlock( wikiImage );
