@@ -188,7 +188,7 @@ NSString* const kDELETE = @"DELETE";
 #pragma mark Search
 - ( void ) searchAllPagesThatHaveValue: ( NSString* )_SearchValue
                           inNamespaces: ( NSArray* )_Namespaces
-                              approach: ( WikiEngineSearchApproach )_SearchWhat
+                              approach: ( WikiEngineSearchApproach )_SearchApproach
                                  limit: ( NSUInteger )_Limit
                                success: ( void (^)( WikiSearchResults* _SearchResults ) )_SuccessBlock
                                failure: ( void (^)( NSError* _Error ) )_FailureBlock
@@ -230,14 +230,14 @@ NSString* const kDELETE = @"DELETE";
 // Convenience
 - ( void ) searchAllPagesThatHaveValue: ( NSString* )_SearchValue
                           inNamespaces: ( NSArray* )_Namespaces
-                              approach: ( WikiEngineSearchApproach )_SearchWhat
+                              approach: ( WikiEngineSearchApproach )_SearchApproach
                                  limit: ( NSUInteger )_Limit
                                success: ( void (^)( WikiSearchResults* _SearchResults ) )_SuccessBlock
                                failure: ( void (^)( NSError* _Error ) )_FailureBlock
     {
     [ self searchAllPagesThatHaveValue: _SearchValue
                           inNamespaces: _Namespaces
-                              approach: _SearchWhat
+                              approach: _SearchApproach
                                  limit: _Limit
                                success: _SuccessBlock
                                failure: _FailureBlock

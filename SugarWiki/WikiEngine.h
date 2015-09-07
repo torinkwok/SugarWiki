@@ -83,7 +83,7 @@ typedef NSArray <__kindof WikiSearchResult*> WikiSearchResults;
 #pragma mark Search API
 - ( void ) searchAllPagesThatHaveValue: ( NSString* )_SearchValue
                           inNamespaces: ( NSArray* )_Namespaces
-                              approach: ( WikiEngineSearchApproach )_SearchWhat
+                              approach: ( WikiEngineSearchApproach )_SearchApproach
                                  limit: ( NSUInteger )_Limit
                                success: ( void (^)( WikiSearchResults* _SearchResults ) )_SuccessBlock
                                failure: ( void (^)( NSError* _Error ) )_FailureBlock
@@ -92,7 +92,7 @@ typedef NSArray <__kindof WikiSearchResult*> WikiSearchResults;
 // Convenience
 - ( void ) searchAllPagesThatHaveValue: ( NSString* )_SearchValue
                           inNamespaces: ( NSArray* )_Namespaces
-                              approach: ( WikiEngineSearchApproach )_SearchWhat
+                              approach: ( WikiEngineSearchApproach )_SearchApproach
                                  limit: ( NSUInteger )_Limit
                                success: ( void (^)( WikiSearchResults* _SearchResults ) )_SuccessBlock
                                failure: ( void (^)( NSError* _Error ) )_FailureBlock;
