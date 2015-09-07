@@ -34,7 +34,7 @@
 #import "__WikiImage.h"
 #import "__WikiSearchResult.h"
 
-#import "__WikiJSON.h"
+#import "__WikiJSONUtilities.h"
 
 NSString* const kGET = @"GET";
 NSString* const kPOST = @"POST";

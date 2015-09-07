@@ -28,7 +28,7 @@
 #import "__WikiJSONObject.h"
 #import "__WikiRevision.h"
 
-#import "__WikiJSON.h"
+#import "__WikiJSONUtilities.h"
 
 // WikiRevision class
 @implementation WikiRevision

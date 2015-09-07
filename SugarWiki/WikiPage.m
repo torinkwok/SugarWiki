@@ -30,7 +30,7 @@
 #import "__WikiPage.h"
 #import "__WikiRevision.h"
 
-#import "__WikiJSON.h"
+#import "__WikiJSONUtilities.h"
 
 // WikiPage class
 @implementation WikiPage

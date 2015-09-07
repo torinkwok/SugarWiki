@@ -28,7 +28,7 @@
 #import "__WikiJSONObject.h"
 #import "__WikiImage.h"
 
-#import "__WikiJSON.h"
+#import "__WikiJSONUtilities.h"
 
 // WikiImage class
 @implementation WikiImage
