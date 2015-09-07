@@ -27,6 +27,7 @@
 #import "WikiImage.h"
 #import "WikiSearchResult.h"
 #import "WikiRevision.h"
+#import "WikiSessionTask.h"
 #import "AFNetworking.h"
 
 @import XCTest;
@@ -170,12 +171,15 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     XCTestExpectation* jsonExpectation0 = [ self expectationWithDescription: @"🔍JSON Exception 0⃣️" ];
     XCTestExpectation* jsonExpectation1 = [ self expectationWithDescription: @"🔍JSON Exception 1⃣️" ];
 
+    WikiSessionTask* wikiSessionTask = nil;
+
     WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: @"en" ];
-    [ positiveTestCase searchAllPagesThatHaveValue: @"Ruby"
-                                      inNamespaces: nil
-                                          approach: WikiEngineSearchApproachPageText
-                                             limit: 10
-                                           success:
+    wikiSessionTask =
+        [ positiveTestCase searchAllPagesThatHaveValue: @"Ruby"
+                                          inNamespaces: nil
+                                              approach: WikiEngineSearchApproachPageText
+                                                 limit: 10
+                                               success:
         ^( NSArray* _MatchedPages )
             {
             for ( WikiSearchResult* _SearchResult in _MatchedPages )
@@ -188,11 +192,14 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
                     } ];
 
-    [ positiveTestCase searchAllPagesThatHaveValue: @"C++"
-                                      inNamespaces: @[ @( WikiNamespaceDraft ), @( WikiNamespaceWikipedia ) ]
-                                          approach: WikiEngineSearchApproachPageText
-                                             limit: 10
-                                           success:
+    [ self _testReturnedWikiSessionTask: wikiSessionTask ];
+
+    wikiSessionTask =
+        [ positiveTestCase searchAllPagesThatHaveValue: @"C++"
+                                          inNamespaces: @[ @( WikiNamespaceDraft ), @( WikiNamespaceWikipedia ) ]
+                                              approach: WikiEngineSearchApproachPageText
+                                                 limit: 10
+                                               success:
         ^( NSArray* _MatchedPages )
             {
             for ( WikiSearchResult* _SearchResult in _MatchedPages )
@@ -204,6 +211,8 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                     {
 
                     } ];
+
+    [ self _testReturnedWikiSessionTask: wikiSessionTask ];
 
     [ self waitForExpectationsWithTimeout: 15
                                   handler:
@@ -217,9 +226,12 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     {
     XCTestExpectation* jsonExpectation0 = [ self expectationWithDescription: @"🌋JSON Exception 0⃣️" ];
 
+    WikiSessionTask* wikiSessionTask = nil;
+
     WikiEngine* positiveTestCase = [ WikiEngine commonsEngine ];
-    [ positiveTestCase fetchImage: @"CPP ‒ Convention People's Party logo.jpg"
-                          success:
+    wikiSessionTask =
+        [ positiveTestCase fetchImage: @"CPP ‒ Convention People's Party logo.jpg"
+                              success:
         ^( WikiImage* _Image )
             {
             [ self _testWikiImage: _Image ];
@@ -230,6 +242,8 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
                     } ];
 
+    [ self _testReturnedWikiSessionTask: wikiSessionTask ];
+
     [ self waitForExpectationsWithTimeout: 15
                                   handler:
         ^( NSError* __nullable _Error )
@@ -239,6 +253,17 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     }
 
 #pragma mark Private Interfaces
+- ( void ) _testReturnedWikiSessionTask: ( WikiSessionTask* )_WikiSessionTask
+    {
+    NSLog( @"%@", _WikiSessionTask );
+    printf( "==============================================================\n" );
+
+    XCTAssertNotNil( _WikiSessionTask );
+    XCTAssertNotNil( _WikiSessionTask.HTTPMethod );
+    XCTAssertNotNil( _WikiSessionTask.parameters );
+    XCTAssertNotNil( _WikiSessionTask.sessionDataTask );
+    }
+
 - ( void ) _testSearchResult: ( WikiSearchResult* )_SearchResult
     {
     NSLog( @"%@", _SearchResult );

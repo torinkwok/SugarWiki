@@ -123,11 +123,11 @@ NSString* const kDELETE = @"DELETE";
     }
 
 #pragma mark Generic Methods
-- ( NSURLSessionDataTask* ) fetchResourceWithParameters: ( NSDictionary* )_Params
-                                             HTTPMethod: ( NSString* )_HTTPMethod
-                                                success: ( void (^)( NSURLSessionDataTask* _Task, id _ResponseObject ) )_SuccessBlock
-                                                failure: ( void (^)( NSURLSessionDataTask* _Task, NSError* _Error ) )_FailureBlock
-                                      stopAllOtherTasks: ( BOOL )_WillStop
+- ( WikiSessionTask* ) fetchResourceWithParameters: ( NSDictionary* )_Params
+                                        HTTPMethod: ( NSString* )_HTTPMethod
+                                           success: ( void (^)( NSURLSessionDataTask* _Task, id _ResponseObject ) )_SuccessBlock
+                                           failure: ( void (^)( NSURLSessionDataTask* _Task, NSError* _Error ) )_FailureBlock
+                                 stopAllOtherTasks: ( BOOL )_WillStop
     {
     NSURLSessionDataTask* dataTask = nil;
 
@@ -169,14 +169,16 @@ NSString* const kDELETE = @"DELETE";
         [ dataTask resume ];
         }
 
-    return dataTask;
+    return [ WikiSessionTask sessionTaskWithHTTPMethod: _HTTPMethod
+                                            parameters: _Params
+                                    URLSessionDataTask: dataTask ];
     }
 
 // Convenience
-- ( NSURLSessionDataTask* ) fetchResourceWithParameters: ( NSDictionary* )_Params
-                                             HTTPMethod: ( NSString* )_HTTPMethod
-                                                success: ( void (^)( NSURLSessionDataTask* _Task, id _ResponseObject ) )_SuccessBlock
-                                                failure: ( void (^)( NSURLSessionDataTask* _Task, NSError* _Error ) )_FailureBlock
+- ( WikiSessionTask* ) fetchResourceWithParameters: ( NSDictionary* )_Params
+                                        HTTPMethod: ( NSString* )_HTTPMethod
+                                           success: ( void (^)( NSURLSessionDataTask* _Task, id _ResponseObject ) )_SuccessBlock
+                                           failure: ( void (^)( NSURLSessionDataTask* _Task, NSError* _Error ) )_FailureBlock
     {
     return [ self fetchResourceWithParameters: _Params
                                    HTTPMethod: _HTTPMethod
@@ -186,13 +188,13 @@ NSString* const kDELETE = @"DELETE";
     }
 
 #pragma mark Search
-- ( void ) searchAllPagesThatHaveValue: ( NSString* )_SearchValue
-                          inNamespaces: ( NSArray* )_Namespaces
-                              approach: ( WikiEngineSearchApproach )_SearchApproach
-                                 limit: ( NSUInteger )_Limit
-                               success: ( void (^)( WikiSearchResults* _SearchResults ) )_SuccessBlock
-                               failure: ( void (^)( NSError* _Error ) )_FailureBlock
-                     stopAllOtherTasks: ( BOOL )_WillStop
+- ( WikiSessionTask* ) searchAllPagesThatHaveValue: ( NSString* )_SearchValue
+                                      inNamespaces: ( NSArray* )_Namespaces
+                                          approach: ( WikiEngineSearchApproach )_SearchApproach
+                                             limit: ( NSUInteger )_Limit
+                                           success: ( void (^)( WikiSearchResults* _SearchResults ) )_SuccessBlock
+                                           failure: ( void (^)( NSError* _Error ) )_FailureBlock
+                                 stopAllOtherTasks: ( BOOL )_WillStop
     {
     NSString* srnamespace = nil;
     if ( _Namespaces.count > 0 )
@@ -207,9 +209,9 @@ NSString* const kDELETE = @"DELETE";
                                 , @"srnamespace" : srnamespace ?: @"0"
                                 };
 
-    [ self fetchResourceWithParameters: parameters
-                            HTTPMethod: kGET
-                               success:
+    return [ self fetchResourceWithParameters: parameters
+                                   HTTPMethod: kGET
+                                      success:
         ^( NSURLSessionDataTask* __nonnull _Task, id  __nonnull _ResponseObject )
             {
             if ( _SuccessBlock )
@@ -228,27 +230,27 @@ NSString* const kDELETE = @"DELETE";
     }
 
 // Convenience
-- ( void ) searchAllPagesThatHaveValue: ( NSString* )_SearchValue
-                          inNamespaces: ( NSArray* )_Namespaces
-                              approach: ( WikiEngineSearchApproach )_SearchApproach
-                                 limit: ( NSUInteger )_Limit
-                               success: ( void (^)( WikiSearchResults* _SearchResults ) )_SuccessBlock
-                               failure: ( void (^)( NSError* _Error ) )_FailureBlock
+- ( WikiSessionTask* ) searchAllPagesThatHaveValue: ( NSString* )_SearchValue
+                                      inNamespaces: ( NSArray* )_Namespaces
+                                          approach: ( WikiEngineSearchApproach )_SearchApproach
+                                             limit: ( NSUInteger )_Limit
+                                           success: ( void (^)( WikiSearchResults* _SearchResults ) )_SuccessBlock
+                                           failure: ( void (^)( NSError* _Error ) )_FailureBlock
     {
-    [ self searchAllPagesThatHaveValue: _SearchValue
-                          inNamespaces: _Namespaces
-                              approach: _SearchApproach
-                                 limit: _Limit
-                               success: _SuccessBlock
-                               failure: _FailureBlock
-                     stopAllOtherTasks: NO ];
+    return [ self searchAllPagesThatHaveValue: _SearchValue
+                                 inNamespaces: _Namespaces
+                                     approach: _SearchApproach
+                                        limit: _Limit
+                                      success: _SuccessBlock
+                                      failure: _FailureBlock
+                            stopAllOtherTasks: NO ];
     }
 
-#pragma Images
-- ( void ) fetchImage: ( NSString* )_ImageName
-              success: ( void (^)( WikiImage* _Image ) )_SuccessBlock
-              failure: ( void (^)( NSError* _Error ) )_FailureBlock
-    stopAllOtherTasks: ( BOOL )_WillStop
+#pragma Images API
+- ( WikiSessionTask* ) fetchImage: ( NSString* )_ImageName
+                          success: ( void (^)( WikiImage* _Image ) )_SuccessBlock
+                          failure: ( void (^)( NSError* _Error ) )_FailureBlock
+                stopAllOtherTasks: ( BOOL )_WillStop
     {
     NSString* normalizedImageName = [ _ImageName stringByReplacingOccurrencesOfString: @" " withString: @"_" ];
     NSDictionary* parameters = @{ @"action" : @"query"
@@ -261,9 +263,9 @@ NSString* const kDELETE = @"DELETE";
                                 , @"ailimit" : @"1"
                                 };
 
-    [ self fetchResourceWithParameters: parameters
-                            HTTPMethod: kGET
-                               success:
+    return [ self fetchResourceWithParameters: parameters
+                                   HTTPMethod: kGET
+                                      success:
         ^( NSURLSessionDataTask* __nonnull _Task, id  __nonnull _ResponseObject )
             {
             // If the image exists
@@ -291,11 +293,11 @@ NSString* const kDELETE = @"DELETE";
     }
 
 // Convenience
-- ( void ) fetchImage: ( NSString* )_ImageName
-              success: ( void (^)( WikiImage* _Image ) )_SuccessBlock
-              failure: ( void (^)( NSError* _Error ) )_FailureBlock
+- ( WikiSessionTask* ) fetchImage: ( NSString* )_ImageName
+                          success: ( void (^)( WikiImage* _Image ) )_SuccessBlock
+                          failure: ( void (^)( NSError* _Error ) )_FailureBlock
     {
-    [ self fetchImage: _ImageName success: _SuccessBlock failure: _FailureBlock stopAllOtherTasks: NO ];
+    return [ self fetchImage: _ImageName success: _SuccessBlock failure: _FailureBlock stopAllOtherTasks: NO ];
     }
 
 #pragma mark Private Interfaces

@@ -27,6 +27,20 @@
 // WikiSessionTask class
 @interface WikiSessionTask : NSURLSessionDataTask
 
+#pragma mark Attributes
+@property ( strong, readonly ) NSString* HTTPMethod;
+@property ( strong, readonly ) NSDictionary* parameters;
+@property ( strong, readonly ) NSURLSessionDataTask* sessionDataTask;
+
+#pragma mark Initializations
++ ( instancetype ) sessionTaskWithHTTPMethod: ( NSString* )_HTTPMethod
+                                  parameters: ( NSDictionary* )_ParamsDict
+                          URLSessionDataTask: ( NSURLSessionDataTask* )_SessionDataTask;
+
+- ( instancetype ) initWithHTTPMethod: ( NSString* )_HTTPMethod
+                           parameters: ( NSDictionary* )_ParamsDict
+                   URLSessionDataTask: ( NSURLSessionDataTask* )_SessionDataTask;
+
 @end // WikiSessionTask class
 
 /*================================================================================┐

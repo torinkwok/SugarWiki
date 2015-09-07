@@ -68,45 +68,45 @@ typedef NSArray <__kindof WikiSearchResult*> WikiSearchResults;
 - ( void ) cancelAll;
 
 #pragma mark Generic Methods
-- ( NSURLSessionDataTask* ) fetchResourceWithParameters: ( NSDictionary* )_Params
-                                             HTTPMethod: ( NSString* )_HTTPMethod
-                                                success: ( void (^)( NSURLSessionDataTask* _Task, id _ResponseObject ) )_SuccessBlock
-                                                failure: ( void (^)( NSURLSessionDataTask* _Task, NSError* _Error ) )_FailureBlock
-                                      stopAllOtherTasks: ( BOOL )_WillStop;
+- ( WikiSessionTask* ) fetchResourceWithParameters: ( NSDictionary* )_Params
+                                        HTTPMethod: ( NSString* )_HTTPMethod
+                                           success: ( void (^)( NSURLSessionDataTask* _Task, id _ResponseObject ) )_SuccessBlock
+                                           failure: ( void (^)( NSURLSessionDataTask* _Task, NSError* _Error ) )_FailureBlock
+                                 stopAllOtherTasks: ( BOOL )_WillStop;
 
 // Convenience
-- ( NSURLSessionDataTask* ) fetchResourceWithParameters: ( NSDictionary* )_Params
-                                             HTTPMethod: ( NSString* )_HTTPMethod
-                                                success: ( void (^)( NSURLSessionDataTask* _Task, id _ResponseObject ) )_SuccessBlock
-                                                failure: ( void (^)( NSURLSessionDataTask* _Task, NSError* _Error ) )_FailureBlock;
+- ( WikiSessionTask* ) fetchResourceWithParameters: ( NSDictionary* )_Params
+                                        HTTPMethod: ( NSString* )_HTTPMethod
+                                           success: ( void (^)( NSURLSessionDataTask* _Task, id _ResponseObject ) )_SuccessBlock
+                                           failure: ( void (^)( NSURLSessionDataTask* _Task, NSError* _Error ) )_FailureBlock;
 
 #pragma mark Search API
-- ( void ) searchAllPagesThatHaveValue: ( NSString* )_SearchValue
-                          inNamespaces: ( NSArray* )_Namespaces
-                              approach: ( WikiEngineSearchApproach )_SearchApproach
-                                 limit: ( NSUInteger )_Limit
-                               success: ( void (^)( WikiSearchResults* _SearchResults ) )_SuccessBlock
-                               failure: ( void (^)( NSError* _Error ) )_FailureBlock
-                     stopAllOtherTasks: ( BOOL )_WillStop;
+- ( WikiSessionTask* ) searchAllPagesThatHaveValue: ( NSString* )_SearchValue
+                                      inNamespaces: ( NSArray* )_Namespaces
+                                          approach: ( WikiEngineSearchApproach )_SearchApproach
+                                             limit: ( NSUInteger )_Limit
+                                           success: ( void (^)( WikiSearchResults* _SearchResults ) )_SuccessBlock
+                                           failure: ( void (^)( NSError* _Error ) )_FailureBlock
+                                 stopAllOtherTasks: ( BOOL )_WillStop;
 
 // Convenience
-- ( void ) searchAllPagesThatHaveValue: ( NSString* )_SearchValue
-                          inNamespaces: ( NSArray* )_Namespaces
-                              approach: ( WikiEngineSearchApproach )_SearchApproach
-                                 limit: ( NSUInteger )_Limit
-                               success: ( void (^)( WikiSearchResults* _SearchResults ) )_SuccessBlock
-                               failure: ( void (^)( NSError* _Error ) )_FailureBlock;
+- ( WikiSessionTask* ) searchAllPagesThatHaveValue: ( NSString* )_SearchValue
+                                      inNamespaces: ( NSArray* )_Namespaces
+                                          approach: ( WikiEngineSearchApproach )_SearchApproach
+                                             limit: ( NSUInteger )_Limit
+                                           success: ( void (^)( WikiSearchResults* _SearchResults ) )_SuccessBlock
+                                           failure: ( void (^)( NSError* _Error ) )_FailureBlock;
 
-#pragma Images
-- ( void ) fetchImage: ( NSString* )_ImageName
-              success: ( void (^)( WikiImage* _Image ) )_SuccessBlock
-              failure: ( void (^)( NSError* _Error ) )_FailureBlock
-    stopAllOtherTasks: ( BOOL )_WillStop;
+#pragma Images API
+- ( WikiSessionTask* ) fetchImage: ( NSString* )_ImageName
+                          success: ( void (^)( WikiImage* _Image ) )_SuccessBlock
+                          failure: ( void (^)( NSError* _Error ) )_FailureBlock
+                stopAllOtherTasks: ( BOOL )_WillStop;
 
 // Convenience
-- ( void ) fetchImage: ( NSString* )_ImageName
-              success: ( void (^)( WikiImage* _Image ) )_SuccessBlock
-              failure: ( void (^)( NSError* _Error ) )_FailureBlock;
+- ( WikiSessionTask* ) fetchImage: ( NSString* )_ImageName
+                          success: ( void (^)( WikiImage* _Image ) )_SuccessBlock
+                          failure: ( void (^)( NSError* _Error ) )_FailureBlock;
 
 @end // WikiEngine class
 

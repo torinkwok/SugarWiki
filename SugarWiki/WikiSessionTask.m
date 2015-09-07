@@ -24,8 +24,45 @@
 
 #import "WikiSessionTask.h"
 
+// Private Interfaces
+@interface WikiSessionTask ()
+
+@property ( strong, readwrite ) NSString* HTTPMethod;
+@property ( strong, readwrite ) NSDictionary* parameters;
+@property ( strong, readwrite ) NSURLSessionDataTask* sessionDataTask;
+
+@end // Private Interfaces
+
 // WikiSessionTask class
 @implementation WikiSessionTask
+
+@synthesize HTTPMethod;
+@synthesize parameters;
+@synthesize sessionDataTask;
+
+#pragma mark Initializations
++ ( instancetype ) sessionTaskWithHTTPMethod: ( NSString* )_HTTPMethod
+                                  parameters: ( NSDictionary* )_ParamsDict
+                          URLSessionDataTask: ( NSURLSessionDataTask* )_SessionDataTask
+    {
+    return [ [ self alloc ] initWithHTTPMethod: _HTTPMethod
+                                    parameters: _ParamsDict
+                            URLSessionDataTask: _SessionDataTask ];
+    }
+
+- ( instancetype ) initWithHTTPMethod: ( NSString* )_HTTPMethod
+                           parameters: ( NSDictionary* )_ParamsDict
+                   URLSessionDataTask: ( NSURLSessionDataTask* )_SessionDataTask
+    {
+    if ( self = [ super init ] )
+        {
+        self.HTTPMethod = _HTTPMethod;
+        self.parameters = _ParamsDict;
+        self.sessionDataTask = _SessionDataTask;
+        }
+
+    return self;
+    }
 
 @end // WikiSessionTask class
 
