@@ -32,7 +32,7 @@
 
 #import "__WikiSessionTask.h"
 
-#import "_WikiJSON.h"
+#import "__WikiJSON.h"
 
 NSString* const kGET = @"GET";
 NSString* const kPOST = @"POST";

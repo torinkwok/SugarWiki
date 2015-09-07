@@ -27,7 +27,7 @@
 
 #import "__WikiJSONObject.h"
 
-#import "_WikiJSON.h"
+#import "__WikiJSON.h"
 
 // WikiSearchResult class
 @implementation WikiSearchResult

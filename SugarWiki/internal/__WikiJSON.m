@@ -24,7 +24,7 @@
 
 #import <objc/message.h>
 
-#import "_WikiJSON.h"
+#import "__WikiJSON.h"
 
 id _WikiCocoaValueWhichHasBeenParsedOutOfJSON( NSDictionary* _JSONObject, NSString* _JSONPropertyKey )
     {

@@ -29,7 +29,7 @@
 #import "__WikiJSONObject.h"
 #import "__WikiPage.h"
 
-#import "_WikiJSON.h"
+#import "__WikiJSON.h"
 
 // WikiPage class
 @implementation WikiPage
