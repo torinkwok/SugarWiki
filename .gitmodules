@@ -1,0 +1,3 @@
+[submodule "SugarWiki/vendors/AFNetworking"]
+	path = SugarWiki/vendors/AFNetworking
+	url = https://github.com/PureWiki/AFNetworking.git
