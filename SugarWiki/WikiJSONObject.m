@@ -25,6 +25,9 @@
 #import "WikiJSONObject.h"
 #import "WikiMacros.h"
 
+#import "__WikiJSONObject.h"
+
+// WikiJSONObject class
 @implementation WikiJSONObject
 
 @dynamic json;
@@ -36,8 +39,13 @@
     return self->_json;
     }
 
-#pragma mark Pure Virtual Initializations
-- ( instancetype ) initWithJSONDict: ( NSDictionary* )_JSONDict
+@end // WikiJSONObject class
+
+// WikiJSONObject + SugarWikiPrivate
+@implementation WikiJSONObject ( SugarWikiPrivate )
+
+#pragma mark Pure Virtual Initializations ( only used by friend classes )
+- ( instancetype ) __initWithJSONDict: ( NSDictionary* )_JSONDict
     {
     if ( !_JSONDict || ![ _JSONDict isKindOfClass: [ NSDictionary class ] ] )
         return nil;
@@ -48,7 +56,7 @@
     return self;
     }
 
-@end
+@end // WikiJSONObject + SugarWikiPrivate
 
 /*================================================================================┐
 |                              The MIT License (MIT)                              |

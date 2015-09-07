@@ -24,6 +24,7 @@
 
 @import Foundation;
 
+// WikiJSONObject class
 @interface WikiJSONObject : NSObject
     {
 @protected
@@ -32,10 +33,7 @@
 
 @property ( strong, readonly ) NSDictionary* json;
 
-#pragma mark Pure Virtual Initializations
-- ( instancetype ) initWithJSONDict: ( NSDictionary* )_JSONDict;
-
-@end
+@end // WikiJSONObject class
 
 /*================================================================================┐
 |                              The MIT License (MIT)                              |

@@ -49,7 +49,7 @@
 // WikiSessionTask + SugarWikiPrivate
 @implementation WikiSessionTask ( SugarWikiPrivate )
 
-#pragma mark Private Initializations (used by friend class)
+#pragma mark Private Initializations ( only used by friend classes )
 + ( instancetype ) __sessionTaskWithHTTPMethod: ( NSString* )_HTTPMethod
                                       endPoint: ( NSURL* )_EndPoint
                                     parameters: ( NSDictionary* )_ParamsDict

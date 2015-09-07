@@ -26,6 +26,8 @@
 
 #import "WikiJSONObject.h"
 
+#import "__WikiJSONObject.h"
+
 // WikiJSONObjectTests class
 @interface WikiJSONObjectTests : XCTestCase
 
@@ -47,14 +49,14 @@
 
 - ( void ) test_pureVirtual_initWithJSONDict_
     {
-    WikiJSONObject* positiveTestCase0 = [ [ WikiJSONObject alloc ] initWithJSONDict: @{} ];
+    WikiJSONObject* positiveTestCase0 = [ [ WikiJSONObject alloc ] __initWithJSONDict: @{} ];
     XCTAssertNotNil( positiveTestCase0 );
     XCTAssertNotNil( positiveTestCase0.json );
 
-    WikiJSONObject* negativeTestCase0 = [ [ WikiJSONObject alloc ] initWithJSONDict: nil ];
+    WikiJSONObject* negativeTestCase0 = [ [ WikiJSONObject alloc ] __initWithJSONDict: nil ];
     XCTAssertNil( negativeTestCase0 );
 
-    WikiJSONObject* negativeTestCase1 = [ [ WikiJSONObject alloc ] initWithJSONDict: ( NSDictionary* )@[ @"testItem0", @"testItem1" ] ];
+    WikiJSONObject* negativeTestCase1 = [ [ WikiJSONObject alloc ] __initWithJSONDict: ( NSDictionary* )@[ @"testItem0", @"testItem1" ] ];
     XCTAssertNil( negativeTestCase1 );
     }
 

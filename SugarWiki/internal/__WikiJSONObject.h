@@ -22,23 +22,15 @@
   ████████████████████████████████████████████████████████████████████████████████
   ██████████████████████████████████████████████████████████████████████████████*/
 
-#import "WikiSessionTask.h"
+#import "WikiJSONObject.h"
 
-// WikiSessionTask + SugarWikiPrivate
-@interface WikiSessionTask ( SugarWikiPrivate )
+// WikiJSONObject + SugarWikiPrivate
+@interface WikiJSONObject ( SugarWikiPrivate )
 
-#pragma mark Private Initializations ( only used by friend classes )
-+ ( instancetype ) __sessionTaskWithHTTPMethod: ( NSString* )_HTTPMethod
-                                      endPoint: ( NSURL* )_EndPoint
-                                    parameters: ( NSDictionary* )_ParamsDict
-                            URLSessionDataTask: ( NSURLSessionDataTask* )_SessionDataTask;
+#pragma mark Pure Virtual Initializations ( only used by friend classes )
+- ( instancetype ) __initWithJSONDict: ( NSDictionary* )_JSONDict;
 
-- ( instancetype ) __initWithHTTPMethod: ( NSString* )_HTTPMethod
-                               endPoint: ( NSURL* )_EndPoint
-                             parameters: ( NSDictionary* )_ParamsDict
-                     URLSessionDataTask: ( NSURLSessionDataTask* )_SessionDataTask;
-
-@end // WikiSessionTask + SugarWikiPrivate
+@end // WikiJSONObject + SugarWikiPrivate
 
 /*================================================================================┐
 |                              The MIT License (MIT)                              |

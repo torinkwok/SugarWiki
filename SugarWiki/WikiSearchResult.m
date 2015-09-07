@@ -25,6 +25,8 @@
 #import "WikiSearchResult.h"
 #import "NSDate+SugarWiki.h"
 
+#import "__WikiJSONObject.h"
+
 #import "_WikiJSON.h"
 
 // WikiSearchResult class
@@ -47,7 +49,7 @@
 
 - ( instancetype ) initWithJSONDict: ( NSDictionary* )_JSONDict
     {
-    if ( self = [ super initWithJSONDict: _JSONDict ] )
+    if ( self = [ super __initWithJSONDict: _JSONDict ] )
         {
         self->_wikiNamespace = ( WikiNamespace )_WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"namespace" );
 

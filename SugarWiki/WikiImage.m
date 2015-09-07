@@ -25,6 +25,8 @@
 #import "WikiImage.h"
 #import "NSDate+SugarWiki.h"
 
+#import "__WikiJSONObject.h"
+
 #import "_WikiJSON.h"
 
 @implementation WikiImage
@@ -60,7 +62,7 @@
 
 - ( instancetype ) initWithJSONDict: ( NSDictionary* )_JSONDict
     {
-    if ( self = [ super initWithJSONDict: _JSONDict ] )
+    if ( self = [ super __initWithJSONDict: _JSONDict ] )
         {
         self->_name = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"name" );
         self->_title = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"title" );

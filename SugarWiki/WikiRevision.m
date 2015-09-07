@@ -25,6 +25,8 @@
 #import "WikiRevision.h"
 #import "NSDate+SugarWiki.h"
 
+#import "__WikiJSONObject.h"
+
 #import "_WikiJSON.h"
 
 @implementation WikiRevision
@@ -53,7 +55,7 @@
 // Overrides WikiJSONObject
 - ( instancetype ) initWithJSONDict: ( NSDictionary* )_JSONDict
     {
-    if ( self = [ super initWithJSONDict: _JSONDict ] )
+    if ( self = [ super __initWithJSONDict: _JSONDict ] )
         {
         self->_ID = _WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"revid" );
         self->_parentID = _WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"parentid" );
