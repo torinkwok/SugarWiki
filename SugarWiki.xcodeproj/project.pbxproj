@@ -158,6 +158,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		831C514D1B9E05DE00790B38 /* extensions */ = {
+			isa = PBXGroup;
+			children = (
+				834E1CEA1B9DC205007A8E58 /* NSDate+SugarWiki.h */,
+				834E1CEB1B9DC205007A8E58 /* NSDate+SugarWiki.m */,
+			);
+			name = extensions;
+			sourceTree = "<group>";
+		};
+		831C514E1B9E05FA00790B38 /* extensions */ = {
+			isa = PBXGroup;
+			children = (
+				831C51351B9DF7CB00790B38 /* __WikiSessionTask.h */,
+				831C51391B9DF9C500790B38 /* __WikiJSONObject.h */,
+				831C51411B9DFFE100790B38 /* __WikiImage.h */,
+				831C513D1B9DFB6E00790B38 /* __WikiPage.h */,
+				831C51451B9E011300790B38 /* __WikiRevision.h */,
+				831C51491B9E01CF00790B38 /* __WikiSearchResult.h */,
+			);
+			name = extensions;
+			sourceTree = "<group>";
+		};
 		834E1CB91B9DC18C007A8E58 = {
 			isa = PBXGroup;
 			children = (
@@ -180,11 +202,10 @@
 		834E1CC51B9DC18C007A8E58 /* SugarWiki */ = {
 			isa = PBXGroup;
 			children = (
-				834E1D1C1B9DC673007A8E58 /* Vendors */,
-				834E1CE51B9DC1F6007A8E58 /* internal */,
 				834E1CFA1B9DC205007A8E58 /* WikiMacros.h */,
-				834E1CEA1B9DC205007A8E58 /* NSDate+SugarWiki.h */,
-				834E1CEB1B9DC205007A8E58 /* NSDate+SugarWiki.m */,
+				834E1D1C1B9DC673007A8E58 /* vendors */,
+				834E1CE51B9DC1F6007A8E58 /* internal */,
+				831C514D1B9E05DE00790B38 /* extensions */,
 				834E1CEC1B9DC205007A8E58 /* SugarWikiInfo.h */,
 				834E1CED1B9DC205007A8E58 /* SugarWikiInfo.m */,
 				834E1CEE1B9DC205007A8E58 /* WikiConstants.h */,
@@ -228,22 +249,17 @@
 			children = (
 				834E1CE61B9DC1F6007A8E58 /* __WikiJSON.h */,
 				834E1CE71B9DC1F6007A8E58 /* __WikiJSON.m */,
-				831C51351B9DF7CB00790B38 /* __WikiSessionTask.h */,
-				831C51391B9DF9C500790B38 /* __WikiJSONObject.h */,
-				831C51411B9DFFE100790B38 /* __WikiImage.h */,
-				831C513D1B9DFB6E00790B38 /* __WikiPage.h */,
-				831C51451B9E011300790B38 /* __WikiRevision.h */,
-				831C51491B9E01CF00790B38 /* __WikiSearchResult.h */,
+				831C514E1B9E05FA00790B38 /* extensions */,
 			);
 			path = internal;
 			sourceTree = "<group>";
 		};
-		834E1D1C1B9DC673007A8E58 /* Vendors */ = {
+		834E1D1C1B9DC673007A8E58 /* vendors */ = {
 			isa = PBXGroup;
 			children = (
 				834E1D211B9DC683007A8E58 /* AFNetworking */,
 			);
-			name = Vendors;
+			name = vendors;
 			sourceTree = "<group>";
 		};
 		834E1D211B9DC683007A8E58 /* AFNetworking */ = {
