@@ -259,6 +259,8 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     printf( "==============================================================\n" );
 
     XCTAssertNotNil( _WikiSessionTask );
+    XCTAssertTrue( [ _WikiSessionTask isKindOfClass: [ WikiSessionTask class ] ] );
+
     XCTAssertNotNil( _WikiSessionTask.HTTPMethod );
     XCTAssertNotNil( _WikiSessionTask.endPoint );
     XCTAssertNotNil( _WikiSessionTask.parameters );
@@ -272,6 +274,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
     XCTAssertNotNil( _SearchResult );
     XCTAssertNotNil( _SearchResult.json );
+    XCTAssertTrue( [ _SearchResult isKindOfClass: [ WikiSearchResult class ] ] );
 
     XCTAssertGreaterThanOrEqual( _SearchResult.wikiNamespace, 0 );
 
@@ -290,8 +293,10 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     NSLog( @"%@", _Page );
     printf( "==============================================================\n" );
 
+
     XCTAssertNotNil( _Page );
     XCTAssertNotNil( _Page.json );
+    XCTAssertTrue( [ _Page isKindOfClass: [ WikiPage class ] ] );
 
     XCTAssertGreaterThanOrEqual( _Page.ID, 0 );
     XCTAssertGreaterThanOrEqual( _Page.wikiNamespace, 0 );
@@ -336,6 +341,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     {
     XCTAssertNotNil( _Image );
     XCTAssertNotNil( _Image.json );
+    XCTAssertTrue( [ _Image isKindOfClass: [ WikiImage class ] ] );
 
     XCTAssertNotNil( _Image.name );
     XCTAssertNotNil( _Image.title );

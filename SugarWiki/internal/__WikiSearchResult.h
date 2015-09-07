@@ -22,39 +22,15 @@
   ████████████████████████████████████████████████████████████████████████████████
   ██████████████████████████████████████████████████████████████████████████████*/
 
-#import "WikiJSONObject.h"
-#import "WikiConstants.h"
+#import "WikiSearchResult.h"
 
-@import WebKit;
+// WikiSearchResult + SugarWikiPrivate
+@interface WikiSearchResult ( SugarWikiPrivate )
 
-// WikiSearchResult class
-@interface WikiSearchResult : WikiJSONObject
-    {
-@protected
-    WikiNamespace _wikiNamespace;
+#pragma mark Private Initializations ( only used by friend classes )
++ ( instancetype ) __searchResultWithJSONDict: ( NSDictionary* )_JSONDict;
 
-    NSString __strong* _title;
-    NSString __strong* _resultSnippet;
-    NSString __strong* _resultTitleSnippet;
-
-    SInt64 _size;
-    SInt64 _wordCount;
-
-    NSDate __strong* _timestamp;
-    }
-
-@property ( assign, readonly ) WikiNamespace wikiNamespace;
-
-@property ( strong, readonly ) NSString* title;
-@property ( strong, readonly ) NSString* resultSnippet;
-@property ( strong, readonly ) NSString* resultTitleSnippet;
-
-@property ( assign, readonly ) SInt64 size;
-@property ( assign, readonly ) SInt64 wordCount;
-
-@property ( strong, readonly ) NSDate* timestamp;
-
-@end // WikiSearchResult class
+@end // WikiSearchResult + SugarWikiPrivate
 
 /*================================================================================┐
 |                              The MIT License (MIT)                              |

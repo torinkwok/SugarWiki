@@ -32,6 +32,7 @@
 
 #import "__WikiSessionTask.h"
 #import "__WikiImage.h"
+#import "__WikiSearchResult.h"
 
 #import "__WikiJSON.h"
 
@@ -259,7 +260,11 @@ NSString* const kParamValListAllImages = @"allimages";
             if ( _SuccessBlock )
                 {
                 NSDictionary* searchResultJSON = _ResultsJSONDict[ @"query" ];
-                NSArray* searchResults = _WikiArrayValueWhichHasBeenParsedOutOfJSON( searchResultJSON, @"search", [ WikiSearchResult class ], @selector( searchResultWithJSONDict: ) );
+                NSArray* searchResults = _WikiArrayValueWhichHasBeenParsedOutOfJSON( searchResultJSON
+                                                                                   , @"search"
+                                                                                   , [ WikiSearchResult class ]
+                                                                                   , @selector( __searchResultWithJSONDict: )
+                                                                                   );
                 _SuccessBlock( searchResults );
                 }
             } failure:
