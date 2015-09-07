@@ -28,6 +28,7 @@
 @interface WikiSessionTask ()
 
 @property ( strong, readwrite ) NSString* HTTPMethod;
+@property ( strong, readwrite ) NSURL* endPoint;
 @property ( strong, readwrite ) NSDictionary* parameters;
 @property ( strong, readwrite ) NSURLSessionDataTask* sessionDataTask;
 
@@ -37,26 +38,31 @@
 @implementation WikiSessionTask
 
 @synthesize HTTPMethod;
+@synthesize endPoint;
 @synthesize parameters;
 @synthesize sessionDataTask;
 
 #pragma mark Initializations
 + ( instancetype ) sessionTaskWithHTTPMethod: ( NSString* )_HTTPMethod
+                                    endPoint: ( NSURL* )_EndPoint
                                   parameters: ( NSDictionary* )_ParamsDict
                           URLSessionDataTask: ( NSURLSessionDataTask* )_SessionDataTask
     {
     return [ [ self alloc ] initWithHTTPMethod: _HTTPMethod
+                                      endPoint: _EndPoint
                                     parameters: _ParamsDict
                             URLSessionDataTask: _SessionDataTask ];
     }
 
 - ( instancetype ) initWithHTTPMethod: ( NSString* )_HTTPMethod
+                             endPoint: ( NSURL* )_EndPoint
                            parameters: ( NSDictionary* )_ParamsDict
                    URLSessionDataTask: ( NSURLSessionDataTask* )_SessionDataTask
     {
     if ( self = [ super init ] )
         {
         self.HTTPMethod = _HTTPMethod;
+        self.endPoint = _EndPoint;
         self.parameters = _ParamsDict;
         self.sessionDataTask = _SessionDataTask;
         }

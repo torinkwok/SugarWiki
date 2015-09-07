@@ -29,15 +29,18 @@
 
 #pragma mark Attributes
 @property ( strong, readonly ) NSString* HTTPMethod;
+@property ( strong, readonly ) NSURL* endPoint;
 @property ( strong, readonly ) NSDictionary* parameters;
 @property ( strong, readonly ) NSURLSessionDataTask* sessionDataTask;
 
 #pragma mark Initializations
 + ( instancetype ) sessionTaskWithHTTPMethod: ( NSString* )_HTTPMethod
+                                    endPoint: ( NSURL* )_EndPoint
                                   parameters: ( NSDictionary* )_ParamsDict
                           URLSessionDataTask: ( NSURLSessionDataTask* )_SessionDataTask;
 
 - ( instancetype ) initWithHTTPMethod: ( NSString* )_HTTPMethod
+                             endPoint: ( NSURL* )_EndPoint
                            parameters: ( NSDictionary* )_ParamsDict
                    URLSessionDataTask: ( NSURLSessionDataTask* )_SessionDataTask;
 

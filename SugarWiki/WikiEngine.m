@@ -135,13 +135,10 @@ NSString* const kDELETE = @"DELETE";
         ^( NSURLSessionDataTask* __nonnull _Task, id  __nonnull _ResponseObject )
             {
             if ( _SuccessBlock )
-                {
-                if ( _SuccessBlock )
-                    _SuccessBlock( _Task, _ResponseObject );
+                _SuccessBlock( _Task, _ResponseObject );
 
-                // Done! Kill task by removing it from the temporary session tasks pool😈
-                [ self->_tmpSessionTasksPool removeObject: _Task ];
-                }
+            // Done! Kill task by removing it from the temporary session tasks pool😈
+            [ self->_tmpSessionTasksPool removeObject: _Task ];
             };
 
     void ( ^__failureBlock )( NSURLSessionDataTask* __nonnull, NSError* __nonnull ) =
@@ -170,6 +167,7 @@ NSString* const kDELETE = @"DELETE";
         }
 
     return [ WikiSessionTask sessionTaskWithHTTPMethod: _HTTPMethod
+                                              endPoint: self->_endpoint
                                             parameters: _Params
                                     URLSessionDataTask: dataTask ];
     }

@@ -260,6 +260,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
     XCTAssertNotNil( _WikiSessionTask );
     XCTAssertNotNil( _WikiSessionTask.HTTPMethod );
+    XCTAssertNotNil( _WikiSessionTask.endPoint );
     XCTAssertNotNil( _WikiSessionTask.parameters );
     XCTAssertNotNil( _WikiSessionTask.sessionDataTask );
     }
