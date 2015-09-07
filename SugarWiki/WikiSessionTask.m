@@ -24,6 +24,8 @@
 
 #import "WikiSessionTask.h"
 
+#import "__WikiSessionTask.h"
+
 // Private Interfaces
 @interface WikiSessionTask ()
 
@@ -42,22 +44,27 @@
 @synthesize parameters;
 @synthesize sessionDataTask;
 
-#pragma mark Initializations
-+ ( instancetype ) sessionTaskWithHTTPMethod: ( NSString* )_HTTPMethod
-                                    endPoint: ( NSURL* )_EndPoint
-                                  parameters: ( NSDictionary* )_ParamsDict
-                          URLSessionDataTask: ( NSURLSessionDataTask* )_SessionDataTask
+@end // WikiSessionTask class
+
+// WikiSessionTask + SugarWikiPrivate
+@implementation WikiSessionTask ( SugarWikiPrivate )
+
+#pragma mark Private Initializations (used by friend class)
++ ( instancetype ) __sessionTaskWithHTTPMethod: ( NSString* )_HTTPMethod
+                                      endPoint: ( NSURL* )_EndPoint
+                                    parameters: ( NSDictionary* )_ParamsDict
+                            URLSessionDataTask: ( NSURLSessionDataTask* )_SessionDataTask
     {
-    return [ [ self alloc ] initWithHTTPMethod: _HTTPMethod
-                                      endPoint: _EndPoint
-                                    parameters: _ParamsDict
-                            URLSessionDataTask: _SessionDataTask ];
+    return [ [ self alloc ] __initWithHTTPMethod: _HTTPMethod
+                                        endPoint: _EndPoint
+                                      parameters: _ParamsDict
+                              URLSessionDataTask: _SessionDataTask ];
     }
 
-- ( instancetype ) initWithHTTPMethod: ( NSString* )_HTTPMethod
-                             endPoint: ( NSURL* )_EndPoint
-                           parameters: ( NSDictionary* )_ParamsDict
-                   URLSessionDataTask: ( NSURLSessionDataTask* )_SessionDataTask
+- ( instancetype ) __initWithHTTPMethod: ( NSString* )_HTTPMethod
+                               endPoint: ( NSURL* )_EndPoint
+                             parameters: ( NSDictionary* )_ParamsDict
+                     URLSessionDataTask: ( NSURLSessionDataTask* )_SessionDataTask
     {
     if ( self = [ super init ] )
         {
@@ -70,7 +77,7 @@
     return self;
     }
 
-@end // WikiSessionTask class
+@end // WikiSessionTask + SugarWikiPrivate
 
 /*================================================================================┐
 |                              The MIT License (MIT)                              |

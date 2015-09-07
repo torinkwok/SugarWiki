@@ -30,6 +30,8 @@
 #import "WikiImage.h"
 #import "WikiSearchResult.h"
 
+#import "__WikiSessionTask.h"
+
 #import "_WikiJSON.h"
 
 NSString* const kGET = @"GET";
@@ -163,10 +165,10 @@ NSString* const kParamValListAllImages = @"allimages";
         [ dataTask resume ];
         }
 
-    return [ WikiSessionTask sessionTaskWithHTTPMethod: _HTTPMethod
-                                              endPoint: self->_endpoint
-                                            parameters: _Params
-                                    URLSessionDataTask: dataTask ];
+    return [ WikiSessionTask __sessionTaskWithHTTPMethod: _HTTPMethod
+                                                endPoint: self->_endpoint
+                                              parameters: _Params
+                                      URLSessionDataTask: dataTask ];
     }
 
 // Convenience
@@ -292,6 +294,7 @@ NSString* const kParamValListAllImages = @"allimages";
                 stopAllOtherTasks: ( BOOL )_WillStop
     {
     NSString* normalizedImageName = [ _ImageName stringByReplacingOccurrencesOfString: @" " withString: @"_" ];
+
     NSDictionary* parameters = @{ @"aifrom" : normalizedImageName
                                 , @"aisort" : @"name"
                                 , @"aiprop" : @"timestamp|url|metadata|commonmetadata|extmetadata|dimensions|userid|user|parsedcomment|canonicaltitle|sha1|bitdepth|comment|parsedcomment"
