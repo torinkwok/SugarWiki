@@ -96,7 +96,7 @@ typedef NS_ENUM( NSUInteger, WikiEngineSearchApproach )
 
 - ( WikiQueryTask* ) queryProperties: ( __NSArray_of( NSString* ) )_PropValues
                      otherParameters: ( __NSDictionary_of( NSString*, NSString* ) )_ParamsDict
-                             success: ( void (^)( NSDictionary* _ResultsJSONDict ) )_SuccessBlock
+                             success: ( void (^)( __NSDictionary_of( NSString*, __NSArray_of( WikiJSONObject* ) ) _Results ) )_SuccessBlock
                              failure: ( void (^)( NSError* _Error ) )_FailureBlock
                    stopAllOtherTasks: ( BOOL )_WillStop;
 
@@ -116,12 +116,12 @@ typedef NS_ENUM( NSUInteger, WikiEngineSearchApproach )
 /** @name Pages */
 
 - ( WikiQueryTask* ) pagesWithTitles: ( __NSArray_of( NSString* ) )_Titles
-                             success: ( void (^)( WikiPage* _MatchedPage ) )_SuccessBlock
+                             success: ( void (^)( __NSArray_of( WikiPage* ) _MatchedPage ) )_SuccessBlock
                              failure: ( void (^)( NSError* _Error ) )_FailureBlock
                    stopAllOtherTasks: ( BOOL )_WillStop;
 
 - ( WikiQueryTask* ) pagesWithPageIDs: ( __NSArray_of( NSNumber* ) )_PageIDs
-                              success: ( void (^)( WikiPage* _MatchedPage ) )_SuccessBlock
+                              success: ( void (^)( __NSArray_of( WikiPage* ) _MatchedPage ) )_SuccessBlock
                               failure: ( void (^)( NSError* _Error ) )_FailureBlock
                     stopAllOtherTasks: ( BOOL )_WillStop;
 

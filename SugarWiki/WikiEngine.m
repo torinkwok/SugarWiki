@@ -59,6 +59,7 @@ NSString* const kParamValActionQuery = @"query";
 NSString* const kParamValFormatJSON = @"json";
 NSString* const kParamValFormatHTML = @"jsonfm";
 
+NSString* const kParamValListPages = @"pages";
 NSString* const kParamValListSearch = @"search";
 NSString* const kParamValListAllImages = @"allimages";
 
@@ -208,8 +209,6 @@ NSString* const kParamValListAllImages = @"allimages";
                                       success:
         ^( WikiQueryTask* __nonnull _QueryTask, id  __nonnull _ResponseObject )
             {
-            if ( !_SuccessBlock ) return;
-
             NSDictionary* resultsJSONDict = ( NSDictionary* )_ResponseObject;
             NSDictionary* queryResultsJSONDict = resultsJSONDict[ @"query" ];
 
@@ -234,7 +233,8 @@ NSString* const kParamValListAllImages = @"allimages";
                     }
                 }
 
-            _SuccessBlock( results );
+            if ( _SuccessBlock )
+                _SuccessBlock( results );
             } failure:
                 ^( NSURLSessionDataTask* __nonnull _Task, NSError* __nonnull _Error )
                     {
@@ -246,7 +246,7 @@ NSString* const kParamValListAllImages = @"allimages";
 
 - ( WikiQueryTask* ) queryProperties: ( __NSArray_of( NSString* ) )_PropValues
                      otherParameters: ( __NSDictionary_of( NSString*, NSString* ) )_ParamsDict
-                             success: ( void (^)( NSDictionary* _ResultsJSONDict ) )_SuccessBlock
+                             success: ( void (^)( __NSDictionary_of( NSString*, __NSArray_of( WikiJSONObject* ) ) _Results ) )_SuccessBlock
                              failure: ( void (^)( NSError* _Error ) )_FailureBlock
                    stopAllOtherTasks: ( BOOL )_WillStop
     {
@@ -265,12 +265,32 @@ NSString* const kParamValListAllImages = @"allimages";
                                       success:
         ^( WikiQueryTask* __nonnull _QueryTask, id  __nonnull _ResponseObject )
             {
-            // If the image exists
             NSDictionary* resultsJSONDict = ( NSDictionary* )_ResponseObject;
+            NSDictionary* queryResultsJSONDict = resultsJSONDict[ @"query" ];
 
-            if ( resultsJSONDict )
-                if ( _SuccessBlock )
-                    _SuccessBlock( resultsJSONDict );
+            NSMutableDictionary* results = [ NSMutableDictionary dictionary ];
+            for ( NSString* _Key in _QueryTask.listNames )
+                {
+                NSArray* jsons = queryResultsJSONDict[ _Key ];
+
+                if ( jsons )
+                    {
+                    Class elementClass = NULL;
+                    SEL initSEL = NULL;
+
+                    [ self __wikiClassAndSELDerivedFromQueryValue: _Key :&elementClass :&initSEL ];
+                    NSArray* wikiJSONObjects = _WikiArrayValueWhichHasBeenParsedOutOfJSON( queryResultsJSONDict
+                                                                                         , _Key
+                                                                                         , elementClass
+                                                                                         , initSEL
+                                                                                         );
+                    if ( wikiJSONObjects )
+                        [ results addEntriesFromDictionary: @{ _Key : wikiJSONObjects } ];
+                    }
+                }
+
+            if ( _SuccessBlock )
+                _SuccessBlock( results );
             } failure:
                 ^( NSURLSessionDataTask* __nonnull _Task, NSError* __nonnull _Error )
                     {
@@ -319,7 +339,7 @@ NSString* const kParamValListAllImages = @"allimages";
 
 #pragma mark Pages
 - ( WikiQueryTask* ) pagesWithTitles: ( __NSArray_of( NSString* ) )_Titles
-                             success: ( void (^)( WikiPage* _MatchedPage ) )_SuccessBlock
+                             success: ( void (^)( __NSArray_of( WikiPage* ) _MatchedPage ) )_SuccessBlock
                              failure: ( void (^)( NSError* _Error ) )_FailureBlock
                    stopAllOtherTasks: ( BOOL )_WillStop
     {
@@ -337,16 +357,10 @@ NSString* const kParamValListAllImages = @"allimages";
     return [ self queryProperties: @[ @"info", @"revisions", @"pageprops" ]
                   otherParameters: parameters
                           success:
-        ^( NSDictionary* _ResultsJSONDict )
+        ^( __NSDictionary_of( NSString*, __NSArray_of( WikiJSONObject* ) ) _Results )
             {
             if ( _SuccessBlock )
-                {
-                NSDictionary* matchedPageJSONDict = [ _ResultsJSONDict[ @"query" ] firstObject ];
-                WikiPage* matchedPage = [ WikiPage __pageWithJSONDict: matchedPageJSONDict ];
-
-                if ( matchedPage )
-                    _SuccessBlock( matchedPage );
-                }
+                _SuccessBlock( _Results[ kParamValListPages ] );
             } failure:
                 ^( NSError* _Error )
                     {
@@ -357,7 +371,7 @@ NSString* const kParamValListAllImages = @"allimages";
     }
 
 - ( WikiQueryTask* ) pagesWithPageIDs: ( __NSArray_of( NSNumber* ) )_PageIDs
-                              success: ( void (^)( WikiPage* _MatchedPage ) )_SuccessBlock
+                              success: ( void (^)( __NSArray_of( WikiPage* ) _MatchedPage ) )_SuccessBlock
                               failure: ( void (^)( NSError* _Error ) )_FailureBlock
                     stopAllOtherTasks: ( BOOL )_WillStop
     {
@@ -375,16 +389,10 @@ NSString* const kParamValListAllImages = @"allimages";
     return [ self queryProperties: @[ @"info", @"revisions", @"pageprops" ]
                   otherParameters: parameters
                           success:
-        ^( NSDictionary* _ResultsJSONDict )
+        ^( __NSDictionary_of( NSString*, __NSArray_of( WikiJSONObject* ) ) _Results )
             {
             if ( _SuccessBlock )
-                {
-                NSDictionary* matchedPageJSONDict = [ _ResultsJSONDict[ @"query" ] firstObject ];
-                WikiPage* matchedPage = [ WikiPage __pageWithJSONDict: matchedPageJSONDict ];
-
-                if ( matchedPage )
-                    _SuccessBlock( matchedPage );
-                }
+                _SuccessBlock( _Results[ kParamValListPages ] );
             } failure:
                 ^( NSError* _Error )
                     {
