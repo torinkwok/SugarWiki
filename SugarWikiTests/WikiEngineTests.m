@@ -28,6 +28,7 @@
 #import "WikiSearchResult.h"
 #import "WikiRevision.h"
 #import "WikiQueryTask.h"
+#import "SugarWikiDefines.h"
 #import "AFNetworking.h"
 
 @import XCTest;
@@ -43,6 +44,9 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     // Samples 0
     NSArray __strong* _languageCodesSamples0;
     NSDictionary __strong* _parametersSamples0;
+
+    __NSArray_of( __NSArray_of( NSString* ) ) _posTitlesSamples;
+    __NSArray_of( __NSArray_of( NSNumber* ) ) _posPageIDSamples;
     }
 
 @end
@@ -72,6 +76,20 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                                  , @"format" : @"json"
                                  , @"sipro" : @"general|languages|namespaces"
                                  };
+
+    self->_posTitlesSamples = @[ @[ @"C++", @"Ruby", @"C", @"Madonna in the Church", @"Ada (programming language)", @"Type system" ]
+                               , @[ @"Subroutine", @"Computer programming", @"Machine code", @"Barack Obama", @"Python (programming language)" ]
+                               , @[ @"Compiler", @"Central processing unit" ]
+                               , @[ @"Integrated circuit", @"Microprocessor", @"Semiconductor", @"Insulator (electricity)" ]
+                               , @[ @"Otto Pérez Molina", @"President of Guatemala", @"Taiwan", @"Kuomintang" ]
+                               ];
+
+    self->_posPageIDSamples = @[ @[ @7515928, @43093687, @12816866, @10523677, @43472938, @888445 ]
+                               , @[ @5405, @28883152, @33099762, @33984313, @28175590 ]
+                               , @[ @19001, @6902276, @6147074, @29287604, @46349164 ]
+                               , @[ @14227967, @19961416, @7813116, @1955 ]
+                               , @[ @856, @8260899, @31290263, @615972 ]
+                               ];
     }
 
 - ( void ) tearDown
@@ -222,56 +240,86 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
             } ];
     }
 
-- ( void ) testpages_with_titles_
+- ( void ) test_pos_pages_with_titles_
     {
-    XCTestExpectation* jsonExpectation0 = [ self expectationWithDescription: @"🔍JSON Exception 0⃣️" ];
-    XCTestExpectation* jsonExpectation1 = [ self expectationWithDescription: @"🔍JSON Exception 1⃣️" ];
+    int count = 0;
+    for ( __NSArray_of( NSString* ) _PosSample in self->_posTitlesSamples )
+        {
+        XCTestExpectation* jsonExpectation = [ self expectationWithDescription: [ NSString stringWithFormat: @"🔥JSON Exception %d", count ] ];
+        WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: @"en" ];
 
-    WikiQueryTask* WikiQueryTask = nil;
+        WikiQueryTask* WikiQueryTask =
+            [ positiveTestCase pagesWithTitles: _PosSample
+                                       success:
+            ^( NSArray* _MatchedPages )
+                {
+                XCTAssertNotNil( _MatchedPages );
+                XCTAssertEqual( _MatchedPages.count, _PosSample.count );
+                NSLog( @">>> (Log🐑) Matched Pages Count vs. Positive Sample Count: %lu vs. %lu", _MatchedPages.count, _PosSample.count );
 
-    WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: @"en" ];
-    WikiQueryTask =
-        [ positiveTestCase pagesWithTitles: @[ @"C++", @"Ruby", @"C" ]
-                                   success:
-        ^( NSArray* _MatchedPages )
-            {
-            XCTAssertNotNil( _MatchedPages );
-            for ( WikiPage* _WikiPage in _MatchedPages )
-                [ self _testWikiPage: _WikiPage ];
+                for ( WikiPage* _WikiPage in _MatchedPages )
+                    [ self _testWikiPage: _WikiPage ];
 
-            WikiFulfillExpectation( jsonExpectation0 );
-            } failure:
-                ^( NSError* _Error )
-                    {
+                WikiFulfillExpectation( jsonExpectation );
+                } failure:
+                    ^( NSError* _Error )
+                        {
 
-                    }    stopAllOtherTasks: NO ];
+                        }    stopAllOtherTasks: NO ];
 
-    [ self _testReturnedWikiQueryTask: WikiQueryTask ];
+        [ self _testReturnedWikiQueryTask: WikiQueryTask ];
 
-    WikiQueryTask =
-        [ positiveTestCase pagesWithTitles: @[ @"Ruby on Rails", @"Barack Obama" ]
-                                   success:
-        ^( NSArray* _MatchedPages )
-            {
-            XCTAssertNotNil( _MatchedPages );
-            for ( WikiPage* _WikiPage in _MatchedPages )
-                [ self _testWikiPage: _WikiPage ];
+        [ self waitForExpectationsWithTimeout: 15
+                                      handler:
+            ^( NSError* __nullable _Error )
+                {
+                if ( _Error )
+                    NSLog( @"%@", _Error );
+                } ];
 
-            WikiFulfillExpectation( jsonExpectation1 );
-            } failure:
-                ^( NSError* _Error )
-                    {
+        count++;
+        }
+    }
 
-                    }    stopAllOtherTasks: NO ];
+- ( void ) test_pos_pages_with_pageIDs_
+    {
+    int count = 0;
+    for ( __NSArray_of( NSNumber* ) _PosSample in self->_posPageIDSamples )
+        {
+        XCTestExpectation* jsonExpectation = [ self expectationWithDescription: [ NSString stringWithFormat: @"🔥JSON Exception %d", count ] ];
+        WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: @"en" ];
 
-    [ self _testReturnedWikiQueryTask: WikiQueryTask ];
+        WikiQueryTask* WikiQueryTask =
+            [ positiveTestCase pagesWithPageIDs: _PosSample
+                                        success:
+            ^( NSArray* _MatchedPages )
+                {
+                XCTAssertNotNil( _MatchedPages );
+                XCTAssertEqual( _MatchedPages.count, _PosSample.count );
+                NSLog( @">>> (Log🐑) Matched Pages Count vs. Positive Sample Count: %lu vs. %lu", _MatchedPages.count, _PosSample.count );
 
-    [ self waitForExpectationsWithTimeout: 150
-                                  handler:
-        ^( NSError* __nullable _Error )
-            {
-            NSLog( @"%@", _Error );
-            } ];
+                for ( WikiPage* _WikiPage in _MatchedPages )
+                    [ self _testWikiPage: _WikiPage ];
+
+                WikiFulfillExpectation( jsonExpectation );
+                } failure:
+                    ^( NSError* _Error )
+                        {
+
+                        }    stopAllOtherTasks: NO ];
+
+        [ self _testReturnedWikiQueryTask: WikiQueryTask ];
+
+        [ self waitForExpectationsWithTimeout: 15
+                                      handler:
+            ^( NSError* __nullable _Error )
+                {
+                if ( _Error )
+                    NSLog( @"%@", _Error );
+                } ];
+
+        count++;
+        }
     }
 
 - ( void ) testFetchImage_success_failure_

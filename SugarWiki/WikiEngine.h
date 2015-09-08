@@ -96,7 +96,7 @@ typedef NS_ENUM( NSUInteger, WikiEngineSearchApproach )
 
 - ( WikiQueryTask* ) queryProperties: ( __NSArray_of( NSString* ) )_PropValues
                      otherParameters: ( __NSDictionary_of( NSString*, NSString* ) )_ParamsDict
-                             success: ( void (^)( __NSDictionary_of( NSString*, __NSArray_of( WikiJSONObject* ) ) _Results ) )_SuccessBlock
+                             success: ( void (^)( __NSArray_of( WikiPage* ) _Results ) )_SuccessBlock
                              failure: ( void (^)( NSError* _Error ) )_FailureBlock
                    stopAllOtherTasks: ( BOOL )_WillStop;
 

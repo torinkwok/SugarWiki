@@ -246,7 +246,7 @@ NSString* const kParamValListAllImages = @"allimages";
 
 - ( WikiQueryTask* ) queryProperties: ( __NSArray_of( NSString* ) )_PropValues
                      otherParameters: ( __NSDictionary_of( NSString*, NSString* ) )_ParamsDict
-                             success: ( void (^)( __NSDictionary_of( NSString*, __NSArray_of( WikiJSONObject* ) ) _Results ) )_SuccessBlock
+                             success: ( void (^)( __NSArray_of( WikiPage* ) _Results ) )_SuccessBlock
                              failure: ( void (^)( NSError* _Error ) )_FailureBlock
                    stopAllOtherTasks: ( BOOL )_WillStop
     {
@@ -270,24 +270,16 @@ NSString* const kParamValListAllImages = @"allimages";
             NSString* queryValue = @"pages";
             NSDictionary* queryResultsJSONDict = resultsJSONDict[ kParamValActionQuery ][ queryValue ];
 
-            NSMutableDictionary* results = [ NSMutableDictionary dictionary ];
+            NSMutableArray* results = [ NSMutableArray array ];
             for ( NSString* _Key in queryResultsJSONDict )
                 {
-                NSArray* jsons = queryResultsJSONDict[ _Key ];
+                NSDictionary* jsons = queryResultsJSONDict[ _Key ];
 
                 if ( jsons )
                     {
-                    Class elementClass = NULL;
-                    SEL initSEL = NULL;
-
-                    [ self __wikiClassAndSELDerivedFromQueryValue: queryValue :&elementClass :&initSEL ];
-                    NSArray* wikiJSONObjects = _WikiArrayValueWhichHasBeenParsedOutOfJSON( queryResultsJSONDict
-                                                                                         , _Key
-                                                                                         , elementClass
-                                                                                         , initSEL
-                                                                                         );
-                    if ( wikiJSONObjects )
-                        [ results addEntriesFromDictionary: @{ queryValue : wikiJSONObjects } ];
+                    WikiPage* wikiPage = [ WikiPage __pageWithJSONDict: jsons ];
+                    if ( wikiPage )
+                        [ results addObject: wikiPage ];
                     }
                 }
 
@@ -359,10 +351,10 @@ NSString* const kParamValListAllImages = @"allimages";
     return [ self queryProperties: @[ @"info", @"revisions", @"pageprops" ]
                   otherParameters: parameters
                           success:
-        ^( __NSDictionary_of( NSString*, __NSArray_of( WikiJSONObject* ) ) _Results )
+        ^( __NSArray_of( WikiPage* ) _Results )
             {
             if ( _SuccessBlock )
-                _SuccessBlock( _Results[ kParamValListPages ] );
+                _SuccessBlock( _Results );
             } failure:
                 ^( NSError* _Error )
                     {
@@ -391,10 +383,10 @@ NSString* const kParamValListAllImages = @"allimages";
     return [ self queryProperties: @[ @"info", @"revisions", @"pageprops" ]
                   otherParameters: parameters
                           success:
-        ^( __NSDictionary_of( NSString*, __NSArray_of( WikiJSONObject* ) ) _Results )
+        ^( __NSArray_of( WikiPage* ) _Results )
             {
             if ( _SuccessBlock )
-                _SuccessBlock( _Results[ kParamValListPages ] );
+                _SuccessBlock( _Results );
             } failure:
                 ^( NSError* _Error )
                     {

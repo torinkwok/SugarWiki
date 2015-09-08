@@ -97,7 +97,7 @@ NSArray* _WikiArrayValueWhichHasBeenParsedOutOfJSON( NSDictionary* _JSONObject
         {
         wrappedObjects = [ NSMutableArray array ];
 
-        for ( NSDictionary* objectElem in objects )
+        for ( NSDictionary* objectElem in tmpContainer )
             @try {
             id cocoaObject = objc_msgSend( _KindOfElements, _InitMethodsOfElements, objectElem );
 
