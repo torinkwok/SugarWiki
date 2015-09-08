@@ -29,6 +29,7 @@
 
 @class WikiHTTPSessionManager;
 @class WikiSessionTask;
+@class WikiListsQueryTask;
 
 @class WikiJSONObject;
 @class WikiPage;
@@ -86,12 +87,12 @@ typedef NS_ENUM( NSUInteger, WikiEngineSearchApproach )
     
     Unless indicated otherwise, modules listed on this page can be used as generators.
   */
-- ( WikiSessionTask* ) queryLists: ( __NSArray_of( NSString* ) )_Lists
-                            limit: ( NSUInteger )_Limit
-                  otherParameters: ( __NSDictionary_of( NSString*, NSString* ) )_ParamsDict
-                          success: ( void (^)( __NSDictionary_of( NSString*, WikiJSONObject* ) _Results ) )_SuccessBlock
-                          failure: ( void (^)( NSError* _Error ) )_FailureBlock
-                stopAllOtherTasks: ( BOOL )_WillStop;
+- ( WikiListsQueryTask* ) queryLists: ( __NSArray_of( NSString* ) )_Lists
+                               limit: ( NSUInteger )_Limit
+                     otherParameters: ( __NSDictionary_of( NSString*, NSString* ) )_ParamsDict
+                             success: ( void (^)( __NSDictionary_of( NSString*, WikiJSONObject* ) _Results ) )_SuccessBlock
+                             failure: ( void (^)( NSError* _Error ) )_FailureBlock
+                   stopAllOtherTasks: ( BOOL )_WillStop;
 
 - ( WikiSessionTask* ) queryProperties: ( __NSArray_of( NSString* ) )_PropValues
                        otherParameters: ( __NSDictionary_of( NSString*, NSString* ) )_ParamsDict

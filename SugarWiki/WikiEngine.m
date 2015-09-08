@@ -25,7 +25,10 @@
 #import "WikiEngine.h"
 #import "AFNetworking.h"
 #import "WikiHTTPSessionManager.h"
+
 #import "WikiSessionTask.h"
+#import "WikiListsQueryTask.h"
+
 #import "WikiPage.h"
 #import "WikiImage.h"
 #import "WikiSearchResult.h"
@@ -178,12 +181,12 @@ NSString* const kParamValListAllImages = @"allimages";
     }
 
 #pragma mark Generic Methods to Query
-- ( WikiSessionTask* ) queryLists: ( __NSArray_of( NSString* ) )_Lists
-                            limit: ( NSUInteger )_Limit
-                  otherParameters: ( __NSDictionary_of( NSString*, NSString* ) )_ParamsDict
-                          success: ( void (^)( __NSDictionary_of( NSString*, WikiJSONObject* ) _Results ) )_SuccessBlock
-                          failure: ( void (^)( NSError* _Error ) )_FailureBlock
-                stopAllOtherTasks: ( BOOL )_WillStop
+- ( WikiListsQueryTask* ) queryLists: ( __NSArray_of( NSString* ) )_Lists
+                               limit: ( NSUInteger )_Limit
+                     otherParameters: ( __NSDictionary_of( NSString*, NSString* ) )_ParamsDict
+                             success: ( void (^)( __NSDictionary_of( NSString*, WikiJSONObject* ) _Results ) )_SuccessBlock
+                             failure: ( void (^)( NSError* _Error ) )_FailureBlock
+                   stopAllOtherTasks: ( BOOL )_WillStop
     {
     NSParameterAssert( ( _Lists ) && ( _ParamsDict.count > 0 ) );
 
