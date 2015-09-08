@@ -279,7 +279,7 @@ NSString* const kParamValListAllImages = @"allimages";
                     }       stopAllOtherTasks: _WillStop ];
     }
 
-#pragma mark Search API
+#pragma mark Searching
 - ( WikiQueryTask* ) searchAllPagesThatHaveValue: ( NSString* )_SearchValue
                                     inNamespaces: ( NSArray* )_Namespaces
                                         approach: ( WikiEngineSearchApproach )_SearchApproach
@@ -314,7 +314,7 @@ NSString* const kParamValListAllImages = @"allimages";
                     if ( _Error && _FailureBlock )
                         _FailureBlock( _Error );
                     }
-          stopAllOtherTasks: _WillStop ];
+           stopAllOtherTasks: _WillStop ];
     }
 
 #pragma mark Pages
@@ -436,17 +436,6 @@ NSString* const kParamValListAllImages = @"allimages";
                         _FailureBlock( _Error );
                     }
           stopAllOtherTasks: _WillStop ];
-    }
-
-// Convenience
-- ( WikiQueryTask* ) fetchImage: ( NSString* )_ImageName
-                        success: ( void (^)( WikiImage* _Image ) )_SuccessBlock
-                        failure: ( void (^)( NSError* _Error ) )_FailureBlock
-    {
-    return [ self fetchImage: _ImageName
-                     success: _SuccessBlock
-                     failure: _FailureBlock
-           stopAllOtherTasks: NO ];
     }
 
 #pragma mark Dynamic Properties
