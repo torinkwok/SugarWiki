@@ -273,9 +273,10 @@ NSString* const kParamValListAllImages = @"allimages";
                                 , @"srnamespace" : srnamespace ?: @"0"
                                 };
 
-    return [ self queryList: kParamValListSearch
-            otherParameters: parameters
-                    success:
+    return [ self queryLists: kParamValListSearch
+                       limit: 10
+             otherParameters: parameters
+                     success:
         ^( NSDictionary* _ResultsJSONDict )
             {
             if ( _SuccessBlock )
@@ -391,9 +392,10 @@ NSString* const kParamValListAllImages = @"allimages";
                                 , @"ailimit" : @"1"
                                 };
 
-    return [ self queryList: kParamValListAllImages
-            otherParameters: parameters
-                    success:
+    return [ self queryLists: kParamValListAllImages
+                       limit: 10
+             otherParameters: parameters
+                     success:
         ^( NSDictionary* _ResultsJSONDict )
             {
             // If the image exists
