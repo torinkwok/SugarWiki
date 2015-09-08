@@ -45,7 +45,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     NSArray __strong* _languageCodesSamples0;
     NSDictionary __strong* _parametersSamples0;
 
-    __NSArray_of( __NSArray_of( NSString* ) ) _posTitlesSamples;
+    __NSArray_of( __NSArray_of( NSString* ) ) _posTitleSamples;
     __NSArray_of( __NSArray_of( NSNumber* ) ) _posPageIDSamples;
     }
 
@@ -77,18 +77,18 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                                  , @"sipro" : @"general|languages|namespaces"
                                  };
 
-    self->_posTitlesSamples = @[ @[ @"C++", @"Ruby", @"C", @"Madonna in the Church", @"Ada (programming language)", @"Type system" ]
-                               , @[ @"Subroutine", @"Computer programming", @"Machine code", @"Barack Obama", @"Python (programming language)" ]
-                               , @[ @"Compiler", @"Central processing unit" ]
-                               , @[ @"Integrated circuit", @"Microprocessor", @"Semiconductor", @"Insulator (electricity)" ]
-                               , @[ @"Otto Pérez Molina", @"President of Guatemala", @"Taiwan", @"Kuomintang" ]
-                               ];
+    self->_posTitleSamples = @[ @[ @"C++", @"Ruby", @"C", @"Madonna in the Church", @"Ada (programming language)", @"Type system" ]
+                              , @[ @"Subroutine", @"Computer programming", @"Machine code", @"Barack Obama", @"Python (programming language)" ]
+                              , @[ @"Compiler", @"Central processing unit", @"Syria", @"Syria-Cilicia commemorative medal", @"Syria-Lebanon Campaign order of battle" ]
+                              , @[ @"Integrated circuit", @"Microprocessor", @"Semiconductor", @"Insulator (electricity)", @"Syria Fed Cup team" ]
+                              , @[ @"Otto Pérez Molina", @"President of Guatemala", @"Taiwan", @"Kuomintang" ]
+                              ];
 
     self->_posPageIDSamples = @[ @[ @7515928, @43093687, @12816866, @10523677, @43472938, @888445 ]
                                , @[ @5405, @28883152, @33099762, @33984313, @28175590 ]
                                , @[ @19001, @6902276, @6147074, @29287604, @46349164 ]
-                               , @[ @14227967, @19961416, @7813116, @1955 ]
-                               , @[ @856, @8260899, @31290263, @615972 ]
+                               , @[ @14227967, @19961416, @7813116, @1955, @10280979 ]
+                               , @[ @856, @8260899, @31290263, @615972, @14653, @9008741, @40479341, @28320793, @46256893 ]
                                ];
     }
 
@@ -184,69 +184,59 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     XCTAssertNil( positiveTestCase.ISOLanguageCode );
     }
 
-- ( void ) testSearch
+- ( void ) test_pos_search
     {
-    XCTestExpectation* jsonExpectation0 = [ self expectationWithDescription: @"🔍JSON Exception 0⃣️" ];
-    XCTestExpectation* jsonExpectation1 = [ self expectationWithDescription: @"🔍JSON Exception 1⃣️" ];
-
-    WikiQueryTask* WikiQueryTask = nil;
-
     WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: @"en" ];
-    WikiQueryTask =
-        [ positiveTestCase searchAllPagesThatHaveValue: @"Ruby"
-                                          inNamespaces: nil
-                                              approach: WikiEngineSearchApproachPageText
-                                                 limit: 10
-                                               success:
-        ^( NSArray* _Results )
-            {
-            for ( WikiSearchResult* _SearchResult in _Results )
-                [ self _testSearchResult: _SearchResult ];
 
-            WikiFulfillExpectation( jsonExpectation0 );
-            } failure:
-                ^( NSError* _Error )
+    int count = 0;
+    for ( __NSArray_of( NSString* ) _PosSample in self->_posTitleSamples )
+        {
+        for ( NSString* _TitleSample in _PosSample )
+            {
+            XCTestExpectation* jsonExpectation = [ self expectationWithDescription: [ NSString stringWithFormat: @"🔥JSON Exception %d", count ] ];
+            WikiQueryTask* WikiQueryTask =
+            [ positiveTestCase searchAllPagesThatHaveValue: _TitleSample
+                                              inNamespaces: nil
+                                                  approach: WikiEngineSearchApproachPageText
+                                                     limit: 10
+                                                   success:
+                ^( NSArray* _Results )
                     {
+                    XCTAssertNotNil( _Results );
 
-                    }                stopAllOtherTasks: NO ];
+                    for ( WikiSearchResult* _SearchResult in _Results )
+                        [ self _testSearchResult: _SearchResult ];
 
-    [ self _testReturnedWikiQueryTask: WikiQueryTask ];
+                    WikiFulfillExpectation( jsonExpectation );
+                    } failure:
+                        ^( NSError* _Error )
+                            {
 
-    WikiQueryTask =
-        [ positiveTestCase searchAllPagesThatHaveValue: @"C++"
-                                          inNamespaces: @[ @( WikiNamespaceDraft ), @( WikiNamespaceWikipedia ) ]
-                                              approach: WikiEngineSearchApproachPageText
-                                                 limit: 10
-                                               success:
-        ^( NSArray* _MatchedPages )
-            {
-            for ( WikiSearchResult* _SearchResult in _MatchedPages )
-                [ self _testSearchResult: _SearchResult ];
+                            }    stopAllOtherTasks: NO ];
 
-            WikiFulfillExpectation( jsonExpectation1 );
-            } failure:
-                ^( NSError* _Error )
+            [ self _testReturnedWikiQueryTask: WikiQueryTask ];
+
+            [ self waitForExpectationsWithTimeout: 15
+                                          handler:
+                ^( NSError* __nullable _Error )
                     {
+                    if ( _Error )
+                        NSLog( @"%@", _Error );
+                    } ];
 
-                    }                stopAllOtherTasks: NO ];
-
-    [ self _testReturnedWikiQueryTask: WikiQueryTask ];
-
-    [ self waitForExpectationsWithTimeout: 150
-                                  handler:
-        ^( NSError* __nullable _Error )
-            {
-            NSLog( @"%@", _Error );
-            } ];
+            count++;
+            }
+        }
     }
 
 - ( void ) test_pos_pages_with_titles_
     {
+    WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: @"en" ];
+
     int count = 0;
-    for ( __NSArray_of( NSString* ) _PosSample in self->_posTitlesSamples )
+    for ( __NSArray_of( NSString* ) _PosSample in self->_posTitleSamples )
         {
         XCTestExpectation* jsonExpectation = [ self expectationWithDescription: [ NSString stringWithFormat: @"🔥JSON Exception %d", count ] ];
-        WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: @"en" ];
 
         WikiQueryTask* WikiQueryTask =
             [ positiveTestCase pagesWithTitles: _PosSample
@@ -283,11 +273,12 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
 - ( void ) test_pos_pages_with_pageIDs_
     {
+    WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: @"en" ];
+
     int count = 0;
     for ( __NSArray_of( NSNumber* ) _PosSample in self->_posPageIDSamples )
         {
         XCTestExpectation* jsonExpectation = [ self expectationWithDescription: [ NSString stringWithFormat: @"🔥JSON Exception %d", count ] ];
-        WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: @"en" ];
 
         WikiQueryTask* WikiQueryTask =
             [ positiveTestCase pagesWithPageIDs: _PosSample
@@ -322,7 +313,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
         }
     }
 
-- ( void ) testFetchImage_success_failure_
+- ( void ) test_pos_fetchImage_success_failure_
     {
     XCTestExpectation* jsonExpectation0 = [ self expectationWithDescription: @"🌋JSON Exception 0⃣️" ];
 
