@@ -210,7 +210,7 @@ NSString* const kParamValListAllImages = @"allimages";
         ^( WikiQueryTask* __nonnull _QueryTask, id  __nonnull _ResponseObject )
             {
             NSDictionary* resultsJSONDict = ( NSDictionary* )_ResponseObject;
-            NSDictionary* queryResultsJSONDict = resultsJSONDict[ @"query" ];
+            NSDictionary* queryResultsJSONDict = resultsJSONDict[ kParamValActionQuery ];
 
             NSMutableDictionary* results = [ NSMutableDictionary dictionary ];
             for ( NSString* _Key in _QueryTask.listNames )
@@ -266,7 +266,9 @@ NSString* const kParamValListAllImages = @"allimages";
         ^( WikiQueryTask* __nonnull _QueryTask, id  __nonnull _ResponseObject )
             {
             NSDictionary* resultsJSONDict = ( NSDictionary* )_ResponseObject;
-            NSDictionary* queryResultsJSONDict = resultsJSONDict[ @"query" ][ @"pages" ];
+
+            NSString* queryValue = @"pages";
+            NSDictionary* queryResultsJSONDict = resultsJSONDict[ kParamValActionQuery ][ queryValue ];
 
             NSMutableDictionary* results = [ NSMutableDictionary dictionary ];
             for ( NSString* _Key in queryResultsJSONDict )
@@ -278,15 +280,14 @@ NSString* const kParamValListAllImages = @"allimages";
                     Class elementClass = NULL;
                     SEL initSEL = NULL;
 
-                    [ self __wikiClassAndSELDerivedFromQueryValue: @"pages" :&elementClass :&initSEL ];
-
+                    [ self __wikiClassAndSELDerivedFromQueryValue: queryValue :&elementClass :&initSEL ];
                     NSArray* wikiJSONObjects = _WikiArrayValueWhichHasBeenParsedOutOfJSON( queryResultsJSONDict
                                                                                          , _Key
                                                                                          , elementClass
                                                                                          , initSEL
                                                                                          );
                     if ( wikiJSONObjects )
-                        [ results addEntriesFromDictionary: @{ @"pages" : wikiJSONObjects } ];
+                        [ results addEntriesFromDictionary: @{ queryValue : wikiJSONObjects } ];
                     }
                 }
 
