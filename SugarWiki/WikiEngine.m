@@ -266,10 +266,10 @@ NSString* const kParamValListAllImages = @"allimages";
         ^( WikiQueryTask* __nonnull _QueryTask, id  __nonnull _ResponseObject )
             {
             NSDictionary* resultsJSONDict = ( NSDictionary* )_ResponseObject;
-            NSDictionary* queryResultsJSONDict = resultsJSONDict[ @"query" ];
+            NSDictionary* queryResultsJSONDict = resultsJSONDict[ @"query" ][ @"pages" ];
 
             NSMutableDictionary* results = [ NSMutableDictionary dictionary ];
-            for ( NSString* _Key in _QueryTask.listNames )
+            for ( NSString* _Key in queryResultsJSONDict )
                 {
                 NSArray* jsons = queryResultsJSONDict[ _Key ];
 
@@ -279,6 +279,8 @@ NSString* const kParamValListAllImages = @"allimages";
                     SEL initSEL = NULL;
 
                     [ self __wikiClassAndSELDerivedFromQueryValue: _Key :&elementClass :&initSEL ];
+
+//                    NSMutableDictionary* pagesJSONDict = [ queryResultsJSONDict
                     NSArray* wikiJSONObjects = _WikiArrayValueWhichHasBeenParsedOutOfJSON( queryResultsJSONDict
                                                                                          , _Key
                                                                                          , elementClass

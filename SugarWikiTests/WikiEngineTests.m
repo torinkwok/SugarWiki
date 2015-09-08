@@ -180,9 +180,9 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                                               approach: WikiEngineSearchApproachPageText
                                                  limit: 10
                                                success:
-        ^( NSArray* _MatchedPages )
+        ^( NSArray* _Results )
             {
-            for ( WikiSearchResult* _SearchResult in _MatchedPages )
+            for ( WikiSearchResult* _SearchResult in _Results )
                 [ self _testSearchResult: _SearchResult ];
 
             WikiFulfillExpectation( jsonExpectation0 );
@@ -211,6 +211,58 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                     {
 
                     }                stopAllOtherTasks: NO ];
+
+    [ self _testReturnedWikiQueryTask: WikiQueryTask ];
+
+    [ self waitForExpectationsWithTimeout: 150
+                                  handler:
+        ^( NSError* __nullable _Error )
+            {
+            NSLog( @"%@", _Error );
+            } ];
+    }
+
+- ( void ) testpages_with_titles_
+    {
+    XCTestExpectation* jsonExpectation0 = [ self expectationWithDescription: @"🔍JSON Exception 0⃣️" ];
+    XCTestExpectation* jsonExpectation1 = [ self expectationWithDescription: @"🔍JSON Exception 1⃣️" ];
+
+    WikiQueryTask* WikiQueryTask = nil;
+
+    WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: @"en" ];
+    WikiQueryTask =
+        [ positiveTestCase pagesWithTitles: @[ @"C++", @"Ruby", @"C" ]
+                                   success:
+        ^( NSArray* _MatchedPages )
+            {
+            XCTAssertNotNil( _MatchedPages );
+            for ( WikiPage* _WikiPage in _MatchedPages )
+                [ self _testWikiPage: _WikiPage ];
+
+            WikiFulfillExpectation( jsonExpectation0 );
+            } failure:
+                ^( NSError* _Error )
+                    {
+
+                    }    stopAllOtherTasks: NO ];
+
+    [ self _testReturnedWikiQueryTask: WikiQueryTask ];
+
+    WikiQueryTask =
+        [ positiveTestCase pagesWithTitles: @[ @"Ruby on Rails", @"Washinton D.C." ]
+                                   success:
+        ^( NSArray* _MatchedPages )
+            {
+            XCTAssertNotNil( _MatchedPages );
+            for ( WikiPage* _WikiPage in _MatchedPages )
+                [ self _testWikiPage: _WikiPage ];
+
+            WikiFulfillExpectation( jsonExpectation1 );
+            } failure:
+                ^( NSError* _Error )
+                    {
+
+                    }    stopAllOtherTasks: NO ];
 
     [ self _testReturnedWikiQueryTask: WikiQueryTask ];
 
