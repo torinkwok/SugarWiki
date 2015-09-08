@@ -25,14 +25,16 @@
 
 // Define some preprocessor macros that allow generics to be adopted in a backwards-compatible manner.
 #if __has_feature(objc_generics)
-#   define __PL_GENERICS(class, ...)        class<__VA_ARGS__>
+#   define __SugarWiki_GENERICS(class, ...)        class<__kindof __VA_ARGS__>
 #else
-#   define __PL_GENERICS(class, ...)        class
+#   define __SugarWiki_GENERICS(class, ...)        class
 #endif
 
-// Using generics with NSArray is so common in PureLayout that it gets a dedicated preprocessor macro for better readability.
-#define __NSArray_of(type)                  __PL_GENERICS(NSArray, type)
-#define __NSDictionary_of(keytype, valtype) __PL_GENERICS(NSDictionary, keytype,valtype)
+// Using generics with collection containers is so common in SugarWiki
+// that it gets a dedicated preprocessor macro for better readability.
+#define __NSArray_of(type)                  __SugarWiki_GENERICS(NSArray, type)
+#define __NSSet_of(type)                    __SugarWiki_GENERICS(NSSet, type)
+#define __NSDictionary_of(keytype, valtype) __SugarWiki_GENERICS(NSDictionary, keytype,valtype)
 
 #define __throw_exception_due_to_invocation_of_pure_virtrual_method_ \
     @throw [ NSException exceptionWithName: NSGenericException reason: [ NSString stringWithFormat: @"unimplemented pure virtual method `%@` in `%@` from instance: %p"  NSStringFromSelector( _cmd ) NSStringFromClass( [ self class ] ) self ] userInfo: nil ]
