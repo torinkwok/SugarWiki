@@ -66,10 +66,16 @@
         self.queryOptions = WikiQueryTypeUnknown;
 
         if ( [ ( NSString* )_ParamsDict[ @"prop" ] length ] > 0 )
+            {
             self.queryOptions |= WikiQueryTypeProps;
+            self.propNames = [ _ParamsDict[ @"prop" ] componentsSeparatedByString: @"|" ];
+            }
 
-        if ( [ ( NSString* )_ParamsDict[ @"lists" ] length ] > 0 )
+        if ( [ ( NSString* )_ParamsDict[ @"list" ] length ] > 0 )
+            {
             self.queryOptions |= WikiQueryTypeLists;
+            self.listNames = [ _ParamsDict[ @"list" ] componentsSeparatedByString: @"|" ];
+            }
         }
 
     return self;

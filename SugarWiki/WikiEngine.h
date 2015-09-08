@@ -72,8 +72,8 @@ typedef NS_ENUM( NSUInteger, WikiEngineSearchApproach )
 #pragma mark Generic Methods to GET and POST
 - ( WikiQueryTask* ) fetchResourceWithParameters: ( __NSDictionary_of( NSString*, NSString* ) )_Params
                                       HTTPMethod: ( NSString* )_HTTPMethod
-                                         success: ( void (^)( NSURLSessionDataTask* _Task, id _ResponseObject ) )_SuccessBlock
-                                         failure: ( void (^)( NSURLSessionDataTask* _Task, NSError* _Error ) )_FailureBlock
+                                         success: ( void (^)( WikiQueryTask* _WikiQueryTask, id _ResponseObject ) )_SuccessBlock
+                                         failure: ( void (^)( WikiQueryTask* _WikiQueryTask, NSError* _Error ) )_FailureBlock
                                stopAllOtherTasks: ( BOOL )_WillStop;
 
 #pragma mark Generic Methods to Query
@@ -90,7 +90,7 @@ typedef NS_ENUM( NSUInteger, WikiEngineSearchApproach )
 - ( WikiQueryTask* ) queryLists: ( __NSArray_of( NSString* ) )_Lists
                           limit: ( NSUInteger )_Limit
                 otherParameters: ( __NSDictionary_of( NSString*, NSString* ) )_ParamsDict
-                        success: ( void (^)( __NSDictionary_of( NSString*, WikiJSONObject* ) _Results ) )_SuccessBlock
+                        success: ( void (^)( __NSDictionary_of( NSString*, __NSArray_of( WikiJSONObject* ) ) _Results ) )_SuccessBlock
                         failure: ( void (^)( NSError* _Error ) )_FailureBlock
               stopAllOtherTasks: ( BOOL )_WillStop;
 

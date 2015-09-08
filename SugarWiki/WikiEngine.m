@@ -30,12 +30,15 @@
 
 #import "WikiPage.h"
 #import "WikiImage.h"
+#import "WikiRevision.h"
 #import "WikiSearchResult.h"
 
+#import "__WikiJSONObject.h"
 #import "__WikiQueryTask.h"
 #import "__WikiImage.h"
 #import "__WikiSearchResult.h"
 #import "__WikiPage.h"
+#import "__WikiRevision.h"
 
 #import "__WikiJSONUtilities.h"
 
@@ -130,19 +133,23 @@ NSString* const kParamValListAllImages = @"allimages";
 #pragma mark Generic Methods to GET and POST
 - ( WikiQueryTask* ) fetchResourceWithParameters: ( __NSDictionary_of( NSString*, NSString* ) )_Params
                                       HTTPMethod: ( NSString* )_HTTPMethod
-                                         success: ( void (^)( NSURLSessionDataTask* _Task, id _ResponseObject ) )_SuccessBlock
-                                         failure: ( void (^)( NSURLSessionDataTask* _Task, NSError* _Error ) )_FailureBlock
-                                topAllOtherTasks: ( BOOL )_WillStop
+                                         success: ( void (^)( WikiQueryTask* _WikiQueryTask, id _ResponseObject ) )_SuccessBlock
+                                         failure: ( void (^)( WikiQueryTask* _WikiQueryTask, NSError* _Error ) )_FailureBlock
+                               stopAllOtherTasks: ( BOOL )_WillStop
     {
     NSParameterAssert( ( _Params.count > 0 ) && ( _HTTPMethod.length > 0 ) );
 
     NSURLSessionDataTask* dataTask = nil;
+    WikiQueryTask* queryTask = [ WikiQueryTask __sessionTaskWithHTTPMethod: _HTTPMethod
+                                                                  endPoint: self->_endpoint
+                                                                parameters: _Params
+                                                        URLSessionDataTask: nil ];
 
     void ( ^__successBlock )( NSURLSessionDataTask* __nonnull, id  __nonnull ) =
         ^( NSURLSessionDataTask* __nonnull _Task, id  __nonnull _ResponseObject )
             {
             if ( _SuccessBlock )
-                _SuccessBlock( _Task, _ResponseObject );
+                _SuccessBlock( queryTask, _ResponseObject );
 
             // Done! Kill task by removing it from the temporary session tasks pool😈
             [ self->_tmpSessionTasksPool removeObject: _Task ];
@@ -152,14 +159,13 @@ NSString* const kParamValListAllImages = @"allimages";
         ^( NSURLSessionDataTask* __nonnull _Task, NSError* __nonnull _Error )
             {
             if ( _FailureBlock )
-                _FailureBlock( _Task, _Error );
+                _FailureBlock( queryTask, _Error );
 
             [ self->_tmpSessionTasksPool removeObject: _Task ];
             };
 
     if ( [ _HTTPMethod isEqualToString: kGET ] )
         dataTask = [ self->_wikiHTTPSessionManager GET: self->_endpoint.absoluteString parameters: _Params success: __successBlock failure: __failureBlock ];
-
 
     if ( dataTask )
         {
@@ -170,20 +176,19 @@ NSString* const kParamValListAllImages = @"allimages";
             [ self _cancelAll ];
 
         [ self->_tmpSessionTasksPool addObject: dataTask ];
+        [ queryTask setSessionDataTask: dataTask ];
+
         [ dataTask resume ];
         }
 
-    return [ WikiQueryTask __sessionTaskWithHTTPMethod: _HTTPMethod
-                                              endPoint: self->_endpoint
-                                            parameters: _Params
-                                    URLSessionDataTask: dataTask ];
+    return queryTask;
     }
 
 #pragma mark Generic Methods to Query
 - ( WikiQueryTask* ) queryLists: ( __NSArray_of( NSString* ) )_Lists
                           limit: ( NSUInteger )_Limit
                 otherParameters: ( __NSDictionary_of( NSString*, NSString* ) )_ParamsDict
-                        success: ( void (^)( __NSDictionary_of( NSString*, WikiJSONObject* ) _Results ) )_SuccessBlock
+                        success: ( void (^)( __NSDictionary_of( NSString*, __NSArray_of( WikiJSONObject* ) ) _Results ) )_SuccessBlock
                         failure: ( void (^)( NSError* _Error ) )_FailureBlock
               stopAllOtherTasks: ( BOOL )_WillStop
     {
@@ -199,10 +204,54 @@ NSString* const kParamValListAllImages = @"allimages";
     return [ self fetchResourceWithParameters: paramsDict
                                    HTTPMethod: kGET
                                       success:
-        ^( NSURLSessionDataTask* __nonnull _Task, id  __nonnull _ResponseObject )
+        ^( WikiQueryTask* __nonnull _QueryTask, id  __nonnull _ResponseObject )
             {
             NSDictionary* resultsJSONDict = ( NSDictionary* )_ResponseObject;
             NSDictionary* queryResultsJSONDict = resultsJSONDict[ @"query" ];
+
+            NSMutableDictionary* results = [ NSMutableDictionary dictionary ];
+            for ( NSString* _Key in _QueryTask.listNames )
+                {
+                NSArray* jsons = queryResultsJSONDict[ _Key ];
+
+                if ( jsons )
+                    {
+                    Class elementClass = [ WikiJSONObject class ];
+                    SEL initSEL = @selector( __jsonObjectWithJSONDict: );
+
+                    if ( [ _Key isEqualToString: @"pages" ] )
+                        {
+                        elementClass = [ WikiPage class ];
+                        initSEL = @selector( __pageWithJSONDict: );
+                        }
+
+                    else if ( [ _Key isEqualToString: @"allimages" ] )
+                        {
+                        elementClass = [ WikiImage class ];
+                        initSEL = @selector( __imageWithJSONDict: );
+                        }
+
+                    else if ( [ _Key isEqualToString: @"search" ] )
+                        {
+                        elementClass = [ WikiSearchResult class ];
+                        initSEL = @selector( __searchResultWithJSONDict: );
+                        }
+
+                    else if ( [ _Key isEqualToString: @"revisions" ] )
+                        {
+                        elementClass = [ WikiRevision class ];
+                        initSEL = @selector( __revisionWithJSONDict: );
+                        }
+
+                    NSArray* wikiJSONObjects = _WikiArrayValueWhichHasBeenParsedOutOfJSON( queryResultsJSONDict
+                                                                                         , _Key
+                                                                                         , elementClass
+                                                                                         , initSEL
+                                                                                         );
+                    if ( wikiJSONObjects )
+                        [ results addEntriesFromDictionary: @{ _Key : wikiJSONObjects } ];
+                    }
+                }
 
             if ( resultsJSONDict )
                 if ( _SuccessBlock )
@@ -235,7 +284,7 @@ NSString* const kParamValListAllImages = @"allimages";
     return [ self fetchResourceWithParameters: paramsDict
                                    HTTPMethod: kGET
                                       success:
-        ^( NSURLSessionDataTask* __nonnull _Task, id  __nonnull _ResponseObject )
+        ^( WikiQueryTask* __nonnull _QueryTask, id  __nonnull _ResponseObject )
             {
             // If the image exists
             NSDictionary* resultsJSONDict = ( NSDictionary* )_ResponseObject;
@@ -272,7 +321,7 @@ NSString* const kParamValListAllImages = @"allimages";
                                 , @"srnamespace" : srnamespace ?: @"0"
                                 };
 
-    return [ self queryLists: kParamValListSearch
+    return [ self queryLists: @[ kParamValListSearch ]
                        limit: 10
              otherParameters: parameters
                      success:
@@ -391,7 +440,7 @@ NSString* const kParamValListAllImages = @"allimages";
                                 , @"ailimit" : @"1"
                                 };
 
-    return [ self queryLists: kParamValListAllImages
+    return [ self queryLists: @[ kParamValListAllImages ]
                        limit: 10
              otherParameters: parameters
                      success:

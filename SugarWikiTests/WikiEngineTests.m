@@ -108,7 +108,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
         [ positiveSessionDataTask0 resume ];
 
-        [ self waitForExpectationsWithTimeout: 15
+        [ self waitForExpectationsWithTimeout: 50000
                                       handler:
             ^( NSError* __nullable _Error )
                 {
@@ -150,7 +150,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
     [ positiveSessionDataTask0 resume ];
 
-    [ self waitForExpectationsWithTimeout: 15
+    [ self waitForExpectationsWithTimeout: 50000
                                   handler:
         ^( NSError* __nullable _Error )
             {
@@ -214,7 +214,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
     [ self _testReturnedWikiQueryTask: WikiQueryTask ];
 
-    [ self waitForExpectationsWithTimeout: 15
+    [ self waitForExpectationsWithTimeout: 50000
                                   handler:
         ^( NSError* __nullable _Error )
             {
@@ -245,7 +245,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
     [ self _testReturnedWikiQueryTask: WikiQueryTask ];
 
-    [ self waitForExpectationsWithTimeout: 15
+    [ self waitForExpectationsWithTimeout: 50000
                                   handler:
         ^( NSError* __nullable _Error )
             {

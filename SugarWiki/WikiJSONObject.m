@@ -45,6 +45,11 @@
 @implementation WikiJSONObject ( SugarWikiPrivate )
 
 #pragma mark Pure Virtual Initializations ( only used by friend classes )
++ ( instancetype ) __jsonObjectWithJSONDict: ( NSDictionary* )_JSONDict
+    {
+    return [ [ self alloc ] __initWithJSONDict: _JSONDict ];
+    }
+
 - ( instancetype ) __initWithJSONDict: ( NSDictionary* )_JSONDict
     {
     if ( !_JSONDict || ![ _JSONDict isKindOfClass: [ NSDictionary class ] ] )

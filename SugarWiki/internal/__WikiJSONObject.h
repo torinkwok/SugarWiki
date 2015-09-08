@@ -28,6 +28,7 @@
 @interface WikiJSONObject ( SugarWikiPrivate )
 
 #pragma mark Pure Virtual Initializations ( only used by friend classes )
++ ( instancetype ) __jsonObjectWithJSONDict: ( NSDictionary* )_JSONDict;
 - ( instancetype ) __initWithJSONDict: ( NSDictionary* )_JSONDict;
 
 @end // WikiJSONObject + SugarWikiPrivate
