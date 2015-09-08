@@ -30,10 +30,12 @@
 @interface WikiQueryTask : NSURLSessionDataTask
 
 #pragma mark Attributes
+@property ( strong, readonly ) NSURLSessionDataTask* sessionDataTask;
+
 @property ( strong, readonly ) NSString* HTTPMethod;
 @property ( strong, readonly ) NSURL* endPoint;
 @property ( strong, readonly ) __NSDictionary_of( NSString*, NSString* ) parameters;
-@property ( strong, readonly ) NSURLSessionDataTask* sessionDataTask;
+@property ( strong, readonly ) __NSArray_of( NSString* ) listNames;
 
 @end // WikiQueryTask class
 

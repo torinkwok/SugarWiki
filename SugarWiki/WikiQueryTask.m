@@ -29,10 +29,12 @@
 // Private Interfaces
 @interface WikiQueryTask ()
 
+@property ( strong, readwrite ) NSURLSessionDataTask* sessionDataTask;
+
 @property ( strong, readwrite ) NSString* HTTPMethod;
 @property ( strong, readwrite ) NSURL* endPoint;
 @property ( strong, readwrite ) __NSDictionary_of( NSString*, NSString* ) parameters;
-@property ( strong, readwrite ) NSURLSessionDataTask* sessionDataTask;
+@property ( strong, readwrite ) __NSArray_of( NSString* ) listNames;
 
 @end // Private Interfaces
 

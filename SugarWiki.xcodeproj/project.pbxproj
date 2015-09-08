@@ -64,9 +64,6 @@
 		834E1DDF1B9DC683007A8E58 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 834E1D321B9DC683007A8E58 /* AFURLResponseSerialization.m */; };
 		834E1DE01B9DC683007A8E58 /* AFURLSessionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 834E1D331B9DC683007A8E58 /* AFURLSessionManager.h */; };
 		834E1DE11B9DC683007A8E58 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 834E1D341B9DC683007A8E58 /* AFURLSessionManager.m */; };
-		83F76FBD1B9EFBC500D1A0FB /* WikiListsQueryTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 83F76FBB1B9EFBC500D1A0FB /* WikiListsQueryTask.h */; };
-		83F76FBE1B9EFBC500D1A0FB /* WikiListsQueryTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F76FBC1B9EFBC500D1A0FB /* WikiListsQueryTask.m */; };
-		83F76FC11B9EFC2400D1A0FB /* __WikiListsQueryTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 83F76FBF1B9EFC2400D1A0FB /* __WikiListsQueryTask.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -140,9 +137,6 @@
 		834E1D321B9DC683007A8E58 /* AFURLResponseSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLResponseSerialization.m; sourceTree = "<group>"; };
 		834E1D331B9DC683007A8E58 /* AFURLSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLSessionManager.h; sourceTree = "<group>"; };
 		834E1D341B9DC683007A8E58 /* AFURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLSessionManager.m; sourceTree = "<group>"; };
-		83F76FBB1B9EFBC500D1A0FB /* WikiListsQueryTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WikiListsQueryTask.h; sourceTree = "<group>"; };
-		83F76FBC1B9EFBC500D1A0FB /* WikiListsQueryTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WikiListsQueryTask.m; sourceTree = "<group>"; };
-		83F76FBF1B9EFC2400D1A0FB /* __WikiListsQueryTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = __WikiListsQueryTask.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,7 +171,6 @@
 			isa = PBXGroup;
 			children = (
 				831C51351B9DF7CB00790B38 /* __WikiQueryTask.h */,
-				83F76FBF1B9EFC2400D1A0FB /* __WikiListsQueryTask.h */,
 				831C51391B9DF9C500790B38 /* __WikiJSONObject.h */,
 				831C51411B9DFFE100790B38 /* __WikiImage.h */,
 				831C513D1B9DFB6E00790B38 /* __WikiPage.h */,
@@ -235,8 +228,6 @@
 				834E1D001B9DC205007A8E58 /* WikiSearchResult.m */,
 				834E1D011B9DC205007A8E58 /* WikiQueryTask.h */,
 				834E1D021B9DC205007A8E58 /* WikiQueryTask.m */,
-				83F76FBB1B9EFBC500D1A0FB /* WikiListsQueryTask.h */,
-				83F76FBC1B9EFBC500D1A0FB /* WikiListsQueryTask.m */,
 				834E1CC81B9DC18C007A8E58 /* Info.plist */,
 			);
 			path = SugarWiki;
@@ -327,8 +318,6 @@
 				834E1DD81B9DC683007A8E58 /* AFSecurityPolicy.h in Headers */,
 				834E1D1A1B9DC205007A8E58 /* WikiQueryTask.h in Headers */,
 				834E1D0B1B9DC205007A8E58 /* WikiEngine.h in Headers */,
-				83F76FC11B9EFC2400D1A0FB /* __WikiListsQueryTask.h in Headers */,
-				83F76FBD1B9EFBC500D1A0FB /* WikiListsQueryTask.h in Headers */,
 				834E1D031B9DC205007A8E58 /* NSDate+SugarWiki.h in Headers */,
 				831C514B1B9E01CF00790B38 /* __WikiSearchResult.h in Headers */,
 				834E1DD31B9DC683007A8E58 /* AFHTTPSessionManager.h in Headers */,
@@ -443,7 +432,6 @@
 				834E1D151B9DC205007A8E58 /* WikiPage.m in Sources */,
 				834E1DDF1B9DC683007A8E58 /* AFURLResponseSerialization.m in Sources */,
 				834E1DDB1B9DC683007A8E58 /* AFURLConnectionOperation.m in Sources */,
-				83F76FBE1B9EFBC500D1A0FB /* WikiListsQueryTask.m in Sources */,
 				834E1D191B9DC205007A8E58 /* WikiSearchResult.m in Sources */,
 				834E1D041B9DC205007A8E58 /* NSDate+SugarWiki.m in Sources */,
 				834E1DD21B9DC683007A8E58 /* AFHTTPRequestOperationManager.m in Sources */,
