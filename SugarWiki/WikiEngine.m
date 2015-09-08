@@ -70,6 +70,8 @@ NSString* const kParamValListAllImages = @"allimages";
 
 - ( void ) _cancelAll;
 
+- ( void ) __wikiClassAndSELDerivedFromQueryValue: ( NSString* )_QueryValue :( Class* )_Class :( SEL* )_SEL;
+
 @end // Private Interfaces
 
 // WikiEngine class
@@ -206,6 +208,8 @@ NSString* const kParamValListAllImages = @"allimages";
                                       success:
         ^( WikiQueryTask* __nonnull _QueryTask, id  __nonnull _ResponseObject )
             {
+            if ( !_SuccessBlock ) return;
+
             NSDictionary* resultsJSONDict = ( NSDictionary* )_ResponseObject;
             NSDictionary* queryResultsJSONDict = resultsJSONDict[ @"query" ];
 
@@ -216,33 +220,10 @@ NSString* const kParamValListAllImages = @"allimages";
 
                 if ( jsons )
                     {
-                    Class elementClass = [ WikiJSONObject class ];
-                    SEL initSEL = @selector( __jsonObjectWithJSONDict: );
+                    Class elementClass = NULL;
+                    SEL initSEL = NULL;
 
-                    if ( [ _Key isEqualToString: @"pages" ] )
-                        {
-                        elementClass = [ WikiPage class ];
-                        initSEL = @selector( __pageWithJSONDict: );
-                        }
-
-                    else if ( [ _Key isEqualToString: @"allimages" ] )
-                        {
-                        elementClass = [ WikiImage class ];
-                        initSEL = @selector( __imageWithJSONDict: );
-                        }
-
-                    else if ( [ _Key isEqualToString: @"search" ] )
-                        {
-                        elementClass = [ WikiSearchResult class ];
-                        initSEL = @selector( __searchResultWithJSONDict: );
-                        }
-
-                    else if ( [ _Key isEqualToString: @"revisions" ] )
-                        {
-                        elementClass = [ WikiRevision class ];
-                        initSEL = @selector( __revisionWithJSONDict: );
-                        }
-
+                    [ self __wikiClassAndSELDerivedFromQueryValue: _Key :&elementClass :&initSEL ];
                     NSArray* wikiJSONObjects = _WikiArrayValueWhichHasBeenParsedOutOfJSON( queryResultsJSONDict
                                                                                          , _Key
                                                                                          , elementClass
@@ -253,9 +234,7 @@ NSString* const kParamValListAllImages = @"allimages";
                     }
                 }
 
-            if ( resultsJSONDict )
-                if ( _SuccessBlock )
-                    _SuccessBlock( resultsJSONDict );
+            _SuccessBlock( results );
             } failure:
                 ^( NSURLSessionDataTask* __nonnull _Task, NSError* __nonnull _Error )
                     {
@@ -325,19 +304,10 @@ NSString* const kParamValListAllImages = @"allimages";
                        limit: 10
              otherParameters: parameters
                      success:
-        ^( NSDictionary* _ResultsJSONDict )
+        ^( __NSDictionary_of( NSString*, __NSArray_of( WikiJSONObject* ) ) _Results )
             {
             if ( _SuccessBlock )
-                {
-                NSDictionary* searchResultJSON = _ResultsJSONDict[ @"query" ];
-                NSArray* searchResults = _WikiArrayValueWhichHasBeenParsedOutOfJSON( searchResultJSON
-                                                                                   , @"search"
-                                                                                   , [ WikiSearchResult class ]
-                                                                                   , @selector( __searchResultWithJSONDict: )
-                                                                                   );
-                if ( searchResults )
-                    _SuccessBlock( searchResults );
-                }
+                _SuccessBlock( _Results[ kParamValListSearch ] );
             } failure:
                 ^( NSError* _Error )
                     {
@@ -444,14 +414,12 @@ NSString* const kParamValListAllImages = @"allimages";
                        limit: 10
              otherParameters: parameters
                      success:
-        ^( NSDictionary* _ResultsJSONDict )
+        ^( __NSDictionary_of( NSString*, __NSArray_of( WikiJSONObject* ) ) _Results )
             {
             // If the image exists
-            NSDictionary* imageJSON = [ _ResultsJSONDict[ @"query" ][ @"allimages" ] firstObject ];
-            if ( [ imageJSON[ @"name" ] isEqualToString: normalizedImageName ] )
+            WikiImage* wikiImage = _Results[ kParamValListAllImages ].firstObject;
+            if ( [ wikiImage.name isEqualToString: normalizedImageName ] )
                 {
-                WikiImage* wikiImage = [ WikiImage __imageWithJSONDict: imageJSON ];
-
                 if ( _SuccessBlock )
                     _SuccessBlock( wikiImage );
                 }
@@ -527,6 +495,39 @@ NSString* const kParamValListAllImages = @"allimages";
             [ _RunningDataTask cancel ];
 
         [ self->_tmpSessionTasksPool removeAllObjects ];
+        }
+    }
+
+- ( void ) __wikiClassAndSELDerivedFromQueryValue: ( NSString* )_QueryValue
+                                                 :( Class* )_Class
+                                                 :( SEL* )_SEL
+    {
+    NSParameterAssert( ( _Class ) && ( _SEL ) );
+
+    if ( [ _QueryValue isEqualToString: @"pages" ] )
+        {
+        *_Class = [ WikiPage class ];
+        *_SEL = @selector( __pageWithJSONDict: );
+        }
+    else if ( [ _QueryValue isEqualToString: @"allimages" ] )
+        {
+        *_Class = [ WikiImage class ];
+        *_SEL = @selector( __imageWithJSONDict: );
+        }
+    else if ( [ _QueryValue isEqualToString: @"search" ] )
+        {
+        *_Class = [ WikiSearchResult class ];
+        *_SEL = @selector( __searchResultWithJSONDict: );
+        }
+    else if ( [ _QueryValue isEqualToString: @"revisions" ] )
+        {
+        *_Class = [ WikiRevision class ];
+        *_SEL = @selector( __revisionWithJSONDict: );
+        }
+    else
+        {
+        *_Class = [ WikiJSONObject class ];
+        *_SEL = @selector( __jsonObjectWithJSONDict: );
         }
     }
 
