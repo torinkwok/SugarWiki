@@ -174,9 +174,9 @@ NSString* const kParamValListAllImages = @"allimages";
         }
 
     return [ WikiQueryTask __sessionTaskWithHTTPMethod: _HTTPMethod
-                                                endPoint: self->_endpoint
-                                              parameters: _Params
-                                      URLSessionDataTask: dataTask ];
+                                              endPoint: self->_endpoint
+                                            parameters: _Params
+                                    URLSessionDataTask: dataTask ];
     }
 
 #pragma mark Generic Methods to Query
