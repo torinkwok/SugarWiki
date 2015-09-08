@@ -26,14 +26,9 @@
 
 @implementation SugarWikiInfo
 
-+ ( double ) versionNumber
-    {
-    return 0.1f;
-    }
-
 + ( NSString* ) versionString
     {
-    return @"0.1";
+    return @"Nightly 0.11";
     }
 
 @end

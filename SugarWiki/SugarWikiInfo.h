@@ -26,10 +26,6 @@
 
 @interface SugarWikiInfo : NSObject
 
-/** Project version number for SugarWiki.
-  */
-+ ( double ) versionNumber;
-
 /** Project version string for SugarWiki.
   */
 + ( NSString* ) versionString;

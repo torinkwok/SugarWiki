@@ -45,12 +45,6 @@
     [ super tearDown ];
     }
 
-- ( void ) testVersionNumber
-    {
-    XCTAssertEqual( [ SugarWikiInfo versionNumber ], 0.1f );
-    XCTAssertEqualObjects( [ SugarWikiInfo versionString ], @"0.1" );
-    }
-
 - ( void ) testPerformanceExample
     {
     // This is an example of a performance test case.
