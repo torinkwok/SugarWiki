@@ -22,20 +22,23 @@
   ████████████████████████████████████████████████████████████████████████████████
   ██████████████████████████████████████████████████████████████████████████████*/
 
-@import Foundation;
+#import "WikiQueryTask.h"
 
-#import "SugarWikiDefines.h"
+// WikiQueryTask + SugarWikiPrivate
+@interface WikiQueryTask ( SugarWikiPrivate )
 
-// WikiSessionTask class
-@interface WikiSessionTask : NSURLSessionDataTask
+#pragma mark Private Initializations ( only used by friend classes )
++ ( instancetype ) __sessionTaskWithHTTPMethod: ( NSString* )_HTTPMethod
+                                      endPoint: ( NSURL* )_EndPoint
+                                    parameters: ( NSDictionary* )_ParamsDict
+                            URLSessionDataTask: ( NSURLSessionDataTask* )_SessionDataTask;
 
-#pragma mark Attributes
-@property ( strong, readonly ) NSString* HTTPMethod;
-@property ( strong, readonly ) NSURL* endPoint;
-@property ( strong, readonly ) __NSDictionary_of( NSString*, NSString* ) parameters;
-@property ( strong, readonly ) NSURLSessionDataTask* sessionDataTask;
+- ( instancetype ) __initWithHTTPMethod: ( NSString* )_HTTPMethod
+                               endPoint: ( NSURL* )_EndPoint
+                             parameters: ( NSDictionary* )_ParamsDict
+                     URLSessionDataTask: ( NSURLSessionDataTask* )_SessionDataTask;
 
-@end // WikiSessionTask class
+@end // WikiQueryTask + SugarWikiPrivate
 
 /*================================================================================┐
 |                              The MIT License (MIT)                              |

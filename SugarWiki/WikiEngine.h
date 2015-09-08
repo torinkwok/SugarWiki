@@ -28,7 +28,7 @@
 #import "WikiConstants.h"
 
 @class WikiHTTPSessionManager;
-@class WikiSessionTask;
+@class WikiQueryTask;
 @class WikiListsQueryTask;
 
 @class WikiJSONObject;
@@ -70,11 +70,11 @@ typedef NS_ENUM( NSUInteger, WikiEngineSearchApproach )
 - ( void ) cancelAll;
 
 #pragma mark Generic Methods to GET and POST
-- ( WikiSessionTask* ) fetchResourceWithParameters: ( __NSDictionary_of( NSString*, NSString* ) )_Params
-                                        HTTPMethod: ( NSString* )_HTTPMethod
-                                           success: ( void (^)( NSURLSessionDataTask* _Task, id _ResponseObject ) )_SuccessBlock
-                                           failure: ( void (^)( NSURLSessionDataTask* _Task, NSError* _Error ) )_FailureBlock
-                                 stopAllOtherTasks: ( BOOL )_WillStop;
+- ( WikiQueryTask* ) fetchResourceWithParameters: ( __NSDictionary_of( NSString*, NSString* ) )_Params
+                                      HTTPMethod: ( NSString* )_HTTPMethod
+                                         success: ( void (^)( NSURLSessionDataTask* _Task, id _ResponseObject ) )_SuccessBlock
+                                         failure: ( void (^)( NSURLSessionDataTask* _Task, NSError* _Error ) )_FailureBlock
+                               stopAllOtherTasks: ( BOOL )_WillStop;
 
 #pragma mark Generic Methods to Query
 
@@ -94,42 +94,42 @@ typedef NS_ENUM( NSUInteger, WikiEngineSearchApproach )
                              failure: ( void (^)( NSError* _Error ) )_FailureBlock
                    stopAllOtherTasks: ( BOOL )_WillStop;
 
-- ( WikiSessionTask* ) queryProperties: ( __NSArray_of( NSString* ) )_PropValues
-                       otherParameters: ( __NSDictionary_of( NSString*, NSString* ) )_ParamsDict
-                               success: ( void (^)( NSDictionary* _ResultsJSONDict ) )_SuccessBlock
-                               failure: ( void (^)( NSError* _Error ) )_FailureBlock
-                     stopAllOtherTasks: ( BOOL )_WillStop;
+- ( WikiQueryTask* ) queryProperties: ( __NSArray_of( NSString* ) )_PropValues
+                     otherParameters: ( __NSDictionary_of( NSString*, NSString* ) )_ParamsDict
+                             success: ( void (^)( NSDictionary* _ResultsJSONDict ) )_SuccessBlock
+                             failure: ( void (^)( NSError* _Error ) )_FailureBlock
+                   stopAllOtherTasks: ( BOOL )_WillStop;
 
 #pragma mark Searching
 
 /** @name Searching */
 
-- ( WikiSessionTask* ) searchAllPagesThatHaveValue: ( NSString* )_SearchValue
-                                      inNamespaces: ( NSArray* )_Namespaces
-                                          approach: ( WikiEngineSearchApproach )_SearchApproach
-                                             limit: ( NSUInteger )_Limit
-                                           success: ( void (^)( WikiSearchResults _SearchResults ) )_SuccessBlock
-                                           failure: ( void (^)( NSError* _Error ) )_FailureBlock
-                                 stopAllOtherTasks: ( BOOL )_WillStop;
+- ( WikiQueryTask* ) searchAllPagesThatHaveValue: ( NSString* )_SearchValue
+                                    inNamespaces: ( NSArray* )_Namespaces
+                                        approach: ( WikiEngineSearchApproach )_SearchApproach
+                                           limit: ( NSUInteger )_Limit
+                                         success: ( void (^)( WikiSearchResults _SearchResults ) )_SuccessBlock
+                                         failure: ( void (^)( NSError* _Error ) )_FailureBlock
+                               stopAllOtherTasks: ( BOOL )_WillStop;
 #pragma mark Pages
 
 /** @name Pages */
 
-- ( WikiSessionTask* ) pagesWithTitles: ( __NSArray_of( NSString* ) )_Titles
-                               success: ( void (^)( WikiPage* _MatchedPage ) )_SuccessBlock
-                               failure: ( void (^)( NSError* _Error ) )_FailureBlock
-                     stopAllOtherTasks: ( BOOL )_WillStop;
+- ( WikiQueryTask* ) pagesWithTitles: ( __NSArray_of( NSString* ) )_Titles
+                             success: ( void (^)( WikiPage* _MatchedPage ) )_SuccessBlock
+                             failure: ( void (^)( NSError* _Error ) )_FailureBlock
+                   stopAllOtherTasks: ( BOOL )_WillStop;
 
-- ( WikiSessionTask* ) pagesWithPageIDs: ( __NSArray_of( NSNumber* ) )_PageIDs
-                                success: ( void (^)( WikiPage* _MatchedPage ) )_SuccessBlock
-                                failure: ( void (^)( NSError* _Error ) )_FailureBlock
-                      stopAllOtherTasks: ( BOOL )_WillStop;
+- ( WikiQueryTask* ) pagesWithPageIDs: ( __NSArray_of( NSNumber* ) )_PageIDs
+                              success: ( void (^)( WikiPage* _MatchedPage ) )_SuccessBlock
+                              failure: ( void (^)( NSError* _Error ) )_FailureBlock
+                    stopAllOtherTasks: ( BOOL )_WillStop;
 
 #pragma Images API
-- ( WikiSessionTask* ) fetchImage: ( NSString* )_ImageName
-                          success: ( void (^)( WikiImage* _Image ) )_SuccessBlock
-                          failure: ( void (^)( NSError* _Error ) )_FailureBlock
-                stopAllOtherTasks: ( BOOL )_WillStop;
+- ( WikiQueryTask* ) fetchImage: ( NSString* )_ImageName
+                        success: ( void (^)( WikiImage* _Image ) )_SuccessBlock
+                        failure: ( void (^)( NSError* _Error ) )_FailureBlock
+              stopAllOtherTasks: ( BOOL )_WillStop;
 
 @end // WikiEngine class
 

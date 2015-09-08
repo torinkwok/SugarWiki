@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		831C51371B9DF7CB00790B38 /* __WikiSessionTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 831C51351B9DF7CB00790B38 /* __WikiSessionTask.h */; };
+		831C51371B9DF7CB00790B38 /* __WikiQueryTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 831C51351B9DF7CB00790B38 /* __WikiQueryTask.h */; };
 		831C513B1B9DF9C500790B38 /* __WikiJSONObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 831C51391B9DF9C500790B38 /* __WikiJSONObject.h */; };
 		831C513F1B9DFB6E00790B38 /* __WikiPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 831C513D1B9DFB6E00790B38 /* __WikiPage.h */; };
 		831C51431B9DFFE100790B38 /* __WikiImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 831C51411B9DFFE100790B38 /* __WikiImage.h */; };
@@ -43,8 +43,8 @@
 		834E1D171B9DC205007A8E58 /* WikiRevision.m in Sources */ = {isa = PBXBuildFile; fileRef = 834E1CFE1B9DC205007A8E58 /* WikiRevision.m */; };
 		834E1D181B9DC205007A8E58 /* WikiSearchResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 834E1CFF1B9DC205007A8E58 /* WikiSearchResult.h */; };
 		834E1D191B9DC205007A8E58 /* WikiSearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 834E1D001B9DC205007A8E58 /* WikiSearchResult.m */; };
-		834E1D1A1B9DC205007A8E58 /* WikiSessionTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 834E1D011B9DC205007A8E58 /* WikiSessionTask.h */; };
-		834E1D1B1B9DC205007A8E58 /* WikiSessionTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 834E1D021B9DC205007A8E58 /* WikiSessionTask.m */; };
+		834E1D1A1B9DC205007A8E58 /* WikiQueryTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 834E1D011B9DC205007A8E58 /* WikiQueryTask.h */; };
+		834E1D1B1B9DC205007A8E58 /* WikiQueryTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 834E1D021B9DC205007A8E58 /* WikiQueryTask.m */; };
 		834E1DCF1B9DC683007A8E58 /* AFHTTPRequestOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 834E1D221B9DC683007A8E58 /* AFHTTPRequestOperation.h */; };
 		834E1DD01B9DC683007A8E58 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 834E1D231B9DC683007A8E58 /* AFHTTPRequestOperation.m */; };
 		834E1DD11B9DC683007A8E58 /* AFHTTPRequestOperationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 834E1D241B9DC683007A8E58 /* AFHTTPRequestOperationManager.h */; };
@@ -80,7 +80,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		831C51351B9DF7CB00790B38 /* __WikiSessionTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = __WikiSessionTask.h; sourceTree = "<group>"; };
+		831C51351B9DF7CB00790B38 /* __WikiQueryTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = __WikiQueryTask.h; sourceTree = "<group>"; };
 		831C51391B9DF9C500790B38 /* __WikiJSONObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = __WikiJSONObject.h; sourceTree = "<group>"; };
 		831C513D1B9DFB6E00790B38 /* __WikiPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = __WikiPage.h; sourceTree = "<group>"; };
 		831C51411B9DFFE100790B38 /* __WikiImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = __WikiImage.h; sourceTree = "<group>"; };
@@ -119,8 +119,8 @@
 		834E1CFE1B9DC205007A8E58 /* WikiRevision.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WikiRevision.m; sourceTree = "<group>"; };
 		834E1CFF1B9DC205007A8E58 /* WikiSearchResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WikiSearchResult.h; sourceTree = "<group>"; };
 		834E1D001B9DC205007A8E58 /* WikiSearchResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WikiSearchResult.m; sourceTree = "<group>"; };
-		834E1D011B9DC205007A8E58 /* WikiSessionTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WikiSessionTask.h; sourceTree = "<group>"; };
-		834E1D021B9DC205007A8E58 /* WikiSessionTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WikiSessionTask.m; sourceTree = "<group>"; };
+		834E1D011B9DC205007A8E58 /* WikiQueryTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WikiQueryTask.h; sourceTree = "<group>"; };
+		834E1D021B9DC205007A8E58 /* WikiQueryTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WikiQueryTask.m; sourceTree = "<group>"; };
 		834E1D221B9DC683007A8E58 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
 		834E1D231B9DC683007A8E58 /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
 		834E1D241B9DC683007A8E58 /* AFHTTPRequestOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperationManager.h; sourceTree = "<group>"; };
@@ -176,7 +176,7 @@
 		831C514E1B9E05FA00790B38 /* extensions */ = {
 			isa = PBXGroup;
 			children = (
-				831C51351B9DF7CB00790B38 /* __WikiSessionTask.h */,
+				831C51351B9DF7CB00790B38 /* __WikiQueryTask.h */,
 				83F76FBF1B9EFC2400D1A0FB /* __WikiListsQueryTask.h */,
 				831C51391B9DF9C500790B38 /* __WikiJSONObject.h */,
 				831C51411B9DFFE100790B38 /* __WikiImage.h */,
@@ -233,8 +233,8 @@
 				834E1CFE1B9DC205007A8E58 /* WikiRevision.m */,
 				834E1CFF1B9DC205007A8E58 /* WikiSearchResult.h */,
 				834E1D001B9DC205007A8E58 /* WikiSearchResult.m */,
-				834E1D011B9DC205007A8E58 /* WikiSessionTask.h */,
-				834E1D021B9DC205007A8E58 /* WikiSessionTask.m */,
+				834E1D011B9DC205007A8E58 /* WikiQueryTask.h */,
+				834E1D021B9DC205007A8E58 /* WikiQueryTask.m */,
 				83F76FBB1B9EFBC500D1A0FB /* WikiListsQueryTask.h */,
 				83F76FBC1B9EFBC500D1A0FB /* WikiListsQueryTask.m */,
 				834E1CC81B9DC18C007A8E58 /* Info.plist */,
@@ -320,12 +320,12 @@
 				834E1D0D1B9DC205007A8E58 /* WikiHTTPSessionManager.h in Headers */,
 				834E1D181B9DC205007A8E58 /* WikiSearchResult.h in Headers */,
 				834E1D111B9DC205007A8E58 /* WikiJSONObject.h in Headers */,
-				831C51371B9DF7CB00790B38 /* __WikiSessionTask.h in Headers */,
+				831C51371B9DF7CB00790B38 /* __WikiQueryTask.h in Headers */,
 				834E1DE01B9DC683007A8E58 /* AFURLSessionManager.h in Headers */,
 				834E1D071B9DC205007A8E58 /* WikiConstants.h in Headers */,
 				831C513F1B9DFB6E00790B38 /* __WikiPage.h in Headers */,
 				834E1DD81B9DC683007A8E58 /* AFSecurityPolicy.h in Headers */,
-				834E1D1A1B9DC205007A8E58 /* WikiSessionTask.h in Headers */,
+				834E1D1A1B9DC205007A8E58 /* WikiQueryTask.h in Headers */,
 				834E1D0B1B9DC205007A8E58 /* WikiEngine.h in Headers */,
 				83F76FC11B9EFC2400D1A0FB /* __WikiListsQueryTask.h in Headers */,
 				83F76FBD1B9EFBC500D1A0FB /* WikiListsQueryTask.h in Headers */,
@@ -459,7 +459,7 @@
 				834E1DD01B9DC683007A8E58 /* AFHTTPRequestOperation.m in Sources */,
 				834E1D0C1B9DC205007A8E58 /* WikiEngine.m in Sources */,
 				834E1DD41B9DC683007A8E58 /* AFHTTPSessionManager.m in Sources */,
-				834E1D1B1B9DC205007A8E58 /* WikiSessionTask.m in Sources */,
+				834E1D1B1B9DC205007A8E58 /* WikiQueryTask.m in Sources */,
 				834E1DE11B9DC683007A8E58 /* AFURLSessionManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

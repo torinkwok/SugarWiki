@@ -22,11 +22,11 @@
   ████████████████████████████████████████████████████████████████████████████████
   ██████████████████████████████████████████████████████████████████████████████*/
 
-#import "WikiSessionTask.h"
+#import "WikiQueryTask.h"
 #import "SugarWikiDefines.h"
 
 // WikiListsQueryTask class
-@interface WikiListsQueryTask : WikiSessionTask
+@interface WikiListsQueryTask : WikiQueryTask
 
 #pragma mark Attributes
 @property ( strong, readonly ) __NSArray_of( NSString* ) listNames;

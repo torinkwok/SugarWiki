@@ -24,7 +24,7 @@
 
 #import "WikiListsQueryTask.h"
 
-#import "__WikiSessionTask.h"
+#import "__WikiQueryTask.h"
 #import "__WikiListsQueryTask.h"
 
 // Private Interfaces

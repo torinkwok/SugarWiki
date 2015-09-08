@@ -22,62 +22,20 @@
   ████████████████████████████████████████████████████████████████████████████████
   ██████████████████████████████████████████████████████████████████████████████*/
 
-#import "WikiSessionTask.h"
+@import Foundation;
 
-#import "__WikiSessionTask.h"
+#import "SugarWikiDefines.h"
 
-// Private Interfaces
-@interface WikiSessionTask ()
+// WikiQueryTask class
+@interface WikiQueryTask : NSURLSessionDataTask
 
-@property ( strong, readwrite ) NSString* HTTPMethod;
-@property ( strong, readwrite ) NSURL* endPoint;
-@property ( strong, readwrite ) __NSDictionary_of( NSString*, NSString* ) parameters;
-@property ( strong, readwrite ) NSURLSessionDataTask* sessionDataTask;
+#pragma mark Attributes
+@property ( strong, readonly ) NSString* HTTPMethod;
+@property ( strong, readonly ) NSURL* endPoint;
+@property ( strong, readonly ) __NSDictionary_of( NSString*, NSString* ) parameters;
+@property ( strong, readonly ) NSURLSessionDataTask* sessionDataTask;
 
-@end // Private Interfaces
-
-// WikiSessionTask class
-@implementation WikiSessionTask
-
-@synthesize HTTPMethod;
-@synthesize endPoint;
-@synthesize parameters;
-@synthesize sessionDataTask;
-
-@end // WikiSessionTask class
-
-// WikiSessionTask + SugarWikiPrivate
-@implementation WikiSessionTask ( SugarWikiPrivate )
-
-#pragma mark Private Initializations ( only used by friend classes )
-+ ( instancetype ) __sessionTaskWithHTTPMethod: ( NSString* )_HTTPMethod
-                                      endPoint: ( NSURL* )_EndPoint
-                                    parameters: ( NSDictionary* )_ParamsDict
-                            URLSessionDataTask: ( NSURLSessionDataTask* )_SessionDataTask
-    {
-    return [ [ self alloc ] __initWithHTTPMethod: _HTTPMethod
-                                        endPoint: _EndPoint
-                                      parameters: _ParamsDict
-                              URLSessionDataTask: _SessionDataTask ];
-    }
-
-- ( instancetype ) __initWithHTTPMethod: ( NSString* )_HTTPMethod
-                               endPoint: ( NSURL* )_EndPoint
-                             parameters: ( NSDictionary* )_ParamsDict
-                     URLSessionDataTask: ( NSURLSessionDataTask* )_SessionDataTask
-    {
-    if ( self = [ super init ] )
-        {
-        self.HTTPMethod = _HTTPMethod;
-        self.endPoint = _EndPoint;
-        self.parameters = _ParamsDict;
-        self.sessionDataTask = _SessionDataTask;
-        }
-
-    return self;
-    }
-
-@end // WikiSessionTask + SugarWikiPrivate
+@end // WikiQueryTask class
 
 /*================================================================================┐
 |                              The MIT License (MIT)                              |

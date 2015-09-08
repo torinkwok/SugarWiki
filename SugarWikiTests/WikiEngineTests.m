@@ -27,7 +27,7 @@
 #import "WikiImage.h"
 #import "WikiSearchResult.h"
 #import "WikiRevision.h"
-#import "WikiSessionTask.h"
+#import "WikiQueryTask.h"
 #import "AFNetworking.h"
 
 @import XCTest;
@@ -171,10 +171,10 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     XCTestExpectation* jsonExpectation0 = [ self expectationWithDescription: @"🔍JSON Exception 0⃣️" ];
     XCTestExpectation* jsonExpectation1 = [ self expectationWithDescription: @"🔍JSON Exception 1⃣️" ];
 
-    WikiSessionTask* wikiSessionTask = nil;
+    WikiQueryTask* WikiQueryTask = nil;
 
     WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: @"en" ];
-    wikiSessionTask =
+    WikiQueryTask =
         [ positiveTestCase searchAllPagesThatHaveValue: @"Ruby"
                                           inNamespaces: nil
                                               approach: WikiEngineSearchApproachPageText
@@ -192,9 +192,9 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
                     }                stopAllOtherTasks: NO ];
 
-    [ self _testReturnedWikiSessionTask: wikiSessionTask ];
+    [ self _testReturnedWikiQueryTask: WikiQueryTask ];
 
-    wikiSessionTask =
+    WikiQueryTask =
         [ positiveTestCase searchAllPagesThatHaveValue: @"C++"
                                           inNamespaces: @[ @( WikiNamespaceDraft ), @( WikiNamespaceWikipedia ) ]
                                               approach: WikiEngineSearchApproachPageText
@@ -212,7 +212,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
                     }                stopAllOtherTasks: NO ];
 
-    [ self _testReturnedWikiSessionTask: wikiSessionTask ];
+    [ self _testReturnedWikiQueryTask: WikiQueryTask ];
 
     [ self waitForExpectationsWithTimeout: 15
                                   handler:
@@ -226,10 +226,10 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     {
     XCTestExpectation* jsonExpectation0 = [ self expectationWithDescription: @"🌋JSON Exception 0⃣️" ];
 
-    WikiSessionTask* wikiSessionTask = nil;
+    WikiQueryTask* WikiQueryTask = nil;
 
     WikiEngine* positiveTestCase = [ WikiEngine commonsEngine ];
-    wikiSessionTask =
+    WikiQueryTask =
         [ positiveTestCase fetchImage: @"CPP ‒ Convention People's Party logo.jpg"
                               success:
         ^( WikiImage* _Image )
@@ -243,7 +243,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                     }
                     stopAllOtherTasks: NO ];
 
-    [ self _testReturnedWikiSessionTask: wikiSessionTask ];
+    [ self _testReturnedWikiQueryTask: WikiQueryTask ];
 
     [ self waitForExpectationsWithTimeout: 15
                                   handler:
@@ -254,18 +254,18 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     }
 
 #pragma mark Private Interfaces
-- ( void ) _testReturnedWikiSessionTask: ( WikiSessionTask* )_WikiSessionTask
+- ( void ) _testReturnedWikiQueryTask: ( WikiQueryTask* )_WikiQueryTask
     {
-    NSLog( @"%@", _WikiSessionTask );
+    NSLog( @"%@", _WikiQueryTask );
     printf( "==============================================================\n" );
 
-    XCTAssertNotNil( _WikiSessionTask );
-    XCTAssertTrue( [ _WikiSessionTask isKindOfClass: [ WikiSessionTask class ] ] );
+    XCTAssertNotNil( _WikiQueryTask );
+    XCTAssertTrue( [ _WikiQueryTask isKindOfClass: [ WikiQueryTask class ] ] );
 
-    XCTAssertNotNil( _WikiSessionTask.HTTPMethod );
-    XCTAssertNotNil( _WikiSessionTask.endPoint );
-    XCTAssertNotNil( _WikiSessionTask.parameters );
-    XCTAssertNotNil( _WikiSessionTask.sessionDataTask );
+    XCTAssertNotNil( _WikiQueryTask.HTTPMethod );
+    XCTAssertNotNil( _WikiQueryTask.endPoint );
+    XCTAssertNotNil( _WikiQueryTask.parameters );
+    XCTAssertNotNil( _WikiQueryTask.sessionDataTask );
     }
 
 - ( void ) _testSearchResult: ( WikiSearchResult* )_SearchResult
