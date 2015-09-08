@@ -93,7 +93,22 @@ typedef NSArray <__kindof WikiSearchResult*> WikiSearchResults;
                          success: ( void (^)( NSDictionary* _ResultsJSONDict ) )_SuccessBlock
                          failure: ( void (^)( NSError* _Error ) )_FailureBlock;
 
-#pragma mark Search API
+- ( WikiSessionTask* ) queryProperties: ( NSArray <__kindof NSString*>* )_PropValues
+                       otherParameters: ( NSDictionary* )_ParamsDict
+                               success: ( void (^)( NSDictionary* _ResultsJSONDict ) )_SuccessBlock
+                               failure: ( void (^)( NSError* _Error ) )_FailureBlock
+                     stopAllOtherTasks: ( BOOL )_WillStop;
+
+// Convenience
+- ( WikiSessionTask* ) queryProperties: ( NSArray <__kindof NSString*>* )_PropValues
+                       otherParameters: ( NSDictionary* )_ParamsDict
+                               success: ( void (^)( NSDictionary* _ResultsJSONDict ) )_SuccessBlock
+                               failure: ( void (^)( NSError* _Error ) )_FailureBlock;
+
+#pragma mark Searching
+
+/** @name Searching */
+
 - ( WikiSessionTask* ) searchAllPagesThatHaveValue: ( NSString* )_SearchValue
                                       inNamespaces: ( NSArray* )_Namespaces
                                           approach: ( WikiEngineSearchApproach )_SearchApproach
@@ -109,6 +124,29 @@ typedef NSArray <__kindof WikiSearchResult*> WikiSearchResults;
                                              limit: ( NSUInteger )_Limit
                                            success: ( void (^)( WikiSearchResults* _SearchResults ) )_SuccessBlock
                                            failure: ( void (^)( NSError* _Error ) )_FailureBlock;
+#pragma mark Pages
+
+/** @name Pages */
+
+- ( WikiSessionTask* ) pageWithTitle: ( NSString* )_PageTitle
+                             success: ( void (^)( WikiPage* _MatchedPage ) )_SuccessBlock
+                             failure: ( void (^)( NSError* _Error ) )_FailureBlock
+                   stopAllOtherTasks: ( BOOL )_WillStop;
+
+- ( WikiSessionTask* ) pageWithPageID: ( SInt64 )_PageID
+                              success: ( void (^)( WikiPage* _MatchedPage ) )_SuccessBlock
+                              failure: ( void (^)( NSError* _Error ) )_FailureBlock
+                    stopAllOtherTasks: ( BOOL )_WillStop;
+
+// Convenience
+- ( WikiSessionTask* ) pageWithTitle: ( NSString* )_PageTitle
+                             success: ( void (^)( WikiPage* _MatchedPage ) )_SuccessBlock
+                             failure: ( void (^)( NSError* _Error ) )_FailureBlock;
+
+- ( WikiSessionTask* ) pageWithPageID: ( SInt64 )_PageID
+                              success: ( void (^)( WikiPage* _MatchedPage ) )_SuccessBlock
+                              failure: ( void (^)( NSError* _Error ) )_FailureBlock;
+
 #pragma Images API
 - ( WikiSessionTask* ) fetchImage: ( NSString* )_ImageName
                           success: ( void (^)( WikiImage* _Image ) )_SuccessBlock
