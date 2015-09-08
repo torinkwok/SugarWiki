@@ -190,7 +190,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                 ^( NSError* _Error )
                     {
 
-                    } ];
+                    }                stopAllOtherTasks: NO ];
 
     [ self _testReturnedWikiSessionTask: wikiSessionTask ];
 
@@ -210,7 +210,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                 ^( NSError* _Error )
                     {
 
-                    } ];
+                    }                stopAllOtherTasks: NO ];
 
     [ self _testReturnedWikiSessionTask: wikiSessionTask ];
 
@@ -240,7 +240,8 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                 ^( NSError* _Error )
                     {
 
-                    } ];
+                    }
+                    stopAllOtherTasks: NO ];
 
     [ self _testReturnedWikiSessionTask: wikiSessionTask ];
 

@@ -33,6 +33,7 @@
 #import "__WikiSessionTask.h"
 #import "__WikiImage.h"
 #import "__WikiSearchResult.h"
+#import "__WikiPage.h"
 
 #import "__WikiJSONUtilities.h"
 
@@ -125,7 +126,7 @@ NSString* const kParamValListAllImages = @"allimages";
     }
 
 #pragma mark Generic Methods to GET and POST
-- ( WikiSessionTask* ) fetchResourceWithParameters: ( NSDictionary* )_Params
+- ( WikiSessionTask* ) fetchResourceWithParameters: ( __NSDictionary_of( NSString*, NSString* )* )_Params
                                         HTTPMethod: ( NSString* )_HTTPMethod
                                            success: ( void (^)( NSURLSessionDataTask* _Task, id _ResponseObject ) )_SuccessBlock
                                            failure: ( void (^)( NSURLSessionDataTask* _Task, NSError* _Error ) )_FailureBlock
@@ -176,27 +177,14 @@ NSString* const kParamValListAllImages = @"allimages";
                                       URLSessionDataTask: dataTask ];
     }
 
-// Convenience
-- ( WikiSessionTask* ) fetchResourceWithParameters: ( NSDictionary* )_Params
-                                        HTTPMethod: ( NSString* )_HTTPMethod
-                                           success: ( void (^)( NSURLSessionDataTask* _Task, id _ResponseObject ) )_SuccessBlock
-                                           failure: ( void (^)( NSURLSessionDataTask* _Task, NSError* _Error ) )_FailureBlock
-    {
-    return [ self fetchResourceWithParameters: _Params
-                                   HTTPMethod: _HTTPMethod
-                                      success: _SuccessBlock
-                                      failure: _FailureBlock
-                            stopAllOtherTasks: NO ];
-    }
-
 #pragma mark Generic Methods to Query
 - ( WikiSessionTask* ) queryList: ( NSString* )_ListValue
-                 otherParameters: ( NSDictionary* )_ParamsDict
+                 otherParameters: ( __NSDictionary_of( NSString*, NSString* )* )_ParamsDict
                          success: ( void (^)( NSDictionary* _ResultsJSONDict ) )_SuccessBlock
                          failure: ( void (^)( NSError* _Error ) )_FailureBlock
                stopAllOtherTasks: ( BOOL )_WillStop
     {
-    NSParameterAssert( _ListValue && _ParamsDict );
+    NSParameterAssert( ( _ListValue ) && ( _ParamsDict.count > 0 ) );
 
     NSMutableDictionary* paramsDict = [ NSMutableDictionary dictionaryWithDictionary: _ParamsDict ];
     [ paramsDict addEntriesFromDictionary: @{ kParamKeyAction : kParamValActionQuery
@@ -223,29 +211,22 @@ NSString* const kParamValListAllImages = @"allimages";
                     }       stopAllOtherTasks: _WillStop ];
     }
 
-// Convenience
-- ( WikiSessionTask* ) queryList: ( NSString* )_ListValue
-                 otherParameters: ( NSDictionary* )_ParamsDict
-                         success: ( void (^)( NSDictionary* _ResultsJSONDict ) )_SuccessBlock
-                         failure: ( void (^)( NSError* _Error ) )_FailureBlock
-    {
-    return [ self queryList: _ListValue
-            otherParameters: _ParamsDict
-                    success: _SuccessBlock
-                    failure: _FailureBlock
-          stopAllOtherTasks: NO ];
-    }
 
-- ( WikiSessionTask* ) queryProperties: ( NSArray <__kindof NSString*>* )_PropValues
-                       otherParameters: ( NSDictionary* )_ParamsDict
+- ( WikiSessionTask* ) queryProperties: ( __NSArray_of( NSString* )* )_PropValues
+                       otherParameters: ( __NSDictionary_of( NSString*, NSString* )* )_ParamsDict
                                success: ( void (^)( NSDictionary* _ResultsJSONDict ) )_SuccessBlock
                                failure: ( void (^)( NSError* _Error ) )_FailureBlock
                      stopAllOtherTasks: ( BOOL )_WillStop
     {
+    NSParameterAssert( ( _PropValues.count > 0 ) && ( _ParamsDict.count > 0 ) );
+
     NSString* joinedPropsValues = [ _PropValues componentsJoinedByString: @"|" ];
 
     NSMutableDictionary* paramsDict = [ NSMutableDictionary dictionaryWithDictionary: _ParamsDict ];
-    [ paramsDict addEntriesFromDictionary: @{ kParamKeyProp : joinedPropsValues } ];
+    [ paramsDict addEntriesFromDictionary: @{ kParamKeyAction : kParamValActionQuery
+                                            , kParamKeyFormat : kParamValFormatJSON
+                                            , kParamKeyProp : joinedPropsValues
+                                            } ];
 
     return [ self fetchResourceWithParameters: paramsDict
                                    HTTPMethod: kGET
@@ -266,19 +247,6 @@ NSString* const kParamValListAllImages = @"allimages";
                     }       stopAllOtherTasks: _WillStop ];
     }
 
-// Convenience
-- ( WikiSessionTask* ) queryProperties: ( NSArray <__kindof NSString*>* )_PropValues
-                       otherParameters: ( NSDictionary* )_ParamsDict
-                               success: ( void (^)( NSDictionary* _ResultsJSONDict ) )_SuccessBlock
-                               failure: ( void (^)( NSError* _Error ) )_FailureBlock
-    {
-    return [ self queryProperties: _PropValues
-                  otherParameters: _ParamsDict
-                          success: _SuccessBlock
-                          failure: _FailureBlock
-                stopAllOtherTasks: NO ];
-    }
-
 #pragma mark Search API
 - ( WikiSessionTask* ) searchAllPagesThatHaveValue: ( NSString* )_SearchValue
                                       inNamespaces: ( NSArray* )_Namespaces
@@ -288,6 +256,8 @@ NSString* const kParamValListAllImages = @"allimages";
                                            failure: ( void (^)( NSError* _Error ) )_FailureBlock
                                  stopAllOtherTasks: ( BOOL )_WillStop
     {
+    NSParameterAssert( ( _SearchValue.length > 0 ) );
+
     NSString* srnamespace = nil;
     if ( _Namespaces.count > 0 )
         srnamespace = [ _Namespaces componentsJoinedByString: @"|" ];
@@ -311,7 +281,8 @@ NSString* const kParamValListAllImages = @"allimages";
                                                                                    , [ WikiSearchResult class ]
                                                                                    , @selector( __searchResultWithJSONDict: )
                                                                                    );
-                _SuccessBlock( searchResults );
+                if ( searchResults )
+                    _SuccessBlock( searchResults );
                 }
             } failure:
                 ^( NSError* _Error )
@@ -322,58 +293,81 @@ NSString* const kParamValListAllImages = @"allimages";
           stopAllOtherTasks: _WillStop ];
     }
 
-// Convenience
-- ( WikiSessionTask* ) searchAllPagesThatHaveValue: ( NSString* )_SearchValue
-                                      inNamespaces: ( NSArray* )_Namespaces
-                                          approach: ( WikiEngineSearchApproach )_SearchApproach
-                                             limit: ( NSUInteger )_Limit
-                                           success: ( void (^)( WikiSearchResults* _SearchResults ) )_SuccessBlock
-                                           failure: ( void (^)( NSError* _Error ) )_FailureBlock
+#pragma mark Pages
+- ( WikiSessionTask* ) pagesWithTitles: ( __NSArray_of( NSString* )* )_Titles
+                               success: ( void (^)( WikiPage* _MatchedPage ) )_SuccessBlock
+                               failure: ( void (^)( NSError* _Error ) )_FailureBlock
+                     stopAllOtherTasks: ( BOOL )_WillStop
     {
-    return [ self searchAllPagesThatHaveValue: _SearchValue
-                                 inNamespaces: _Namespaces
-                                     approach: _SearchApproach
-                                        limit: _Limit
-                                      success: _SuccessBlock
-                                      failure: _FailureBlock
-                            stopAllOtherTasks: NO ];
+    NSParameterAssert( ( _Titles.count > 0 ) );
+
+    NSString* joindedTitles = [ _Titles componentsJoinedByString: @"|" ];
+
+    NSDictionary* parameters = @{ @"titles" : joindedTitles
+                                , @"rvprop" : @"parsecontent|ids|flags|timestamp|user|userid|comment|parsedcomment|size"
+                                , @"continue" : @""
+                                , @"inprop" : @"url|watched|talkid|preload|displaytitle"
+                                , @"rvsection" : @"0"
+                                };
+
+    return [ self queryProperties: @[ @"info", @"revisions", @"pageprops" ]
+                  otherParameters: parameters
+                          success:
+        ^( NSDictionary* _ResultsJSONDict )
+            {
+            if ( _SuccessBlock )
+                {
+                NSDictionary* matchedPageJSONDict = [ _ResultsJSONDict[ @"query" ] firstObject ];
+                WikiPage* matchedPage = [ WikiPage __pageWithJSONDict: matchedPageJSONDict ];
+
+                if ( matchedPage )
+                    _SuccessBlock( matchedPage );
+                }
+            } failure:
+                ^( NSError* _Error )
+                    {
+                    if ( _Error && _FailureBlock )
+                        _FailureBlock( _Error );
+                    }
+          stopAllOtherTasks: _WillStop ];
     }
 
-#pragma mark Pages API
-- ( WikiSessionTask* ) pageWithTitle: ( NSString* )_PageTitle
-                             success: ( void (^)( WikiPage* _MatchedPage ) )_SuccessBlock
-                             failure: ( void (^)( NSError* _Error ) )_FailureBlock
-                   stopAllOtherTasks: ( BOOL )_WillStop
+- ( WikiSessionTask* ) pagesWithPageIDs: ( __NSArray_of( NSNumber* )* )_PageIDs
+                                success: ( void (^)( WikiPage* _MatchedPage ) )_SuccessBlock
+                                failure: ( void (^)( NSError* _Error ) )_FailureBlock
+                      stopAllOtherTasks: ( BOOL )_WillStop
     {
-    NSParameterAssert( _PageTitle && _PageTitle.length > 0 );
+    NSParameterAssert( ( _PageIDs.count > 0 ) );
 
-    [ self queryList:
-    }
+    NSString* joindedPageIDs = [ _PageIDs componentsJoinedByString: @"|" ];
 
-//- ( WikiSessionTask* ) pageWithPageID: ( SInt64 )_PageID
-//                              success: ( void (^)( WikiPage* _MatchedPage ) )_SuccessBlock
-//                              failure: ( void (^)( NSError* _Error ) )_FailureBlock
-//                    stopAllOtherTasks: ( BOOL )_WillStop
+    NSDictionary* parameters = @{ @"pageids" : joindedPageIDs
+                                , @"rvprop" : @"parsecontent|ids|flags|timestamp|user|userid|comment|parsedcomment|size"
+                                , @"continue" : @""
+                                , @"inprop" : @"url|watched|talkid|preload|displaytitle"
+                                , @"rvsection" : @"0"
+                                };
 
-// Convenience
-- ( WikiSessionTask* ) pageWithTitle: ( NSString* )_PageTitle
-                             success: ( void (^)( WikiPage* _MatchedPage ) )_SuccessBlock
-                             failure: ( void (^)( NSError* _Error ) )_FailureBlock
-    {
-    return [ self pageWithTitle: _PageTitle
-                        success: _SuccessBlock
-                        failure: _FailureBlock
-              stopAllOtherTasks: NO ];
-    }
+    return [ self queryProperties: @[ @"info", @"revisions", @"pageprops" ]
+                  otherParameters: parameters
+                          success:
+        ^( NSDictionary* _ResultsJSONDict )
+            {
+            if ( _SuccessBlock )
+                {
+                NSDictionary* matchedPageJSONDict = [ _ResultsJSONDict[ @"query" ] firstObject ];
+                WikiPage* matchedPage = [ WikiPage __pageWithJSONDict: matchedPageJSONDict ];
 
-- ( WikiSessionTask* ) pageWithPageID: ( SInt64 )_PageID
-                              success: ( void (^)( WikiPage* _MatchedPage ) )_SuccessBlock
-                              failure: ( void (^)( NSError* _Error ) )_FailureBlock
-    {
-    return [ self pageWithPageID: ( SInt64 )_PageID
-                         success: ( void (^)( WikiPage* _MatchedPage ) )_SuccessBlock
-                         failure: ( void (^)( NSError* _Error ) )_FailureBlock
-               stopAllOtherTasks: NO ];
+                if ( matchedPage )
+                    _SuccessBlock( matchedPage );
+                }
+            } failure:
+                ^( NSError* _Error )
+                    {
+                    if ( _Error && _FailureBlock )
+                        _FailureBlock( _Error );
+                    }
+          stopAllOtherTasks: _WillStop ];
     }
 
 #pragma Images API
@@ -382,6 +376,8 @@ NSString* const kParamValListAllImages = @"allimages";
                           failure: ( void (^)( NSError* _Error ) )_FailureBlock
                 stopAllOtherTasks: ( BOOL )_WillStop
     {
+    NSParameterAssert( ( _ImageName.length > 0 ) );
+
     NSString* normalizedImageName = [ _ImageName stringByReplacingOccurrencesOfString: @" " withString: @"_" ];
 
     NSDictionary* parameters = @{ @"aifrom" : normalizedImageName

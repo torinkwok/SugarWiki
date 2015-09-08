@@ -23,7 +23,7 @@
   ██████████████████████████████████████████████████████████████████████████████*/
 
 #import "WikiJSONObject.h"
-#import "WikiMacros.h"
+#import "SugarWikiDefines.h"
 
 #import "__WikiJSONObject.h"
 
