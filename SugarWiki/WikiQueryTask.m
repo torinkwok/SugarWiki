@@ -62,6 +62,14 @@
         self.endPoint = _EndPoint;
         self.parameters = _ParamsDict;
         self.sessionDataTask = _SessionDataTask;
+
+        self.queryOptions = WikiQueryTypeUnknown;
+
+        if ( [ ( NSString* )_ParamsDict[ @"prop" ] length ] > 0 )
+            self.queryOptions |= WikiQueryTypeProps;
+
+        else if ( [ ( NSString* )_ParamsDict[ @"lists" ] length ] > 0 )
+            self.queryOptions |= WikiQueryTypeLists;
         }
 
     return self;

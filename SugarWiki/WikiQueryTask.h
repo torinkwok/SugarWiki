@@ -26,6 +26,13 @@
 
 #import "SugarWikiDefines.h"
 
+typedef NS_OPTIONS ( NSUInteger, WikiQueryOptions )
+    { WikiQueryTypeLists            = 1 << 0
+    , WikiQueryTypeProps            = 1 << 1
+
+    , WikiQueryTypeUnknown          = 0x000000
+    };
+
 // WikiQueryTask class
 @interface WikiQueryTask : NSURLSessionDataTask
 
@@ -34,6 +41,8 @@
 
 @property ( strong, readonly ) NSString* HTTPMethod;
 @property ( strong, readonly ) NSURL* endPoint;
+
+@property ( assign, readonly ) WikiQueryOptions queryOptions;
 @property ( strong, readonly ) __NSDictionary_of( NSString*, NSString* ) parameters;
 @property ( strong, readonly ) __NSArray_of( NSString* ) listNames;
 

@@ -31,6 +31,8 @@
 
 @property ( strong, readwrite ) NSString* HTTPMethod;
 @property ( strong, readwrite ) NSURL* endPoint;
+
+@property ( assign, readwrite ) WikiQueryOptions queryOptions;
 @property ( strong, readwrite ) __NSDictionary_of( NSString*, NSString* ) parameters;
 @property ( strong, readwrite ) __NSArray_of( NSString* ) listNames;
 
