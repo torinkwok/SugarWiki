@@ -82,20 +82,33 @@ NSArray* _WikiArrayValueWhichHasBeenParsedOutOfJSON( NSDictionary* _JSONObject
                                                    , SEL _InitMethodsOfElements
                                                    )
     {
-    NSMutableArray* wrappedObjects = nil;
+    NSMutableArray* wrappedObjects = [ NSMutableArray array ];
 
     id objects = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( _JSONObject, _JSONPropertyKey );
-    if ( objects.count > 0 )
-        {
-        wrappedObjects = [ NSMutableArray array ];
-        for ( NSDictionary* objectElem in objects )
-            @try {
-                id cocoaObject = objc_msgSend( _KindOfElements, _InitMethodsOfElements, objectElem );
 
-                if ( cocoaObject )
-                    [ wrappedObjects addObject: cocoaObject ];
-                } @catch ( NSException* _Ex )
-                    { NSLog( @"%@", _Ex ); }
+    if ( [ objects isKindOfClass: [ NSArray class ] ] )
+        {
+        if ( ( ( NSArray* )objects ).count > 0 )
+            {
+            for ( NSDictionary* objectElem in objects )
+                @try {
+                    id cocoaObject = objc_msgSend( _KindOfElements, _InitMethodsOfElements, objectElem );
+
+                    if ( cocoaObject )
+                        [ wrappedObjects addObject: cocoaObject ];
+                    } @catch ( NSException* _Ex )
+                        { NSLog( @"%@", _Ex ); }
+            }
+        }
+    else if ( [ objects isKindOfClass: [ NSDictionary class ] ] )
+        {
+        @try {
+            id cocoaObject = objc_msgSend( _KindOfElements, _InitMethodsOfElements, objects );
+
+            if ( cocoaObject )
+                [ wrappedObjects addObject: cocoaObject ];
+            } @catch ( NSException* _Ex )
+                { NSLog( @"%@", _Ex ); }
         }
 
     return wrappedObjects ? [ wrappedObjects copy ] : nil;

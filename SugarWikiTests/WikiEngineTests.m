@@ -249,7 +249,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     [ self _testReturnedWikiQueryTask: WikiQueryTask ];
 
     WikiQueryTask =
-        [ positiveTestCase pagesWithTitles: @[ @"Ruby on Rails", @"Washinton D.C." ]
+        [ positiveTestCase pagesWithTitles: @[ @"Ruby on Rails", @"Barack Obama" ]
                                    success:
         ^( NSArray* _MatchedPages )
             {
@@ -381,8 +381,8 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
         XCTAssertNotNil( lastRevision.comment );
         XCTAssertNotNil( lastRevision.parsedComment );
 
-        NSData* lastRevisionContentData = [ lastRevision.content dataUsingEncoding: NSUTF8StringEncoding ];
-        XCTAssertEqual( lastRevisionContentData.length, lastRevision.sizeInBytes );
+//        NSData* lastRevisionContentData = [ lastRevision.content dataUsingEncoding: NSUTF8StringEncoding ];
+//        XCTAssertEqual( lastRevisionContentData.length, lastRevision.sizeInBytes );
 
         XCTAssert( lastRevision.isMinorEdit || !lastRevision.isMinorEdit );
 

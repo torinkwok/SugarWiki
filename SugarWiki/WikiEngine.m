@@ -278,16 +278,15 @@ NSString* const kParamValListAllImages = @"allimages";
                     Class elementClass = NULL;
                     SEL initSEL = NULL;
 
-                    [ self __wikiClassAndSELDerivedFromQueryValue: _Key :&elementClass :&initSEL ];
+                    [ self __wikiClassAndSELDerivedFromQueryValue: @"pages" :&elementClass :&initSEL ];
 
-//                    NSMutableDictionary* pagesJSONDict = [ queryResultsJSONDict
                     NSArray* wikiJSONObjects = _WikiArrayValueWhichHasBeenParsedOutOfJSON( queryResultsJSONDict
                                                                                          , _Key
                                                                                          , elementClass
                                                                                          , initSEL
                                                                                          );
                     if ( wikiJSONObjects )
-                        [ results addEntriesFromDictionary: @{ _Key : wikiJSONObjects } ];
+                        [ results addEntriesFromDictionary: @{ @"pages" : wikiJSONObjects } ];
                     }
                 }
 
@@ -350,7 +349,7 @@ NSString* const kParamValListAllImages = @"allimages";
     NSString* joindedTitles = [ _Titles componentsJoinedByString: @"|" ];
 
     NSDictionary* parameters = @{ @"titles" : joindedTitles
-                                , @"rvprop" : @"parsecontent|ids|flags|timestamp|user|userid|comment|parsedcomment|size"
+                                , @"rvprop" : @"ids|flags|timestamp|comment|user|size|sha1|contentmodel|parsedcomment|content"
                                 , @"continue" : @""
                                 , @"inprop" : @"url|watched|talkid|preload|displaytitle"
                                 , @"rvsection" : @"0"
@@ -382,7 +381,7 @@ NSString* const kParamValListAllImages = @"allimages";
     NSString* joindedPageIDs = [ _PageIDs componentsJoinedByString: @"|" ];
 
     NSDictionary* parameters = @{ @"pageids" : joindedPageIDs
-                                , @"rvprop" : @"parsecontent|ids|flags|timestamp|user|userid|comment|parsedcomment|size"
+                                , @"rvprop" : @"ids|flags|timestamp|comment|user|size|sha1|contentmodel|parsedcomment|content"
                                 , @"continue" : @""
                                 , @"inprop" : @"url|watched|talkid|preload|displaytitle"
                                 , @"rvsection" : @"0"
