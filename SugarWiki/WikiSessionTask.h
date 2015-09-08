@@ -24,13 +24,15 @@
 
 @import Foundation;
 
+#import "SugarWikiDefines.h"
+
 // WikiSessionTask class
 @interface WikiSessionTask : NSURLSessionDataTask
 
 #pragma mark Attributes
 @property ( strong, readonly ) NSString* HTTPMethod;
 @property ( strong, readonly ) NSURL* endPoint;
-@property ( strong, readonly ) NSDictionary* parameters;
+@property ( strong, readonly ) __NSDictionary_of( NSString*, NSString* ) parameters;
 @property ( strong, readonly ) NSURLSessionDataTask* sessionDataTask;
 
 @end // WikiSessionTask class

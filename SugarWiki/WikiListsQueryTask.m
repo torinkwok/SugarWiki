@@ -22,62 +22,56 @@
   ████████████████████████████████████████████████████████████████████████████████
   ██████████████████████████████████████████████████████████████████████████████*/
 
-#import "WikiSessionTask.h"
+#import "WikiListsQueryTask.h"
 
 #import "__WikiSessionTask.h"
+#import "__WikiListsQueryTask.h"
 
 // Private Interfaces
-@interface WikiSessionTask ()
+@interface WikiListsQueryTask ()
 
-@property ( strong, readwrite ) NSString* HTTPMethod;
-@property ( strong, readwrite ) NSURL* endPoint;
-@property ( strong, readwrite ) __NSDictionary_of( NSString*, NSString* ) parameters;
-@property ( strong, readwrite ) NSURLSessionDataTask* sessionDataTask;
+@property ( strong, readwrite ) __NSArray_of( NSString* ) listNames;
 
 @end // Private Interfaces
 
-// WikiSessionTask class
-@implementation WikiSessionTask
+// WikiListsQueryTask class
+@implementation WikiListsQueryTask
 
-@synthesize HTTPMethod;
-@synthesize endPoint;
-@synthesize parameters;
-@synthesize sessionDataTask;
+@end // WikiListsQueryTask class
 
-@end // WikiSessionTask class
-
-// WikiSessionTask + SugarWikiPrivate
-@implementation WikiSessionTask ( SugarWikiPrivate )
+// WikiListsQueryTask + SugarWikiPrivate
+@implementation WikiListsQueryTask ( SugarWikiPrivate )
 
 #pragma mark Private Initializations ( only used by friend classes )
-+ ( instancetype ) __sessionTaskWithHTTPMethod: ( NSString* )_HTTPMethod
-                                      endPoint: ( NSURL* )_EndPoint
-                                    parameters: ( NSDictionary* )_ParamsDict
-                            URLSessionDataTask: ( NSURLSessionDataTask* )_SessionDataTask
++ ( instancetype ) __listsQueryTaskWithListNames: ( __NSArray_of( NSString* ) )_ListNames
+                                      HTTPMethod: ( NSString* )_HTTPMethod
+                                        endPoint: ( NSURL* )_EndPoint
+                                      parameters: ( NSDictionary* )_ParamsDict
+                              URLSessionDataTask: ( NSURLSessionDataTask* )_SessionDataTask
     {
-    return [ [ self alloc ] __initWithHTTPMethod: _HTTPMethod
-                                        endPoint: _EndPoint
-                                      parameters: _ParamsDict
-                              URLSessionDataTask: _SessionDataTask ];
+    return [ [ self alloc ] __initWithListNames: _ListNames
+                                     HTTPMethod: _HTTPMethod
+                                       endPoint: _EndPoint
+                                     parameters: _ParamsDict
+                             URLSessionDataTask: _SessionDataTask ];
     }
 
-- ( instancetype ) __initWithHTTPMethod: ( NSString* )_HTTPMethod
-                               endPoint: ( NSURL* )_EndPoint
-                             parameters: ( NSDictionary* )_ParamsDict
-                     URLSessionDataTask: ( NSURLSessionDataTask* )_SessionDataTask
+- ( instancetype ) __initWithListNames: ( __NSArray_of( NSString* ) )_ListNames
+                            HTTPMethod: ( NSString* )_HTTPMethod
+                              endPoint: ( NSURL* )_EndPoint
+                            parameters: ( NSDictionary* )_ParamsDict
+                    URLSessionDataTask: ( NSURLSessionDataTask* )_SessionDataTask
     {
-    if ( self = [ super init ] )
-        {
-        self.HTTPMethod = _HTTPMethod;
-        self.endPoint = _EndPoint;
-        self.parameters = _ParamsDict;
-        self.sessionDataTask = _SessionDataTask;
-        }
+    if ( self = [ super __initWithHTTPMethod: _HTTPMethod
+                                    endPoint: _EndPoint
+                                  parameters: _ParamsDict
+                          URLSessionDataTask: _SessionDataTask ] )
+        self.listNames = _ListNames;
 
     return self;
     }
 
-@end // WikiSessionTask + SugarWikiPrivate
+@end // WikiListsQueryTask + SugarWikiPrivate
 
 /*================================================================================┐
 |                              The MIT License (MIT)                              |
