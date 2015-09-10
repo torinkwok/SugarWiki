@@ -52,8 +52,8 @@ typedef NS_ENUM( NSUInteger, WikiEngineSearchApproach )
 
     NSString __strong* _ISOLanguageCode;
 
-    __strong __NSDictionary_of( NSString*, NSString* ) __pageQueryGeneralParams;
     __strong __NSArray_of( NSString* ) __pageQueryGeneralProps;
+    __strong __NSDictionary_of( NSString*, NSString* ) __pageQueryGeneralPropParams;
 
     __strong __NSArray_of( NSString* ) __rvprop;
     __strong __NSArray_of( NSString* ) __inprop;

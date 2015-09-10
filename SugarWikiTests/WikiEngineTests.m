@@ -300,7 +300,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
             NSMutableDictionary* parameters = [ NSMutableDictionary dictionary ];
 
             [ parameters addEntriesFromDictionary: @{ [ _PosSample.firstObject isKindOfClass: [ NSNumber class ] ] ? @"pageids" : @"titles" : _PosSample } ];
-            [ parameters addEntriesFromDictionary: positiveTestCase.__pageQueryGeneralParams ];
+            [ parameters addEntriesFromDictionary: positiveTestCase.__pageQueryGeneralPropParams ];
             [ parameters addEntriesFromDictionary: self->_posQueryPropParamSamples[ count ] ];
 
             WikiQueryTask* WikiQueryTask =

@@ -129,11 +129,11 @@ NSString* const kParamValListAllImages = @"allimages";
 
         self->__srprop = @[ @"size", @"wordcount", @"timestamp", @"snippet", @"titlesnippet", @"sectionsnippet" ];
 
-        self->__pageQueryGeneralParams = @{ @"rvprop" : self->__rvprop, @"rvsection" : @"0"
-                                          , @"inprop" : self->__inprop, @"continue" : @""
-                                          };
-
         self->__pageQueryGeneralProps = @[ @"info", @"revisions", @"pageprops" ];
+
+        self->__pageQueryGeneralPropParams = @{ @"rvprop" : self->__rvprop, @"rvsection" : @"0"
+                                              , @"inprop" : self->__inprop, @"continue" : @""
+                                              };
         }
 
     return self;
@@ -366,7 +366,7 @@ NSString* const kParamValListAllImages = @"allimages";
     NSParameterAssert( ( _Titles.count > 0 ) );
 
     NSMutableDictionary* parameters = [ NSMutableDictionary dictionaryWithObject: _Titles forKey: @"titles" ];
-    [ parameters addEntriesFromDictionary: self->__pageQueryGeneralParams ];
+    [ parameters addEntriesFromDictionary: self->__pageQueryGeneralPropParams ];
 
     return [ self queryProperties: self->__pageQueryGeneralProps
                   otherParameters: parameters
@@ -392,7 +392,7 @@ NSString* const kParamValListAllImages = @"allimages";
     NSParameterAssert( ( _PageIDs.count > 0 ) );
 
     NSMutableDictionary* parameters = [ NSMutableDictionary dictionaryWithObject: _PageIDs forKey: @"pageids" ];
-    [ parameters addEntriesFromDictionary: self->__pageQueryGeneralParams ];
+    [ parameters addEntriesFromDictionary: self->__pageQueryGeneralPropParams ];
 
     return [ self queryProperties: self->__pageQueryGeneralProps
                   otherParameters: parameters
@@ -565,12 +565,12 @@ NSString* const kParamValListAllImages = @"allimages";
 // WikiEngine + SugarWikiPrivate
 @implementation WikiEngine ( SugarWikiPrivate )
 
-@dynamic __pageQueryGeneralParams;
+@dynamic __pageQueryGeneralPropParams;
 
 #pragma mark Dynamic Properties
-- ( __NSDictionary_of( NSString*, NSString* ) ) __pageQueryGeneralParams
+- ( __NSDictionary_of( NSString*, NSString* ) ) __pageQueryGeneralPropParams
     {
-    return self->__pageQueryGeneralParams;
+    return self->__pageQueryGeneralPropParams;
     }
 
 - ( __NSArray_of( NSString* ) ) __pageQueryGeneralProps
