@@ -96,8 +96,26 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                                , @[ @856, @8260899, @31290263, @615972, @14653, @9008741, @40479341, @28320793, @46256893 ]
                                ];
 
-    self->_posListNameSamples = @[ @[ @"backlinks", @"random" ] /*, TODO: other samples */ ];
-    self->_posListParamsSamples = @[ @{ @"bltitle" : @"C++", @"rnlimit" : @"10" } /*, TODO: other samples */ ];
+    self->_posListNameSamples = @[ // 1)
+                                   @[ @"backlinks", @"random" ]
+
+                                   // 2)
+                                 , @[ @"allfileusages", @"allimages" ]
+                                 ];
+
+    self->_posListParamsSamples = @[ // 1)
+                                     @{ @"bltitle" : @"C++"
+                                      , @"rnlimit" : @"10"
+                                      }
+
+                                     // 2)
+                                   , @{ @"afprop" : @"ids|title"
+                                      , @"affrom" : @"Ruby"
+                                      , @"aflimit" : @"20"
+                                      , @"aiprefix" : @"Python"
+                                      , @"ailimit" : @"50"
+                                      }
+                                   ];
     }
 
 - ( void ) tearDown
@@ -225,7 +243,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                 } failure:
                     ^( NSError* _Error )
                         {
-
+                        NSLog( @"❌%@", _Error );
                         }
                     stopAllOtherTasks: NO ];
 
@@ -313,7 +331,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                 } failure:
                     ^( NSError* _Error )
                         {
-
+                        NSLog( @"❌%@", _Error );
                         }    stopAllOtherTasks: NO ];
 
         [ self _testReturnedWikiQueryTask: WikiQueryTask ];
@@ -355,7 +373,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                 } failure:
                     ^( NSError* _Error )
                         {
-
+                        NSLog( @"❌%@", _Error );
                         }    stopAllOtherTasks: NO ];
 
         [ self _testReturnedWikiQueryTask: WikiQueryTask ];
@@ -389,7 +407,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
             } failure:
                 ^( NSError* _Error )
                     {
-
+                    NSLog( @"❌%@", _Error );
                     }
                     stopAllOtherTasks: NO ];
 
