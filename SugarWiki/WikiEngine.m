@@ -165,6 +165,7 @@ NSString* const __srprop = @"size|wordcount|timestamp|snippet|titlesnippet|secti
 
     NSURLSessionDataTask* dataTask = nil;
     NSDictionary* normalizedParams = [ self __normalizedParameters: _Params ];
+    NSLog( @"🚚%@", normalizedParams );
     WikiQueryTask* queryTask = [ WikiQueryTask __sessionTaskWithHTTPMethod: _HTTPMethod
                                                                   endPoint: self->_endpoint
                                                                 parameters: normalizedParams
@@ -273,8 +274,6 @@ NSString* const __srprop = @"size|wordcount|timestamp|snippet|titlesnippet|secti
                    stopAllOtherTasks: ( BOOL )_WillStop
     {
     NSParameterAssert( ( _PropValues.count > 0 ) && ( _Params.count > 0 ) );
-
-//    NSString* joinedPropsValues = [  componentsJoinedByString: @"|" ];
 
     NSMutableDictionary* paramsDict = [ NSMutableDictionary dictionaryWithDictionary: _Params ];
     [ paramsDict addEntriesFromDictionary: @{ kParamKeyAction : kParamValActionQuery
