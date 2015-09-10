@@ -47,6 +47,9 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
     __NSArray_of( __NSArray_of( NSString* ) ) _posTitleSamples;
     __NSArray_of( __NSArray_of( NSNumber* ) ) _posPageIDSamples;
+
+    __NSArray_of( __NSArray_of( NSString* ) ) _posListNameSamples;
+    __NSArray_of( __NSDictionary_of( NSString*, NSString* ) ) _posListParamsSamples;
     }
 
 @end
@@ -54,6 +57,8 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 // Private Interfaces
 @interface WikiEngineTests ()
 
+- ( void ) _testReturnedWikiQueryTask: ( WikiQueryTask* )_WikiQueryTask;
+- ( void ) _testGenericWikiJSONObject: ( WikiJSONObject* )_WikiJSONObject;
 - ( void ) _testWikiPage: ( WikiPage* )_Page;
 - ( void ) _testWikiImage: ( WikiImage* )_Image;
 
@@ -90,6 +95,9 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                                , @[ @14227967, @19961416, @7813116, @1955, @10280979 ]
                                , @[ @856, @8260899, @31290263, @615972, @14653, @9008741, @40479341, @28320793, @46256893 ]
                                ];
+
+    self->_posListNameSamples = @[ @[ @"backlinks", @"random" ] /*, TODO: other samples */ ];
+    self->_posListParamsSamples = @[ @{ @"bltitle" : @"C++", @"rnlimit" : @"10" } /*, TODO: other samples */ ];
     }
 
 - ( void ) tearDown
@@ -182,6 +190,57 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
     XCTAssertNotNil( positiveTestCase.wikiHTTPSessionManager );
     XCTAssertNil( positiveTestCase.ISOLanguageCode );
+    }
+
+- ( void ) test_queryLists_genericMethod
+    {
+    WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: @"en" ];
+
+    int count = 0;
+    for ( __NSArray_of( NSString* ) _PosSample in self->_posListNameSamples )
+        {
+        XCTestExpectation* jsonExpectation = [ self expectationWithDescription: [ NSString stringWithFormat: @"🔥JSON Exception %d", count ] ];
+        WikiQueryTask* WikiQueryTask =
+        [ positiveTestCase queryLists: _PosSample
+                                limit: 10
+                      otherParameters: self->_posListParamsSamples[ count ]
+                              success:
+            ^( __NSDictionary_of( NSString*, __NSArray_of( WikiJSONObject* ) ) _Results )
+                {
+                XCTAssertNotNil( _Results );
+                XCTAssertEqual( _Results.count, _PosSample.count );
+
+                for ( NSString* _OriginalSampleListName in _PosSample )
+                    {
+                    // Be sure that the _Result do contain all the original sample list names
+                    __NSArray_of( WikiJSONObject* ) genericJSONObjects = _Results[ _OriginalSampleListName ];
+                    XCTAssertNotNil( genericJSONObjects );
+                    XCTAssertGreaterThan( genericJSONObjects.count, 0 );
+
+                    for ( WikiJSONObject* _GenericJSONObject in genericJSONObjects )
+                        [ self _testGenericWikiJSONObject: _GenericJSONObject ];
+                    }
+
+                WikiFulfillExpectation( jsonExpectation );
+                } failure:
+                    ^( NSError* _Error )
+                        {
+
+                        }
+                    stopAllOtherTasks: NO ];
+
+        [ self _testReturnedWikiQueryTask: WikiQueryTask ];
+
+        [ self waitForExpectationsWithTimeout: 15
+                                      handler:
+            ^( NSError* __nullable _Error )
+                {
+                if ( _Error )
+                    NSLog( @"%@", _Error );
+                } ];
+
+        count++;
+        }
     }
 
 - ( void ) test_pos_search
@@ -357,6 +416,16 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     XCTAssertNotNil( _WikiQueryTask.endPoint );
     XCTAssertNotNil( _WikiQueryTask.parameters );
     XCTAssertNotNil( _WikiQueryTask.sessionDataTask );
+    }
+
+- ( void ) _testGenericWikiJSONObject: ( WikiJSONObject* )_WikiJSONObject
+    {
+    NSLog( @"%@", _WikiJSONObject );
+    printf( "==============================================================\n" );
+
+    XCTAssertNotNil( _WikiJSONObject );
+    XCTAssertNotNil( _WikiJSONObject.json );
+    XCTAssertTrue( [ _WikiJSONObject isKindOfClass: [ WikiJSONObject class ] ] );
     }
 
 - ( void ) _testSearchResult: ( WikiSearchResult* )_SearchResult

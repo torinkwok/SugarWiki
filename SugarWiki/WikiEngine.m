@@ -68,7 +68,7 @@ NSString* const __inprop = @"url|watched|talkid|preload|displaytitle";
 NSString* const __aiprop = @"timestamp|url|metadata|commonmetadata|extmetadata|dimensions|userid|user|parsedcomment|canonicaltitle|sha1|bitdepth|comment|parsedcomment";
 NSString* const __srprop = @"size|wordcount|timestamp|snippet|titlesnippet|sectionsnippet";
 
-inline NSArray* __pageQueryProps() { return @[ @"info", @"revisions", @"pageprops" ]; }
+NSArray* __pageQueryProps() { return @[ @"info", @"revisions", @"pageprops" ]; }
 
 // Private Interfaces
 @interface WikiEngine ()

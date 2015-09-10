@@ -36,6 +36,8 @@
 @class WikiImage;
 @class WikiSearchResult;
 
+inline NSArray* __pageQueryProps();
+
 typedef NS_ENUM( NSUInteger, WikiEngineSearchApproach )
     { WikiEngineSearchApproachPageTitles    = 0
     , WikiEngineSearchApproachPageText      = 1
