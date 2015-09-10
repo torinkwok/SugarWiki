@@ -274,12 +274,12 @@ NSString* const __srprop = @"size|wordcount|timestamp|snippet|titlesnippet|secti
     {
     NSParameterAssert( ( _PropValues.count > 0 ) && ( _Params.count > 0 ) );
 
-    NSString* joinedPropsValues = [ _PropValues componentsJoinedByString: @"|" ];
+//    NSString* joinedPropsValues = [  componentsJoinedByString: @"|" ];
 
     NSMutableDictionary* paramsDict = [ NSMutableDictionary dictionaryWithDictionary: _Params ];
     [ paramsDict addEntriesFromDictionary: @{ kParamKeyAction : kParamValActionQuery
                                             , kParamKeyFormat : kParamValFormatJSON
-                                            , kParamKeyProp : joinedPropsValues
+                                            , kParamKeyProp : _PropValues
                                             } ];
 
     return [ self fetchResourceWithParameters: paramsDict
@@ -535,14 +535,18 @@ NSString* const __srprop = @"size|wordcount|timestamp|snippet|titlesnippet|secti
         {
         id paramValue = _UnnormalizedParams[ _ParamName ];
 
+        NSObject* normalizedObjectVal = nil;
         if ( [ paramValue isKindOfClass: [ NSArray class ] ] )
-            [ normalizedParams addEntriesFromDictionary: @{ _ParamName : [ paramValue componentsJoinedByString: @"|" ] } ];
+            normalizedObjectVal = [ paramValue componentsJoinedByString: @"|" ];
 
         else if ( [ paramValue isKindOfClass: [ NSString class ] ] )
-            [ normalizedParams addEntriesFromDictionary: @{ _ParamName : paramValue } ];
+            normalizedObjectVal= paramValue;
 
         else if ( [ paramValue isKindOfClass: [ NSNumber class ] ] )
-            [ normalizedParams addEntriesFromDictionary: @{ _ParamName : [ ( NSNumber* )paramValue stringValue ] } ];
+            normalizedObjectVal = [ ( NSNumber* )paramValue stringValue ];
+
+        if ( normalizedObjectVal )
+            [ normalizedParams addEntriesFromDictionary: @{ _ParamName : normalizedObjectVal } ];
         }
 
     return [ normalizedParams copy ];
