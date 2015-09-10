@@ -63,6 +63,13 @@ NSString* const kParamValListPages = @"pages";
 NSString* const kParamValListSearch = @"search";
 NSString* const kParamValListAllImages = @"allimages";
 
+NSString* const __rvprop = @"ids|flags|timestamp|comment|user|size|sha1|contentmodel|parsedcomment|content";
+NSString* const __inprop = @"url|watched|talkid|preload|displaytitle";
+NSString* const __aiprop = @"timestamp|url|metadata|commonmetadata|extmetadata|dimensions|userid|user|parsedcomment|canonicaltitle|sha1|bitdepth|comment|parsedcomment";
+NSString* const __srprop = @"size|wordcount|timestamp|snippet|titlesnippet|sectionsnippet";
+
+inline NSArray* __pageQueryProps() { return @[ @"info", @"revisions", @"pageprops" ]; }
+
 // Private Interfaces
 @interface WikiEngine ()
 
@@ -309,7 +316,7 @@ NSString* const kParamValListAllImages = @"allimages";
         srnamespace = [ _Namespaces componentsJoinedByString: @"|" ];
 
     NSDictionary* parameters = @{ @"srsearch" : _SearchValue
-                                , @"srprop" : @"size|wordcount|timestamp|snippet|titlesnippet|sectionsnippet"
+                                , @"srprop" : __srprop
                                 , @"srlimit" : @( _Limit ).stringValue
                                 , @"srnamespace" : srnamespace ?: @"0"
                                 };
@@ -342,13 +349,13 @@ NSString* const kParamValListAllImages = @"allimages";
     NSString* joindedTitles = [ _Titles componentsJoinedByString: @"|" ];
 
     NSDictionary* parameters = @{ @"titles" : joindedTitles
-                                , @"rvprop" : @"ids|flags|timestamp|comment|user|size|sha1|contentmodel|parsedcomment|content"
+                                , @"rvprop" : __rvprop
                                 , @"continue" : @""
-                                , @"inprop" : @"url|watched|talkid|preload|displaytitle"
+                                , @"inprop" : __inprop
                                 , @"rvsection" : @"0"
                                 };
 
-    return [ self queryProperties: @[ @"info", @"revisions", @"pageprops" ]
+    return [ self queryProperties: __pageQueryProps()
                   otherParameters: parameters
                           success:
         ^( __NSArray_of( WikiPage* ) _Results )
@@ -374,13 +381,13 @@ NSString* const kParamValListAllImages = @"allimages";
     NSString* joindedPageIDs = [ _PageIDs componentsJoinedByString: @"|" ];
 
     NSDictionary* parameters = @{ @"pageids" : joindedPageIDs
-                                , @"rvprop" : @"ids|flags|timestamp|comment|user|size|sha1|contentmodel|parsedcomment|content"
+                                , @"rvprop" : __rvprop
                                 , @"continue" : @""
-                                , @"inprop" : @"url|watched|talkid|preload|displaytitle"
+                                , @"inprop" : __inprop
                                 , @"rvsection" : @"0"
                                 };
 
-    return [ self queryProperties: @[ @"info", @"revisions", @"pageprops" ]
+    return [ self queryProperties: __pageQueryProps()
                   otherParameters: parameters
                           success:
         ^( __NSArray_of( WikiPage* ) _Results )
@@ -408,7 +415,7 @@ NSString* const kParamValListAllImages = @"allimages";
 
     NSDictionary* parameters = @{ @"aifrom" : normalizedImageName
                                 , @"aisort" : @"name"
-                                , @"aiprop" : @"timestamp|url|metadata|commonmetadata|extmetadata|dimensions|userid|user|parsedcomment|canonicaltitle|sha1|bitdepth|comment|parsedcomment"
+                                , @"aiprop" : __aiprop
                                 , @"ailimit" : @"1"
                                 };
 
