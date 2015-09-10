@@ -33,6 +33,7 @@
 #import "WikiRevision.h"
 #import "WikiSearchResult.h"
 
+#import "__WikiEngine.h"
 #import "__WikiJSONObject.h"
 #import "__WikiQueryTask.h"
 #import "__WikiImage.h"
@@ -68,8 +69,6 @@ NSString* const __inprop = @"url|watched|talkid|preload|displaytitle";
 NSString* const __aiprop = @"timestamp|url|metadata|commonmetadata|extmetadata|dimensions|userid|user|parsedcomment|canonicaltitle|sha1|bitdepth|comment|parsedcomment";
 NSString* const __srprop = @"size|wordcount|timestamp|snippet|titlesnippet|sectionsnippet";
 
-NSArray* __pageQueryProps() { return @[ @"info", @"revisions", @"pageprops" ]; }
-
 // Private Interfaces
 @interface WikiEngine ()
 
@@ -79,6 +78,7 @@ NSArray* __pageQueryProps() { return @[ @"info", @"revisions", @"pageprops" ]; }
 - ( void ) _cancelAll;
 
 - ( void ) __wikiClassAndSELDerivedFromQueryValue: ( NSString* )_QueryValue :( Class* )_Class :( SEL* )_SEL;
+- ( NSDictionary* ) __normalizedParameters: ( __NSDictionary_of( NSString*, NSString* ) )_UnnormalizedParams;
 
 @end // Private Interfaces
 
@@ -103,7 +103,7 @@ NSArray* __pageQueryProps() { return @[ @"info", @"revisions", @"pageprops" ]; }
     NSArray* allCodes = [ NSLocale ISOLanguageCodes ];
     if ( [ allCodes containsObject: _Code ] )
         {
-        if ( self = [ super init ] )
+        if ( self = [ self init ] )
             {
             self->_ISOLanguageCode = _Code;
             NSURL* url = [ NSURL URLWithString:
@@ -111,6 +111,20 @@ NSArray* __pageQueryProps() { return @[ @"info", @"revisions", @"pageprops" ]; }
 
             [ self _initEndpoint: url ];
             }
+        }
+
+    return self;
+    }
+
+- ( instancetype ) init
+    {
+    if ( self = [ super init ] )
+        {
+        self->__pageQueryGeneralParams = @{ @"rvprop" : __rvprop, @"rvsection" : @"0"
+                                          , @"inprop" : __inprop, @"continue" : @""
+                                          };
+
+        self->__pageQueryGeneralProps = @[ @"info", @"revisions", @"pageprops" ];
         }
 
     return self;
@@ -150,9 +164,10 @@ NSArray* __pageQueryProps() { return @[ @"info", @"revisions", @"pageprops" ]; }
     NSParameterAssert( ( _Params.count > 0 ) && ( _HTTPMethod.length > 0 ) );
 
     NSURLSessionDataTask* dataTask = nil;
+    NSDictionary* normalizedParams = [ self __normalizedParameters: _Params ];
     WikiQueryTask* queryTask = [ WikiQueryTask __sessionTaskWithHTTPMethod: _HTTPMethod
                                                                   endPoint: self->_endpoint
-                                                                parameters: _Params
+                                                                parameters: normalizedParams
                                                         URLSessionDataTask: nil ];
 
     void ( ^__successBlock )( NSURLSessionDataTask* __nonnull, id  __nonnull ) =
@@ -175,7 +190,7 @@ NSArray* __pageQueryProps() { return @[ @"info", @"revisions", @"pageprops" ]; }
             };
 
     if ( [ _HTTPMethod isEqualToString: kGET ] )
-        dataTask = [ self->_wikiHTTPSessionManager GET: self->_endpoint.absoluteString parameters: _Params success: __successBlock failure: __failureBlock ];
+        dataTask = [ self->_wikiHTTPSessionManager GET: self->_endpoint.absoluteString parameters: normalizedParams success: __successBlock failure: __failureBlock ];
 
     if ( dataTask )
         {
@@ -252,16 +267,16 @@ NSArray* __pageQueryProps() { return @[ @"info", @"revisions", @"pageprops" ]; }
 
 
 - ( WikiQueryTask* ) queryProperties: ( __NSArray_of( NSString* ) )_PropValues
-                     otherParameters: ( __NSDictionary_of( NSString*, NSString* ) )_ParamsDict
+                     otherParameters: ( __NSDictionary_of( NSString*, NSString* ) )_Params
                              success: ( void (^)( __NSArray_of( WikiPage* ) _Results ) )_SuccessBlock
                              failure: ( void (^)( NSError* _Error ) )_FailureBlock
                    stopAllOtherTasks: ( BOOL )_WillStop
     {
-    NSParameterAssert( ( _PropValues.count > 0 ) && ( _ParamsDict.count > 0 ) );
+    NSParameterAssert( ( _PropValues.count > 0 ) && ( _Params.count > 0 ) );
 
     NSString* joinedPropsValues = [ _PropValues componentsJoinedByString: @"|" ];
 
-    NSMutableDictionary* paramsDict = [ NSMutableDictionary dictionaryWithDictionary: _ParamsDict ];
+    NSMutableDictionary* paramsDict = [ NSMutableDictionary dictionaryWithDictionary: _Params ];
     [ paramsDict addEntriesFromDictionary: @{ kParamKeyAction : kParamValActionQuery
                                             , kParamKeyFormat : kParamValFormatJSON
                                             , kParamKeyProp : joinedPropsValues
@@ -311,14 +326,10 @@ NSArray* __pageQueryProps() { return @[ @"info", @"revisions", @"pageprops" ]; }
     {
     NSParameterAssert( ( _SearchValue.length > 0 ) );
 
-    NSString* srnamespace = nil;
-    if ( _Namespaces.count > 0 )
-        srnamespace = [ _Namespaces componentsJoinedByString: @"|" ];
-
     NSDictionary* parameters = @{ @"srsearch" : _SearchValue
                                 , @"srprop" : __srprop
                                 , @"srlimit" : @( _Limit ).stringValue
-                                , @"srnamespace" : srnamespace ?: @"0"
+                                , @"srnamespace" : _Namespaces ?: @"0"
                                 };
 
     return [ self queryLists: @[ kParamValListSearch ]
@@ -346,16 +357,10 @@ NSArray* __pageQueryProps() { return @[ @"info", @"revisions", @"pageprops" ]; }
     {
     NSParameterAssert( ( _Titles.count > 0 ) );
 
-    NSString* joindedTitles = [ _Titles componentsJoinedByString: @"|" ];
+    NSMutableDictionary* parameters = [ NSMutableDictionary dictionaryWithObject: _Titles forKey: @"titles" ];
+    [ parameters addEntriesFromDictionary: self->__pageQueryGeneralParams ];
 
-    NSDictionary* parameters = @{ @"titles" : joindedTitles
-                                , @"rvprop" : __rvprop
-                                , @"continue" : @""
-                                , @"inprop" : __inprop
-                                , @"rvsection" : @"0"
-                                };
-
-    return [ self queryProperties: __pageQueryProps()
+    return [ self queryProperties: self->__pageQueryGeneralProps
                   otherParameters: parameters
                           success:
         ^( __NSArray_of( WikiPage* ) _Results )
@@ -378,16 +383,10 @@ NSArray* __pageQueryProps() { return @[ @"info", @"revisions", @"pageprops" ]; }
     {
     NSParameterAssert( ( _PageIDs.count > 0 ) );
 
-    NSString* joindedPageIDs = [ _PageIDs componentsJoinedByString: @"|" ];
+    NSMutableDictionary* parameters = [ NSMutableDictionary dictionaryWithObject: _PageIDs forKey: @"pageids" ];
+    [ parameters addEntriesFromDictionary: self->__pageQueryGeneralParams ];
 
-    NSDictionary* parameters = @{ @"pageids" : joindedPageIDs
-                                , @"rvprop" : __rvprop
-                                , @"continue" : @""
-                                , @"inprop" : __inprop
-                                , @"rvsection" : @"0"
-                                };
-
-    return [ self queryProperties: __pageQueryProps()
+    return [ self queryProperties: self->__pageQueryGeneralProps
                   otherParameters: parameters
                           success:
         ^( __NSArray_of( WikiPage* ) _Results )
@@ -476,7 +475,7 @@ NSArray* __pageQueryProps() { return @[ @"info", @"revisions", @"pageprops" ]; }
 
 - ( instancetype ) _initWithCommonsEndpoint
     {
-    if ( self = [ super init ] )
+    if ( self = [ self init ] )
         {
         NSURL* url = [ NSURL URLWithString: @"https://commons.wikimedia.org/w/api.php" ];
         [ self _initEndpoint: url ];
@@ -529,7 +528,45 @@ NSArray* __pageQueryProps() { return @[ @"info", @"revisions", @"pageprops" ]; }
         }
     }
 
+- ( NSDictionary* ) __normalizedParameters: ( __NSDictionary_of( NSString*, NSString* ) )_UnnormalizedParams
+    {
+    NSMutableDictionary* normalizedParams = [ NSMutableDictionary dictionaryWithCapacity: _UnnormalizedParams.count ];
+    for ( NSString* _ParamName in _UnnormalizedParams )
+        {
+        id paramValue = _UnnormalizedParams[ _ParamName ];
+
+        if ( [ paramValue isKindOfClass: [ NSArray class ] ] )
+            [ normalizedParams addEntriesFromDictionary: @{ _ParamName : [ paramValue componentsJoinedByString: @"|" ] } ];
+
+        else if ( [ paramValue isKindOfClass: [ NSString class ] ] )
+            [ normalizedParams addEntriesFromDictionary: @{ _ParamName : paramValue } ];
+
+        else if ( [ paramValue isKindOfClass: [ NSNumber class ] ] )
+            [ normalizedParams addEntriesFromDictionary: @{ _ParamName : [ ( NSNumber* )paramValue stringValue ] } ];
+        }
+
+    return [ normalizedParams copy ];
+    }
+
 @end // WikiEngine class
+
+// WikiEngine + SugarWikiPrivate
+@implementation WikiEngine ( SugarWikiPrivate )
+
+@dynamic __pageQueryGeneralParams;
+
+#pragma mark Dynamic Properties
+- ( __NSDictionary_of( NSString*, NSString* ) ) __pageQueryGeneralParams
+    {
+    return self->__pageQueryGeneralParams;
+    }
+
+- ( __NSArray_of( NSString* ) ) __pageQueryGeneralProps
+    {
+    return self->__pageQueryGeneralProps;
+    }
+
+@end // WikiEngine + SugarWikiPrivate
 
 /*================================================================================┐
 |                              The MIT License (MIT)                              |

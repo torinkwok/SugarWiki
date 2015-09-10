@@ -64,6 +64,7 @@
 		834E1DDF1B9DC683007A8E58 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 834E1D321B9DC683007A8E58 /* AFURLResponseSerialization.m */; };
 		834E1DE01B9DC683007A8E58 /* AFURLSessionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 834E1D331B9DC683007A8E58 /* AFURLSessionManager.h */; };
 		834E1DE11B9DC683007A8E58 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 834E1D341B9DC683007A8E58 /* AFURLSessionManager.m */; };
+		83DA0B2E1BA19772005655AA /* __WikiEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 83DA0B2C1BA19772005655AA /* __WikiEngine.h */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -137,6 +138,7 @@
 		834E1D321B9DC683007A8E58 /* AFURLResponseSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLResponseSerialization.m; sourceTree = "<group>"; };
 		834E1D331B9DC683007A8E58 /* AFURLSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLSessionManager.h; sourceTree = "<group>"; };
 		834E1D341B9DC683007A8E58 /* AFURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLSessionManager.m; sourceTree = "<group>"; };
+		83DA0B2C1BA19772005655AA /* __WikiEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = __WikiEngine.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,6 +178,7 @@
 				831C513D1B9DFB6E00790B38 /* __WikiPage.h */,
 				831C51451B9E011300790B38 /* __WikiRevision.h */,
 				831C51491B9E01CF00790B38 /* __WikiSearchResult.h */,
+				83DA0B2C1BA19772005655AA /* __WikiEngine.h */,
 			);
 			name = extensions;
 			sourceTree = "<group>";
@@ -309,6 +312,7 @@
 				834E1D161B9DC205007A8E58 /* WikiRevision.h in Headers */,
 				834E1CE81B9DC1F6007A8E58 /* __WikiJSONUtilities.h in Headers */,
 				834E1D0D1B9DC205007A8E58 /* WikiHTTPSessionManager.h in Headers */,
+				83DA0B2E1BA19772005655AA /* __WikiEngine.h in Headers */,
 				834E1D181B9DC205007A8E58 /* WikiSearchResult.h in Headers */,
 				834E1D111B9DC205007A8E58 /* WikiJSONObject.h in Headers */,
 				831C51371B9DF7CB00790B38 /* __WikiQueryTask.h in Headers */,

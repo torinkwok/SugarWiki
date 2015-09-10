@@ -31,6 +31,8 @@
 #import "SugarWikiDefines.h"
 #import "AFNetworking.h"
 
+#import "__WikiEngine.h"
+
 @import XCTest;
 
 // Utility Functions
@@ -47,6 +49,9 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
     __NSArray_of( __NSArray_of( NSString* ) ) _posTitleSamples;
     __NSArray_of( __NSArray_of( NSNumber* ) ) _posPageIDSamples;
+
+    __NSArray_of( __NSArray_of( NSString* ) ) _posQueryPropSamples;
+    __NSArray_of( __NSDictionary_of( NSString*, NSString* ) ) _posQueryPropParamSamples;
 
     __NSArray_of( __NSArray_of( NSString* ) ) _posListNameSamples;
     __NSArray_of( __NSDictionary_of( NSString*, NSString* ) ) _posListParamsSamples;
@@ -96,19 +101,33 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                                , @[ @856, @8260899, @31290263, @615972, @14653, @9008741, @40479341, @28320793, @46256893 ]
                                ];
 
-    self->_posListNameSamples = @[ // 1)
+    self->_posQueryPropSamples = @[ // 0)
+                                    @[ @"fileusage", @"extlinks" ]
+                                 ];
+
+    self->_posQueryPropParamSamples = @[ // 0)
+                                         @{ @"fuprop" : @"pageid|title|redirect"
+                                          , @"fulimit" : @"10"
+                                          , @"ellimit" : @"10"
+                                          , @"eloffset" : @""
+                                          , @"fucontinue" : @""
+                                          }
+                                      ];
+
+
+    self->_posListNameSamples = @[ // 0)
                                    @[ @"backlinks", @"random" ]
 
-                                   // 2)
+                                   // 1)
                                  , @[ @"allfileusages", @"allimages" ]
                                  ];
 
-    self->_posListParamsSamples = @[ // 1)
+    self->_posListParamsSamples = @[ // 0)
                                      @{ @"bltitle" : @"C++"
                                       , @"rnlimit" : @"10"
                                       }
 
-                                     // 2)
+                                     // 1)
                                    , @{ @"afprop" : @"ids|title"
                                       , @"affrom" : @"Ruby"
                                       , @"aflimit" : @"20"
@@ -258,6 +277,59 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                 } ];
 
         count++;
+        }
+    }
+
+- ( void ) test_pos_queryProperties_genericMethod
+    {
+    WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: @"en" ];
+
+    for ( __NSArray_of( NSString* ) _PosSample in self->_posTitleSamples )
+        {
+        int count = 0;
+        for ( __NSArray_of( NSString* ) _PropSample in self->_posQueryPropSamples )
+            {
+            XCTestExpectation* jsonExpectation = [ self expectationWithDescription: [ NSString stringWithFormat: @"🔥JSON Exception %d", count ] ];
+
+            NSMutableArray* queryProps = [ NSMutableArray arrayWithArray: positiveTestCase.__pageQueryGeneralProps ];
+            [ queryProps addObjectsFromArray: _PropSample ];
+
+            NSMutableDictionary* parameters = [ NSMutableDictionary dictionaryWithObject: _PosSample forKey: @"titles" ];
+            [ parameters addEntriesFromDictionary: positiveTestCase.__pageQueryGeneralParams ];
+            [ parameters addEntriesFromDictionary: self->_posQueryPropParamSamples[ count ] ];
+
+            WikiQueryTask* WikiQueryTask =
+                [ positiveTestCase queryProperties: queryProps
+                                   otherParameters: parameters
+                                           success:
+                ^( __NSArray_of( WikiPage* ) _WikiPages )
+                    {
+                    XCTAssertNotNil( _WikiPages );
+                    XCTAssertEqual( _WikiPages.count, _PosSample.count );
+                    NSLog( @">>> (Log🐑) Matched Pages Count vs. Positive Sample Count: %lu vs. %lu", _WikiPages.count, _PosSample.count );
+
+                    for ( WikiPage* _WikiPage in _WikiPages )
+                        [ self _testWikiPage: _WikiPage ];
+
+                    WikiFulfillExpectation( jsonExpectation );
+                    } failure:
+                        ^( NSError* _Error )
+                            {
+                            NSLog( @"❌%@", _Error );
+                            }    stopAllOtherTasks: NO ];
+
+            [ self _testReturnedWikiQueryTask: WikiQueryTask ];
+
+            [ self waitForExpectationsWithTimeout: 15
+                                          handler:
+                ^( NSError* __nullable _Error )
+                    {
+                    if ( _Error )
+                        NSLog( @"%@", _Error );
+                    } ];
+
+            count++;
+            }
         }
     }
 
