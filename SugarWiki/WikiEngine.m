@@ -427,7 +427,7 @@ NSString* const kParamValListAllImages = @"allimages";
                                 };
 
     return [ self queryLists: @[ kParamValListAllImages ]
-                       limit: 10
+                       limit: 1
              otherParameters: parameters
                      success:
         ^( __NSDictionary_of( NSString*, __NSArray_of( WikiJSONObject* ) ) _Results )
