@@ -284,9 +284,9 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     {
     WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: @"en" ];
 
-//    NSMutableArray* posSamples = [ NSMutableArray arrayWithCapacity: self->_posTitleSamples.count + self->_posPageIDSamples.count ];
-//    [ posSamples addObject: self->_posTitleSamples ];
-//    [ posSamples addObject: self->_posPageIDSamples ];
+    NSMutableArray* posSamples = [ NSMutableArray arrayWithCapacity: self->_posTitleSamples.count + self->_posPageIDSamples.count ];
+    [ posSamples addObject: self->_posTitleSamples ];
+    [ posSamples addObject: self->_posPageIDSamples ];
     for ( __NSArray_of( NSObject* ) _PosSample in self->_posTitleSamples )
         {
         int count = 0;
@@ -298,7 +298,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
             [ queryProps addObjectsFromArray: _PropSample ];
 
             NSMutableDictionary* parameters = [ NSMutableDictionary dictionaryWithObject: _PosSample
-                                                                                  forKey: [ _PosSample isKindOfClass: [ NSString class ] ] ? @"titles" : @"pageids" ];
+                                                                                  forKey: [ _PosSample.firstObject isKindOfClass: [ NSString class ] ] ? @"titles" : @"pageids" ];
 
             [ parameters addEntriesFromDictionary: positiveTestCase.__pageQueryGeneralParams ];
             [ parameters addEntriesFromDictionary: self->_posQueryPropParamSamples[ count ] ];
