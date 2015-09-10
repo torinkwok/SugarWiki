@@ -64,11 +64,6 @@ NSString* const kParamValListPages = @"pages";
 NSString* const kParamValListSearch = @"search";
 NSString* const kParamValListAllImages = @"allimages";
 
-NSString* const __rvprop = @"ids|flags|timestamp|comment|user|size|sha1|contentmodel|parsedcomment|content";
-NSString* const __inprop = @"url|watched|talkid|preload|displaytitle";
-NSString* const __aiprop = @"timestamp|url|metadata|commonmetadata|extmetadata|dimensions|userid|user|parsedcomment|canonicaltitle|sha1|bitdepth|comment|parsedcomment";
-NSString* const __srprop = @"size|wordcount|timestamp|snippet|titlesnippet|sectionsnippet";
-
 // Private Interfaces
 @interface WikiEngine ()
 
@@ -120,8 +115,22 @@ NSString* const __srprop = @"size|wordcount|timestamp|snippet|titlesnippet|secti
     {
     if ( self = [ super init ] )
         {
-        self->__pageQueryGeneralParams = @{ @"rvprop" : __rvprop, @"rvsection" : @"0"
-                                          , @"inprop" : __inprop, @"continue" : @""
+        self->__rvprop = @[ @"ids", @"flags", @"timestamp", @"comment", @"user"
+                          , @"size", @"sha1", @"contentmodel", @"parsedcomment"
+                          , @"content"
+                          ];
+
+        self->__inprop = @[ @"url", @"watched", @"talkid", @"preload", @"displaytitle" ];
+
+        self->__aiprop = @[ @"timestamp", @"url", @"metadata", @"commonmetadata", @"extmetadata"
+                          , @"dimensions", @"userid", @"user", @"parsedcomment", @"canonicaltitle"
+                          , @"sha1", @"bitdepth", @"comment", @"parsedcomment"
+                          ];
+
+        self->__srprop = @[ @"size", @"wordcount", @"timestamp", @"snippet", @"titlesnippet", @"sectionsnippet" ];
+
+        self->__pageQueryGeneralParams = @{ @"rvprop" : self->__rvprop, @"rvsection" : @"0"
+                                          , @"inprop" : self->__inprop, @"continue" : @""
                                           };
 
         self->__pageQueryGeneralProps = @[ @"info", @"revisions", @"pageprops" ];
@@ -326,7 +335,7 @@ NSString* const __srprop = @"size|wordcount|timestamp|snippet|titlesnippet|secti
     NSParameterAssert( ( _SearchValue.length > 0 ) );
 
     NSDictionary* parameters = @{ @"srsearch" : _SearchValue
-                                , @"srprop" : __srprop
+                                , @"srprop" : self->__srprop
                                 , @"srlimit" : @( _Limit ).stringValue
                                 , @"srnamespace" : _Namespaces ?: @"0"
                                 };
@@ -413,7 +422,7 @@ NSString* const __srprop = @"size|wordcount|timestamp|snippet|titlesnippet|secti
 
     NSDictionary* parameters = @{ @"aifrom" : normalizedImageName
                                 , @"aisort" : @"name"
-                                , @"aiprop" : __aiprop
+                                , @"aiprop" : self->__aiprop
                                 , @"ailimit" : @"1"
                                 };
 

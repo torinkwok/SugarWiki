@@ -54,6 +54,11 @@ typedef NS_ENUM( NSUInteger, WikiEngineSearchApproach )
 
     __strong __NSDictionary_of( NSString*, NSString* ) __pageQueryGeneralParams;
     __strong __NSArray_of( NSString* ) __pageQueryGeneralProps;
+
+    __strong __NSArray_of( NSString* ) __rvprop;
+    __strong __NSArray_of( NSString* ) __inprop;
+    __strong __NSArray_of( NSString* ) __aiprop;
+    __strong __NSArray_of( NSString* ) __srprop;
     }
 
 @property ( strong, readonly ) NSURL* endpoint;
