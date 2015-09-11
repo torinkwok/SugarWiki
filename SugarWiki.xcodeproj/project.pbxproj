@@ -65,6 +65,12 @@
 		834E1DE01B9DC683007A8E58 /* AFURLSessionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 834E1D331B9DC683007A8E58 /* AFURLSessionManager.h */; };
 		834E1DE11B9DC683007A8E58 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 834E1D341B9DC683007A8E58 /* AFURLSessionManager.m */; };
 		83A1DD3F1BA2762900296C96 /* __WikiContinuation.h in Headers */ = {isa = PBXBuildFile; fileRef = 83A1DD3D1BA2762900296C96 /* __WikiContinuation.h */; settings = {ASSET_TAGS = (); }; };
+		83A1DD431BA2CB6C00296C96 /* __WikiContinuationI.h in Headers */ = {isa = PBXBuildFile; fileRef = 83A1DD411BA2CB6C00296C96 /* __WikiContinuationI.h */; settings = {ASSET_TAGS = (); }; };
+		83A1DD441BA2CB6C00296C96 /* __WikiContinuationI.m in Sources */ = {isa = PBXBuildFile; fileRef = 83A1DD421BA2CB6C00296C96 /* __WikiContinuationI.m */; settings = {ASSET_TAGS = (); }; };
+		83A1DD471BA2CB7300296C96 /* __WikiContinuationC.h in Headers */ = {isa = PBXBuildFile; fileRef = 83A1DD451BA2CB7300296C96 /* __WikiContinuationC.h */; settings = {ASSET_TAGS = (); }; };
+		83A1DD481BA2CB7300296C96 /* __WikiContinuationC.m in Sources */ = {isa = PBXBuildFile; fileRef = 83A1DD461BA2CB7300296C96 /* __WikiContinuationC.m */; settings = {ASSET_TAGS = (); }; };
+		83A1DD4B1BA2CB7E00296C96 /* __WikiContinuationU.h in Headers */ = {isa = PBXBuildFile; fileRef = 83A1DD491BA2CB7E00296C96 /* __WikiContinuationU.h */; settings = {ASSET_TAGS = (); }; };
+		83A1DD4C1BA2CB7E00296C96 /* __WikiContinuationU.m in Sources */ = {isa = PBXBuildFile; fileRef = 83A1DD4A1BA2CB7E00296C96 /* __WikiContinuationU.m */; settings = {ASSET_TAGS = (); }; };
 		83DA0B2E1BA19772005655AA /* __WikiEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 83DA0B2C1BA19772005655AA /* __WikiEngine.h */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
@@ -140,6 +146,12 @@
 		834E1D331B9DC683007A8E58 /* AFURLSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLSessionManager.h; sourceTree = "<group>"; };
 		834E1D341B9DC683007A8E58 /* AFURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLSessionManager.m; sourceTree = "<group>"; };
 		83A1DD3D1BA2762900296C96 /* __WikiContinuation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = __WikiContinuation.h; sourceTree = "<group>"; };
+		83A1DD411BA2CB6C00296C96 /* __WikiContinuationI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = __WikiContinuationI.h; sourceTree = "<group>"; };
+		83A1DD421BA2CB6C00296C96 /* __WikiContinuationI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = __WikiContinuationI.m; sourceTree = "<group>"; };
+		83A1DD451BA2CB7300296C96 /* __WikiContinuationC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = __WikiContinuationC.h; sourceTree = "<group>"; };
+		83A1DD461BA2CB7300296C96 /* __WikiContinuationC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = __WikiContinuationC.m; sourceTree = "<group>"; };
+		83A1DD491BA2CB7E00296C96 /* __WikiContinuationU.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = __WikiContinuationU.h; sourceTree = "<group>"; };
+		83A1DD4A1BA2CB7E00296C96 /* __WikiContinuationU.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = __WikiContinuationU.m; sourceTree = "<group>"; };
 		83DA0B2C1BA19772005655AA /* __WikiEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = __WikiEngine.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -255,6 +267,12 @@
 			children = (
 				834E1CE61B9DC1F6007A8E58 /* __WikiJSONUtilities.h */,
 				834E1CE71B9DC1F6007A8E58 /* __WikiJSONUtilities.m */,
+				83A1DD411BA2CB6C00296C96 /* __WikiContinuationI.h */,
+				83A1DD421BA2CB6C00296C96 /* __WikiContinuationI.m */,
+				83A1DD451BA2CB7300296C96 /* __WikiContinuationC.h */,
+				83A1DD461BA2CB7300296C96 /* __WikiContinuationC.m */,
+				83A1DD491BA2CB7E00296C96 /* __WikiContinuationU.h */,
+				83A1DD4A1BA2CB7E00296C96 /* __WikiContinuationU.m */,
 				831C514E1B9E05FA00790B38 /* extensions */,
 			);
 			path = internal;
@@ -321,13 +339,16 @@
 				831C51371B9DF7CB00790B38 /* __WikiQueryTask.h in Headers */,
 				834E1DE01B9DC683007A8E58 /* AFURLSessionManager.h in Headers */,
 				834E1D071B9DC205007A8E58 /* WikiConstants.h in Headers */,
+				83A1DD471BA2CB7300296C96 /* __WikiContinuationC.h in Headers */,
 				831C513F1B9DFB6E00790B38 /* __WikiPage.h in Headers */,
 				834E1DD81B9DC683007A8E58 /* AFSecurityPolicy.h in Headers */,
 				834E1D1A1B9DC205007A8E58 /* WikiQueryTask.h in Headers */,
 				834E1D0B1B9DC205007A8E58 /* WikiEngine.h in Headers */,
+				83A1DD431BA2CB6C00296C96 /* __WikiContinuationI.h in Headers */,
 				83A1DD3F1BA2762900296C96 /* __WikiContinuation.h in Headers */,
 				834E1D031B9DC205007A8E58 /* NSDate+SugarWiki.h in Headers */,
 				831C514B1B9E01CF00790B38 /* __WikiSearchResult.h in Headers */,
+				83A1DD4B1BA2CB7E00296C96 /* __WikiContinuationU.h in Headers */,
 				834E1DD31B9DC683007A8E58 /* AFHTTPSessionManager.h in Headers */,
 				834E1D051B9DC205007A8E58 /* SugarWikiInfo.h in Headers */,
 				834E1DDE1B9DC683007A8E58 /* AFURLResponseSerialization.h in Headers */,
@@ -436,6 +457,7 @@
 			files = (
 				834E1D0A1B9DC205007A8E58 /* WikiContinuation.m in Sources */,
 				834E1D101B9DC205007A8E58 /* WikiImage.m in Sources */,
+				83A1DD4C1BA2CB7E00296C96 /* __WikiContinuationU.m in Sources */,
 				834E1D061B9DC205007A8E58 /* SugarWikiInfo.m in Sources */,
 				834E1D151B9DC205007A8E58 /* WikiPage.m in Sources */,
 				834E1DDF1B9DC683007A8E58 /* AFURLResponseSerialization.m in Sources */,
@@ -448,8 +470,10 @@
 				834E1CDE1B9DC1A1007A8E58 /* README.md in Sources */,
 				834E1CE91B9DC1F6007A8E58 /* __WikiJSONUtilities.m in Sources */,
 				834E1DDD1B9DC683007A8E58 /* AFURLRequestSerialization.m in Sources */,
+				83A1DD441BA2CB6C00296C96 /* __WikiContinuationI.m in Sources */,
 				834E1DD71B9DC683007A8E58 /* AFNetworkReachabilityManager.m in Sources */,
 				834E1D171B9DC205007A8E58 /* WikiRevision.m in Sources */,
+				83A1DD481BA2CB7300296C96 /* __WikiContinuationC.m in Sources */,
 				834E1D0E1B9DC205007A8E58 /* WikiHTTPSessionManager.m in Sources */,
 				834E1D121B9DC205007A8E58 /* WikiJSONObject.m in Sources */,
 				834E1DD01B9DC683007A8E58 /* AFHTTPRequestOperation.m in Sources */,

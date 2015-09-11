@@ -22,21 +22,28 @@
   ████████████████████████████████████████████████████████████████████████████████
   ██████████████████████████████████████████████████████████████████████████████*/
 
-#import "WikiJSONObject.h"
-#import "SugarWikiDefines.h"
+#import "__WikiContinuationC.h"
 
-// WikiContinuation class
-@interface WikiContinuation : WikiJSONObject
+// __WikiContinuationC class
+@implementation __WikiContinuationC
 
-@property ( strong, readonly ) __NSDictionary_of( NSString*, NSString* ) continuations;
+#pragma mark Dynamic Properties
+- ( __NSDictionary_of( NSString*, NSString* ) ) continuations
+    {
+    return @{};
+    }
 
-@property ( assign, readonly ) BOOL isInitial;
-@property ( assign, readonly ) BOOL isComplete;
+- ( BOOL ) isInitial
+    {
+    return NO;
+    }
 
-#pragma mark
-+ ( instancetype ) initialContinuation;
+- ( BOOL ) isComplete
+    {
+    return YES;
+    }
 
-@end // WikiContinuation class
+@end // __WikiContinuationC class
 
 /*================================================================================┐
 |                              The MIT License (MIT)                              |

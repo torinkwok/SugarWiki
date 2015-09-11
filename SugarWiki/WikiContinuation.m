@@ -27,6 +27,10 @@
 #import "__WikiJSONObject.h"
 #import "__WikiContinuation.h"
 
+#import "__WikiContinuationI.h"
+#import "__WikiContinuationC.h"
+#import "__WikiContinuationU.h"
+
 // WikiContinuation class
 @implementation WikiContinuation
 
@@ -44,17 +48,17 @@
 #pragma mark Dynamic Properties
 - ( __NSDictionary_of( NSString*, NSString* ) ) continuations
     {
-    return self->__continuations;
+    __throw_exception_due_to_invocation_of_pure_virtrual_method_;
     }
 
 - ( BOOL ) isInitial
     {
-    return self->__isInitial;
+    __throw_exception_due_to_invocation_of_pure_virtrual_method_;
     }
 
 - ( BOOL ) isComplete
     {
-    return self->__isInitial ? NO : ( self->__continuations.count == 0 );
+    __throw_exception_due_to_invocation_of_pure_virtrual_method_;
     }
 
 @end // WikiContinuation class
@@ -70,15 +74,18 @@
 
 - ( instancetype ) __initWithJSONDict: ( NSDictionary* )_JSONDict isInitial: ( BOOL )_YesOrNo
     {
-    if ( self = [ super __initWithJSONDict: _JSONDict ] )
-        {
-        self->_json = _JSONDict;
-        self->__continuations = self->_json;
+    WikiContinuation* clusterMember = nil;
 
-        self->__isInitial = _YesOrNo;
-        }
+    if ( _YesOrNo )
+        clusterMember = [ [ __WikiContinuationI alloc ] __initWithJSONDict: _JSONDict ];
 
-    return self;
+    else if ( ( _JSONDict.count > 0 ) && !_YesOrNo )
+        clusterMember = [ [ __WikiContinuationU alloc ] __initWithJSONDict: _JSONDict ];
+
+    else if ( ( _JSONDict.count == 0 ) && _YesOrNo )
+        clusterMember = [ [ __WikiContinuationC alloc ] __initWithJSONDict: _JSONDict ];
+
+    return clusterMember;
     }
 
 @end // WikiContinuation + SugarWikiPrivate
