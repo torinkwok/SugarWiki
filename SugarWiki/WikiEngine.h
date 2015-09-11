@@ -35,6 +35,7 @@
 @class WikiPage;
 @class WikiImage;
 @class WikiSearchResult;
+@class WikiContinuation;
 
 typedef NS_ENUM( NSUInteger, WikiEngineSearchApproach )
     { WikiEngineSearchApproachPageTitles    = 0
@@ -98,7 +99,7 @@ typedef NS_ENUM( NSUInteger, WikiEngineSearchApproach )
 - ( WikiQueryTask* ) queryLists: ( __NSArray_of( NSString* ) )_Lists
                           limit: ( NSUInteger )_Limit
                 otherParameters: ( __NSDictionary_of( NSString*, NSString* ) )_ParamsDict
-                        success: ( void (^)( __NSDictionary_of( NSString*, __NSArray_of( WikiJSONObject* ) ) _Results ) )_SuccessBlock
+                        success: ( void (^)( __NSDictionary_of( NSString*, __NSArray_of( WikiJSONObject* ) ) _Results, WikiContinuation* _Continuation ) )_SuccessBlock
                         failure: ( void (^)( NSError* _Error ) )_FailureBlock
               stopAllOtherTasks: ( BOOL )_WillStop;
 

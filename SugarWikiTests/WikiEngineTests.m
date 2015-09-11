@@ -242,7 +242,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                                 limit: 10
                       otherParameters: self->_posListParamsSamples[ count ]
                               success:
-            ^( __NSDictionary_of( NSString*, __NSArray_of( WikiJSONObject* ) ) _Results )
+            ^( __NSDictionary_of( NSString*, __NSArray_of( WikiJSONObject* ) ) _Results, WikiContinuation* _Continuation )
                 {
                 XCTAssertNotNil( _Results );
                 XCTAssertEqual( _Results.count, _PosSample.count );

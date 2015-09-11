@@ -32,6 +32,7 @@
 #import "WikiImage.h"
 #import "WikiRevision.h"
 #import "WikiSearchResult.h"
+#import "WikiContinuation.h"
 
 #import "__WikiEngine.h"
 #import "__WikiJSONObject.h"
@@ -40,6 +41,7 @@
 #import "__WikiSearchResult.h"
 #import "__WikiPage.h"
 #import "__WikiRevision.h"
+#import "__WikiContinuation.h"
 
 #import "__WikiJSONUtilities.h"
 
@@ -223,7 +225,7 @@ NSString* const kParamValListAllImages = @"allimages";
 - ( WikiQueryTask* ) queryLists: ( __NSArray_of( NSString* ) )_Lists
                           limit: ( NSUInteger )_Limit
                 otherParameters: ( __NSDictionary_of( NSString*, NSString* ) )_ParamsDict
-                        success: ( void (^)( __NSDictionary_of( NSString*, __NSArray_of( WikiJSONObject* ) ) _Results ) )_SuccessBlock
+                        success: ( void (^)( __NSDictionary_of( NSString*, __NSArray_of( WikiJSONObject* ) ) _Results, WikiContinuation* _Continuation ) )_SuccessBlock
                         failure: ( void (^)( NSError* _Error ) )_FailureBlock
               stopAllOtherTasks: ( BOOL )_WillStop
     {
@@ -265,8 +267,10 @@ NSString* const kParamValListAllImages = @"allimages";
                     }
                 }
 
+            WikiContinuation* continuation = [ WikiContinuation __continuationWithJSONDict: resultsJSONDict[ @"continue" ] ];
+
             if ( _SuccessBlock )
-                _SuccessBlock( results );
+                _SuccessBlock( results, continuation );
             } failure:
                 ^( NSURLSessionDataTask* __nonnull _Task, NSError* __nonnull _Error )
                     {
@@ -344,7 +348,7 @@ NSString* const kParamValListAllImages = @"allimages";
                        limit: 10
              otherParameters: parameters
                      success:
-        ^( __NSDictionary_of( NSString*, __NSArray_of( WikiJSONObject* ) ) _Results )
+        ^( __NSDictionary_of( NSString*, __NSArray_of( WikiJSONObject* ) ) _Results, WikiContinuation* _Continuation )
             {
             if ( _SuccessBlock )
                 _SuccessBlock( _Results[ kParamValListSearch ] );
@@ -430,7 +434,7 @@ NSString* const kParamValListAllImages = @"allimages";
                        limit: 1
              otherParameters: parameters
                      success:
-        ^( __NSDictionary_of( NSString*, __NSArray_of( WikiJSONObject* ) ) _Results )
+        ^( __NSDictionary_of( NSString*, __NSArray_of( WikiJSONObject* ) ) _Results, WikiContinuation* _Continuation )
             {
             // If the image exists
             WikiImage* wikiImage = _Results[ kParamValListAllImages ].firstObject;
