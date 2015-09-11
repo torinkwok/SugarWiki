@@ -22,16 +22,17 @@
   ████████████████████████████████████████████████████████████████████████████████
   ██████████████████████████████████████████████████████████████████████████████*/
 
-@import Foundation;
+#import "WikiJSONObject.h"
+#import "SugarWikiDefines.h"
 
 // WikiContinuation class
-@interface WikiContinuation : NSObject
+@interface WikiContinuation : WikiJSONObject
+    {
+@protected
+    __NSDictionary_of( NSString*, NSString* ) __continuations;
+    }
 
-@property ( readwrite, strong ) NSString* submoduleElement;
-@property ( readwrite, strong ) NSString* continuation;
-
-+ ( instancetype ) continuationWithContinueElementJSON: ( NSArray* )_ContinueElementJSON;
-- ( instancetype ) initWithContinueElementJSON: ( NSArray* )_ContinueElementJSON;
+@property ( strong, readonly ) __NSDictionary_of( NSString*, NSString* ) continuations;
 
 @end // WikiContinuation class
 

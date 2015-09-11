@@ -24,40 +24,11 @@
 
 #import "WikiContinuation.h"
 
-#import "__WikiJSONObject.h"
-
-// WikiContinuation class
-@implementation WikiContinuation
-
-@dynamic continuations;
-
-#pragma mark Dynamic Properties
-- ( __NSDictionary_of( NSString*, NSString* ) ) continuations
-    {
-    return self->__continuations;
-    }
-
-@end // WikiContinuation class
-
 // WikiContinuation + SugarWikiPrivate
-@implementation WikiContinuation ( SugarWikiPrivate )
+@interface WikiContinuation ( SugarWikiPrivate )
 
 #pragma mark Private Initializations ( only used by friend classes )
-+ ( instancetype ) __continuationWithJSONDict: ( NSDictionary* )_JSONDict
-    {
-    return [ [ self alloc ] __initWithJSONDict: _JSONDict ];
-    }
-
-- ( instancetype ) __initWithJSONDict: ( NSDictionary* )_JSONDict
-    {
-    if ( self = [ super __initWithJSONDict: _JSONDict ] )
-        {
-        self->_json = _JSONDict;
-        self->__continuations = self->_json;
-        }
-
-    return self;
-    }
++ ( instancetype ) __continuationWithJSONDict: ( NSDictionary* )_JSONDict;
 
 @end // WikiContinuation + SugarWikiPrivate
 
