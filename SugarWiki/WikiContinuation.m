@@ -90,6 +90,12 @@
     return clusterMember;
     }
 
+#pragma mark Debugging
+- ( NSString* ) description
+    {
+    return [ NSString stringWithFormat: @">>> (Log👺) %@ <%p>: %@", NSStringFromClass( self.class), self, self.json.description ];
+    }
+
 @end // WikiContinuation + SugarWikiPrivate
 
 /*================================================================================┐

@@ -565,7 +565,6 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     NSLog( @"%@", _Page );
     printf( "==============================================================\n" );
 
-
     XCTAssertNotNil( _Page );
     XCTAssertNotNil( _Page.json );
     XCTAssertTrue( [ _Page isKindOfClass: [ WikiPage class ] ] );
@@ -641,6 +640,9 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
 - ( void ) _testWikiContinuation: ( WikiContinuation* )_Continuation
     {
+    NSLog( @"%@", _Continuation );
+    printf( "==============================================================\n" );
+
     XCTAssertNotNil( _Continuation );
     XCTAssertNotNil( _Continuation.json );
     XCTAssertNotNil( _Continuation.continuations );

@@ -177,7 +177,6 @@ NSString* const kParamValListAllImages = @"allimages";
 
     NSURLSessionDataTask* dataTask = nil;
     NSDictionary* normalizedParams = [ self __normalizedParameters: _Params ];
-    NSLog( @"🚚%@", normalizedParams );
     WikiQueryTask* queryTask = [ WikiQueryTask __sessionTaskWithHTTPMethod: _HTTPMethod
                                                                   endPoint: self->_endpoint
                                                                 parameters: normalizedParams
