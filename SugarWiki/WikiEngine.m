@@ -232,11 +232,10 @@ NSString* const kParamValListAllImages = @"allimages";
     {
     NSParameterAssert( ( _Lists ) && ( _ParamsDict.count > 0 ) );
 
-    NSString* joinedLists =  [ _Lists componentsJoinedByString: @"|" ];
     NSMutableDictionary* paramsDict = [ NSMutableDictionary dictionaryWithDictionary: _ParamsDict ];
     [ paramsDict addEntriesFromDictionary: @{ kParamKeyAction : kParamValActionQuery
                                             , kParamKeyFormat : kParamValFormatJSON
-                                            , kParamKeyList : joinedLists
+                                            , kParamKeyList : _Lists ?: @""
                                             , kParamContinue : _Continuation ?: @""
                                             } ];
 
@@ -269,7 +268,8 @@ NSString* const kParamValListAllImages = @"allimages";
                     }
                 }
 
-            WikiContinuation* continuation = [ WikiContinuation __continuationWithJSONDict: resultsJSONDict[ @"continue" ] ];
+            WikiContinuation* continuation =
+                [ WikiContinuation __continuationWithJSONDict: resultsJSONDict[ @"continue" ] ];
 
             if ( _SuccessBlock )
                 _SuccessBlock( results, continuation );
@@ -284,7 +284,8 @@ NSString* const kParamValListAllImages = @"allimages";
 
 - ( WikiQueryTask* ) queryProperties: ( __NSArray_of( NSString* ) )_PropValues
                      otherParameters: ( __NSDictionary_of( NSString*, NSString* ) )_Params
-                             success: ( void (^)( __NSArray_of( WikiPage* ) _Results ) )_SuccessBlock
+                        continuation: ( WikiContinuation* )_Continuation
+                             success: ( void (^)( __NSArray_of( WikiPage* ) _Results, WikiContinuation* _Continuation ) )_SuccessBlock
                              failure: ( void (^)( NSError* _Error ) )_FailureBlock
                    stopAllOtherTasks: ( BOOL )_WillStop
     {
@@ -294,6 +295,7 @@ NSString* const kParamValListAllImages = @"allimages";
     [ paramsDict addEntriesFromDictionary: @{ kParamKeyAction : kParamValActionQuery
                                             , kParamKeyFormat : kParamValFormatJSON
                                             , kParamKeyProp : _PropValues
+                                            , kParamContinue : _Continuation ?: @""
                                             } ];
 
     return [ self fetchResourceWithParameters: paramsDict
@@ -319,8 +321,11 @@ NSString* const kParamValListAllImages = @"allimages";
                     }
                 }
 
+            WikiContinuation* continuation =
+                [ WikiContinuation __continuationWithJSONDict: resultsJSONDict[ @"continue" ] ];
+
             if ( _SuccessBlock )
-                _SuccessBlock( results );
+                _SuccessBlock( results, continuation );
             } failure:
                 ^( NSURLSessionDataTask* __nonnull _Task, NSError* __nonnull _Error )
                     {
@@ -366,7 +371,8 @@ NSString* const kParamValListAllImages = @"allimages";
 
 #pragma mark Pages
 - ( WikiQueryTask* ) pagesWithTitles: ( __NSArray_of( NSString* ) )_Titles
-                             success: ( void (^)( __NSArray_of( WikiPage* ) _MatchedPage ) )_SuccessBlock
+                        continuation: ( WikiContinuation* )_Continuation
+                             success: ( void (^)( __NSArray_of( WikiPage* ) _MatchedPage, WikiContinuation* _Continuation ) )_SuccessBlock
                              failure: ( void (^)( NSError* _Error ) )_FailureBlock
                    stopAllOtherTasks: ( BOOL )_WillStop
     {
@@ -377,11 +383,12 @@ NSString* const kParamValListAllImages = @"allimages";
 
     return [ self queryProperties: self->__pageQueryGeneralProps
                   otherParameters: parameters
+                     continuation: _Continuation
                           success:
-        ^( __NSArray_of( WikiPage* ) _Results )
+        ^( __NSArray_of( WikiPage* ) _Results, WikiContinuation* _Continuation )
             {
             if ( _SuccessBlock )
-                _SuccessBlock( _Results );
+                _SuccessBlock( _Results, _Continuation );
             } failure:
                 ^( NSError* _Error )
                     {
@@ -392,7 +399,8 @@ NSString* const kParamValListAllImages = @"allimages";
     }
 
 - ( WikiQueryTask* ) pagesWithPageIDs: ( __NSArray_of( NSNumber* ) )_PageIDs
-                              success: ( void (^)( __NSArray_of( WikiPage* ) _MatchedPage ) )_SuccessBlock
+                         continuation: ( WikiContinuation* )_Continuation
+                              success: ( void (^)( __NSArray_of( WikiPage* ) _MatchedPage, WikiContinuation* _Continuation ) )_SuccessBlock
                               failure: ( void (^)( NSError* _Error ) )_FailureBlock
                     stopAllOtherTasks: ( BOOL )_WillStop
     {
@@ -403,11 +411,12 @@ NSString* const kParamValListAllImages = @"allimages";
 
     return [ self queryProperties: self->__pageQueryGeneralProps
                   otherParameters: parameters
+                     continuation: _Continuation
                           success:
-        ^( __NSArray_of( WikiPage* ) _Results )
+        ^( __NSArray_of( WikiPage* ) _Results, WikiContinuation* _Continuation )
             {
             if ( _SuccessBlock )
-                _SuccessBlock( _Results );
+                _SuccessBlock( _Results, _Continuation );
             } failure:
                 ^( NSError* _Error )
                     {
@@ -565,7 +574,7 @@ NSString* const kParamValListAllImages = @"allimages";
             WikiContinuation* continuation = ( WikiContinuation* )paramValue;
 
             if ( continuation.isInitial )
-                [ normalizedParams addEntriesFromDictionary: @{ _ParamName : @"-||" } ];
+                [ normalizedParams addEntriesFromDictionary: @{ _ParamName : @"" } ];
             else
                 [ normalizedParams addEntriesFromDictionary: [ continuation continuations ] ];
             }
