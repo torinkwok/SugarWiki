@@ -30,9 +30,17 @@
     {
 @protected
     __NSDictionary_of( NSString*, NSString* ) __continuations;
+
+    BOOL __isInitial;
     }
 
 @property ( strong, readonly ) __NSDictionary_of( NSString*, NSString* ) continuations;
+
+@property ( assign, readonly ) BOOL isInitial;
+@property ( assign, readonly ) BOOL isComplete;
+
+#pragma mark
++ ( instancetype ) initialContinuation;
 
 @end // WikiContinuation class
 

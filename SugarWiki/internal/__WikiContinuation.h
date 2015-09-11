@@ -29,6 +29,7 @@
 
 #pragma mark Private Initializations ( only used by friend classes )
 + ( instancetype ) __continuationWithJSONDict: ( NSDictionary* )_JSONDict;
+- ( instancetype ) __initWithJSONDict: ( NSDictionary* )_JSONDict isInitial: ( BOOL )_YesOrNo;
 
 @end // WikiContinuation + SugarWikiPrivate
 

@@ -30,6 +30,7 @@
 #import "WikiQueryTask.h"
 #import "SugarWikiDefines.h"
 #import "AFNetworking.h"
+#import "WikiContinuation.h"
 
 #import "__WikiEngine.h"
 
@@ -116,15 +117,15 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
 
     self->_posListNameSamples = @[ // 0)
-                                   @[ @"backlinks", @"random" ]
+//                                   @[ @"backlinks", @"random" ]
 
                                    // 1)
-                                 , @[ @"allfileusages", @"allimages" ]
+                                  @[ @"allfileusages", @"allimages" ]
                                  ];
 
     self->_posListParamsSamples = @[ // 0)
-                                     @{ @"bltitle" : @"C++"
-                                      , @"rnlimit" : @"10"
+                                     @{ /*@"bltitle" : @"C++"*/
+                                       @"rnlimit" : @"10"
                                       }
 
                                      // 1)
@@ -236,46 +237,55 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     int count = 0;
     for ( __NSArray_of( NSString* ) _PosSample in self->_posListNameSamples )
         {
-        XCTestExpectation* jsonExpectation = [ self expectationWithDescription: [ NSString stringWithFormat: @"🔥JSON Exception %d", count ] ];
-        WikiQueryTask* WikiQueryTask =
-        [ positiveTestCase queryLists: _PosSample
-                                limit: 10
-                      otherParameters: self->_posListParamsSamples[ count ]
-                         continuation: nil
-                              success:
-            ^( __NSDictionary_of( NSString*, __NSArray_of( WikiJSONObject* ) ) _Results, WikiContinuation* _Continuation )
-                {
-                XCTAssertNotNil( _Results );
-                XCTAssertEqual( _Results.count, _PosSample.count );
+        WikiContinuation __block* continuation = [ WikiContinuation initialContinuation ];
+        XCTAssertTrue( continuation.isInitial );
+        XCTAssertFalse( continuation.isComplete );
 
-                for ( NSString* _OriginalSampleListName in _PosSample )
+        while ( !continuation.isComplete )
+            {
+            XCTestExpectation* jsonExpectation = [ self expectationWithDescription: [ NSString stringWithFormat: @"🔥JSON Exception %d", count ] ];
+            WikiQueryTask* WikiQueryTask =
+            [ positiveTestCase queryLists: _PosSample
+                                    limit: 10
+                          otherParameters: self->_posListParamsSamples[ count ]
+                             continuation: continuation
+                                  success:
+                ^( __NSDictionary_of( NSString*, __NSArray_of( WikiJSONObject* ) ) _Results, WikiContinuation* _Continuation )
                     {
-                    // Be sure that the _Result do contain all the original sample list names
-                    __NSArray_of( WikiJSONObject* ) genericJSONObjects = _Results[ _OriginalSampleListName ];
-                    XCTAssertNotNil( genericJSONObjects );
-                    XCTAssertGreaterThan( genericJSONObjects.count, 0 );
+                    continuation = _Continuation;
 
-                    for ( WikiJSONObject* _GenericJSONObject in genericJSONObjects )
-                        [ self _testGenericWikiJSONObject: _GenericJSONObject ];
-                    }
+                    XCTAssertNotNil( _Results );
+                    XCTAssertEqual( _Results.count, _PosSample.count );
 
-                WikiFulfillExpectation( jsonExpectation );
-                } failure:
-                    ^( NSError* _Error )
+                    for ( NSString* _OriginalSampleListName in _PosSample )
                         {
-                        NSLog( @"❌%@", _Error );
+                        // Be sure that the _Result do contain all the original sample list names
+                        __NSArray_of( WikiJSONObject* ) genericJSONObjects = _Results[ _OriginalSampleListName ];
+                        XCTAssertNotNil( genericJSONObjects );
+                        XCTAssertGreaterThan( genericJSONObjects.count, 0 );
+
+                        for ( WikiJSONObject* _GenericJSONObject in genericJSONObjects )
+                            [ self _testGenericWikiJSONObject: _GenericJSONObject ];
                         }
-                    stopAllOtherTasks: NO ];
 
-        [ self _testReturnedWikiQueryTask: WikiQueryTask ];
+                    WikiFulfillExpectation( jsonExpectation );
+                    } failure:
+                        ^( NSError* _Error )
+                            {
+                            NSLog( @"❌%@", _Error );
+                            }
+                        stopAllOtherTasks: NO ];
 
-        [ self waitForExpectationsWithTimeout: 15
-                                      handler:
-            ^( NSError* __nullable _Error )
-                {
-                if ( _Error )
-                    NSLog( @"%@", _Error );
-                } ];
+            [ self _testReturnedWikiQueryTask: WikiQueryTask ];
+
+            [ self waitForExpectationsWithTimeout: 15
+                                          handler:
+                ^( NSError* __nullable _Error )
+                    {
+                    if ( _Error )
+                        NSLog( @"%@", _Error );
+                    } ];
+            }
 
         count++;
         }

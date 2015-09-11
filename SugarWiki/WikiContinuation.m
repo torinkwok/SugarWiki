@@ -25,16 +25,36 @@
 #import "WikiContinuation.h"
 
 #import "__WikiJSONObject.h"
+#import "__WikiContinuation.h"
 
 // WikiContinuation class
 @implementation WikiContinuation
 
 @dynamic continuations;
 
+@dynamic isInitial;
+@dynamic isComplete;
+
+#pragma mark
++ ( instancetype ) initialContinuation
+    {
+    return [ [ self alloc ] __initWithJSONDict: @{} isInitial: YES ];
+    }
+
 #pragma mark Dynamic Properties
 - ( __NSDictionary_of( NSString*, NSString* ) ) continuations
     {
     return self->__continuations;
+    }
+
+- ( BOOL ) isInitial
+    {
+    return self->__isInitial;
+    }
+
+- ( BOOL ) isComplete
+    {
+    return self->__isInitial ? NO : ( self->__continuations.count == 0 );
     }
 
 @end // WikiContinuation class
@@ -45,15 +65,17 @@
 #pragma mark Private Initializations ( only used by friend classes )
 + ( instancetype ) __continuationWithJSONDict: ( NSDictionary* )_JSONDict
     {
-    return [ [ self alloc ] __initWithJSONDict: _JSONDict ];
+    return [ [ self alloc ] __initWithJSONDict: _JSONDict isInitial: NO ];
     }
 
-- ( instancetype ) __initWithJSONDict: ( NSDictionary* )_JSONDict
+- ( instancetype ) __initWithJSONDict: ( NSDictionary* )_JSONDict isInitial: ( BOOL )_YesOrNo
     {
     if ( self = [ super __initWithJSONDict: _JSONDict ] )
         {
         self->_json = _JSONDict;
         self->__continuations = self->_json;
+
+        self->__isInitial = _YesOrNo;
         }
 
     return self;
