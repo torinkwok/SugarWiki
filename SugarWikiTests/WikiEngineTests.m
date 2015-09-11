@@ -34,6 +34,10 @@
 
 #import "__WikiEngine.h"
 
+#import "__WikiContinuationInitial.h"
+#import "__WikiContinuationCompleted.h"
+#import "__WikiContinuationUncompleted.h"
+
 @import XCTest;
 
 // Utility Functions
@@ -67,6 +71,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 - ( void ) _testGenericWikiJSONObject: ( WikiJSONObject* )_WikiJSONObject;
 - ( void ) _testWikiPage: ( WikiPage* )_Page;
 - ( void ) _testWikiImage: ( WikiImage* )_Image;
+- ( void ) _testWikiContinuation: ( WikiContinuation* )_Continuation;
 
 @end // Private Interfaces
 
@@ -238,8 +243,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     for ( __NSArray_of( NSString* ) _PosSample in self->_posListNameSamples )
         {
         WikiContinuation __block* continuation = [ WikiContinuation initialContinuation ];
-        XCTAssertTrue( continuation.isInitial );
-        XCTAssertFalse( continuation.isCompleted );
+        [ self _testWikiContinuation: continuation ];
 
         while ( !continuation.isCompleted )
             {
@@ -253,6 +257,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                 ^( __NSDictionary_of( NSString*, __NSArray_of( WikiJSONObject* ) ) _Results, WikiContinuation* _Continuation )
                     {
                     continuation = _Continuation;
+                    [ self _testWikiContinuation: continuation ];
 
                     XCTAssertNotNil( _Results );
                     XCTAssertEqual( _Results.count, _PosSample.count );
@@ -632,6 +637,32 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     XCTAssertNotNil( _Image.SHA1 );
 
     XCTAssertGreaterThanOrEqual( _Image.bitDepth, 0 );
+    }
+
+- ( void ) _testWikiContinuation: ( WikiContinuation* )_Continuation
+    {
+    XCTAssertNotNil( _Continuation );
+    XCTAssertNotNil( _Continuation.json );
+    XCTAssertNotNil( _Continuation.continuations );
+    XCTAssertTrue( [ _Continuation isMemberOfClass: [ __WikiContinuationInitial class ] ]
+                        || [ _Continuation isMemberOfClass: [ __WikiContinuationCompleted class ] ]
+                        || [ _Continuation isMemberOfClass: [ __WikiContinuationUncompleted class ] ] );
+
+    if ( [ _Continuation isMemberOfClass: [ __WikiContinuationInitial class ] ] )
+        {
+        XCTAssertTrue( _Continuation.isInitial );
+        XCTAssertFalse( _Continuation.isCompleted );
+        }
+    else if ( [ _Continuation isMemberOfClass: [ __WikiContinuationCompleted class ] ] )
+        {
+        XCTAssertFalse( _Continuation.isInitial );
+        XCTAssertTrue( _Continuation.isCompleted );
+        }
+    else if ( [ _Continuation isMemberOfClass: [ __WikiContinuationUncompleted class ] ] )
+        {
+        XCTAssertFalse( _Continuation.isInitial );
+        XCTAssertFalse( _Continuation.isCompleted );
+        }
     }
 
 @end // WikiEngineTests class
