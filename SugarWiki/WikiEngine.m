@@ -565,7 +565,7 @@ NSString* const kParamValListAllImages = @"allimages";
             WikiContinuation* continuation = ( WikiContinuation* )paramValue;
 
             if ( continuation.isInitial )
-                [ normalizedParams addEntriesFromDictionary: @{ _ParamName : @"" } ];
+                [ normalizedParams addEntriesFromDictionary: @{ _ParamName : @"-||" } ];
             else
                 [ normalizedParams addEntriesFromDictionary: [ continuation continuations ] ];
             }

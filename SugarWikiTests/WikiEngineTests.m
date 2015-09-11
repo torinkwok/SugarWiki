@@ -122,24 +122,26 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
 
     self->_posListNameSamples = @[ // 0)
-//                                   @[ @"backlinks", @"random" ]
+                                   @[ @"backlinks" ]
 
                                    // 1)
-                                  @[ @"allcategories" ]
+                                 , @[ @"allcategories", @"exturlusage" ]
                                  ];
 
     self->_posListParamsSamples = @[ // 0)
-//                                     @{ /*@"bltitle" : @"C++"*/
-//                                        @"rnlimit" : @"10"
-//                                      , @"aifrom" : @"C++"
-//                                      , @"affrom" : @"C++"
-//                                      }
+                                     @{ @"bltitle" : @"Main Page"
+                                      , @"bllimit" : @"10"
+                                      , @"blfilterredir" : @"redirects"
+                                      }
 
                                      // 1)
-                                    @{ @"acprop" : @"size|hidden"
-                                     , @"aclimit" : @"10"
-                                     , @"acprefix" : @"C++"
-                                     }
+                                   , @{ @"acprop" : @"size|hidden"
+                                      , @"aclimit" : @"10"
+                                      , @"acprefix" : @"C++"
+
+                                      , @"euquery" : @"https://twitter.com"
+                                      , @"eulimit" : @"10"
+                                      }
                                    ];
     }
 
@@ -610,6 +612,9 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
 - ( void ) _testWikiImage: ( WikiImage* )_Image
     {
+    NSLog( @"%@", _Image );
+    printf( "==============================================================\n" );
+
     XCTAssertNotNil( _Image );
     XCTAssertNotNil( _Image.json );
     XCTAssertTrue( [ _Image isKindOfClass: [ WikiImage class ] ] );

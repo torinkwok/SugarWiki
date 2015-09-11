@@ -33,7 +33,6 @@
 @dynamic json;
 
 #pragma mark Dynamic Properties
-
 - ( NSDictionary* ) json
     {
     return self->_json;
