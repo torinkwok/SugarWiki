@@ -241,7 +241,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
         XCTAssertTrue( continuation.isInitial );
         XCTAssertFalse( continuation.isComplete );
 
-        while ( continuation )
+        while ( !continuation.isComplete )
             {
             XCTestExpectation* jsonExpectation = [ self expectationWithDescription: [ NSString stringWithFormat: @"🔥JSON Exception %d", count ] ];
             WikiQueryTask* WikiQueryTask =

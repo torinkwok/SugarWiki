@@ -24,15 +24,12 @@
 
 #import "__WikiContinuationU.h"
 
+#import "__WikiJSONObject.h"
+
 // __WikiContinuationU class
 @implementation __WikiContinuationU
 
 #pragma mark Dynamic Properties
-- ( __NSDictionary_of( NSString*, NSString* ) ) continuations
-    {
-    return self->__continuations;
-    }
-
 - ( BOOL ) isInitial
     {
     return NO;

@@ -48,7 +48,7 @@
 #pragma mark Dynamic Properties
 - ( __NSDictionary_of( NSString*, NSString* ) ) continuations
     {
-    __throw_exception_due_to_invocation_of_pure_virtrual_method_;
+    return self->_json;
     }
 
 - ( BOOL ) isInitial
@@ -74,16 +74,18 @@
 
 - ( instancetype ) __initWithJSONDict: ( NSDictionary* )_JSONDict isInitial: ( BOOL )_YesOrNo
     {
+    self->_json = _JSONDict ?: @{};
+
     WikiContinuation* clusterMember = nil;
 
     if ( _YesOrNo )
-        clusterMember = [ [ __WikiContinuationI alloc ] __initWithJSONDict: _JSONDict ];
+        clusterMember = [ [ __WikiContinuationI alloc ] __initWithJSONDict: self->_json ];
 
     else if ( ( _JSONDict.count > 0 ) && !_YesOrNo )
-        clusterMember = [ [ __WikiContinuationU alloc ] __initWithJSONDict: _JSONDict ];
+        clusterMember = [ [ __WikiContinuationU alloc ] __initWithJSONDict: self->_json ];
 
-    else if ( ( _JSONDict.count == 0 ) && _YesOrNo )
-        clusterMember = [ [ __WikiContinuationC alloc ] __initWithJSONDict: _JSONDict ];
+    else if ( ( _JSONDict.count == 0 ) && !_YesOrNo )
+        clusterMember = [ [ __WikiContinuationC alloc ] __initWithJSONDict: self->_json ];
 
     return clusterMember;
     }

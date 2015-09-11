@@ -26,10 +26,6 @@
 
 // __WikiContinuationU class
 @interface __WikiContinuationU : WikiContinuation
-    {
-@protected
-    __NSDictionary_of( NSString*, NSString* ) __continuations;
-    }
 
 @end // __WikiContinuationU class
 
