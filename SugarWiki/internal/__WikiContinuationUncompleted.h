@@ -24,10 +24,10 @@
 
 #import "WikiContinuation.h"
 
-// __WikiContinuationU class
-@interface __WikiContinuationU : WikiContinuation
+// __WikiContinuationUncompleted class
+@interface __WikiContinuationUncompleted : WikiContinuation
 
-@end // __WikiContinuationU class
+@end // __WikiContinuationUncompleted class
 
 /*================================================================================┐
 |                              The MIT License (MIT)                              |

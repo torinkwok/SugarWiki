@@ -27,9 +27,9 @@
 #import "__WikiJSONObject.h"
 #import "__WikiContinuation.h"
 
-#import "__WikiContinuationI.h"
-#import "__WikiContinuationC.h"
-#import "__WikiContinuationU.h"
+#import "__WikiContinuationInitial.h"
+#import "__WikiContinuationCompleted.h"
+#import "__WikiContinuationUncompleted.h"
 
 // WikiContinuation class
 @implementation WikiContinuation
@@ -79,13 +79,13 @@
     WikiContinuation* clusterMember = nil;
 
     if ( _YesOrNo )
-        clusterMember = [ [ __WikiContinuationI alloc ] __initWithJSONDict: self->_json ];
+        clusterMember = [ [ __WikiContinuationInitial alloc ] __initWithJSONDict: self->_json ];
 
     else if ( ( _JSONDict.count > 0 ) && !_YesOrNo )
-        clusterMember = [ [ __WikiContinuationU alloc ] __initWithJSONDict: self->_json ];
+        clusterMember = [ [ __WikiContinuationUncompleted alloc ] __initWithJSONDict: self->_json ];
 
     else if ( ( _JSONDict.count == 0 ) && !_YesOrNo )
-        clusterMember = [ [ __WikiContinuationC alloc ] __initWithJSONDict: self->_json ];
+        clusterMember = [ [ __WikiContinuationCompleted alloc ] __initWithJSONDict: self->_json ];
 
     return clusterMember;
     }

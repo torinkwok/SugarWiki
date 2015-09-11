@@ -22,17 +22,14 @@
   ████████████████████████████████████████████████████████████████████████████████
   ██████████████████████████████████████████████████████████████████████████████*/
 
-#import "__WikiContinuationC.h"
+#import "__WikiContinuationUncompleted.h"
 
-// __WikiContinuationC class
-@implementation __WikiContinuationC
+#import "__WikiJSONObject.h"
+
+// __WikiContinuationUncompleted class
+@implementation __WikiContinuationUncompleted
 
 #pragma mark Dynamic Properties
-- ( __NSDictionary_of( NSString*, NSString* ) ) continuations
-    {
-    return @{};
-    }
-
 - ( BOOL ) isInitial
     {
     return NO;
@@ -40,10 +37,10 @@
 
 - ( BOOL ) isComplete
     {
-    return YES;
+    return NO;
     }
 
-@end // __WikiContinuationC class
+@end // __WikiContinuationUncompleted class
 
 /*================================================================================┐
 |                              The MIT License (MIT)                              |
