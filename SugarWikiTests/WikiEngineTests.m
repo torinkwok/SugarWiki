@@ -120,21 +120,21 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 //                                   @[ @"backlinks", @"random" ]
 
                                    // 1)
-                                  @[ @"allfileusages", @"allimages" ]
+                                  @[ @"allcategories" ]
                                  ];
 
     self->_posListParamsSamples = @[ // 0)
-                                     @{ /*@"bltitle" : @"C++"*/
-                                       @"rnlimit" : @"10"
-                                      }
+//                                     @{ /*@"bltitle" : @"C++"*/
+//                                        @"rnlimit" : @"10"
+//                                      , @"aifrom" : @"C++"
+//                                      , @"affrom" : @"C++"
+//                                      }
 
                                      // 1)
-                                   , @{ @"afprop" : @"ids|title"
-                                      , @"affrom" : @"Ruby"
-                                      , @"aflimit" : @"20"
-                                      , @"aiprefix" : @"Python"
-                                      , @"ailimit" : @"50"
-                                      }
+                                    @{ @"acprop" : @"size|hidden"
+                                     , @"aclimit" : @"10"
+                                     , @"acprefix" : @"C++"
+                                     }
                                    ];
     }
 
@@ -241,7 +241,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
         XCTAssertTrue( continuation.isInitial );
         XCTAssertFalse( continuation.isComplete );
 
-        while ( !continuation.isComplete )
+        while ( continuation )
             {
             XCTestExpectation* jsonExpectation = [ self expectationWithDescription: [ NSString stringWithFormat: @"🔥JSON Exception %d", count ] ];
             WikiQueryTask* WikiQueryTask =
