@@ -241,6 +241,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
         [ positiveTestCase queryLists: _PosSample
                                 limit: 10
                       otherParameters: self->_posListParamsSamples[ count ]
+                         continuation: nil
                               success:
             ^( __NSDictionary_of( NSString*, __NSArray_of( WikiJSONObject* ) ) _Results, WikiContinuation* _Continuation )
                 {

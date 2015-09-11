@@ -56,6 +56,7 @@ NSString* const kParamKeyAction = @"action";
 NSString* const kParamKeyFormat = @"format";
 NSString* const kParamKeyList = @"list";
 NSString* const kParamKeyProp = @"prop";
+NSString* const kParamContinue = @"continue";
 
 NSString* const kParamValActionQuery = @"query";
 
@@ -225,6 +226,7 @@ NSString* const kParamValListAllImages = @"allimages";
 - ( WikiQueryTask* ) queryLists: ( __NSArray_of( NSString* ) )_Lists
                           limit: ( NSUInteger )_Limit
                 otherParameters: ( __NSDictionary_of( NSString*, NSString* ) )_ParamsDict
+                   continuation: ( WikiContinuation* )_Continuation
                         success: ( void (^)( __NSDictionary_of( NSString*, __NSArray_of( WikiJSONObject* ) ) _Results, WikiContinuation* _Continuation ) )_SuccessBlock
                         failure: ( void (^)( NSError* _Error ) )_FailureBlock
               stopAllOtherTasks: ( BOOL )_WillStop
@@ -236,6 +238,7 @@ NSString* const kParamValListAllImages = @"allimages";
     [ paramsDict addEntriesFromDictionary: @{ kParamKeyAction : kParamValActionQuery
                                             , kParamKeyFormat : kParamValFormatJSON
                                             , kParamKeyList : joinedLists
+                                            , kParamContinue : _Continuation ?: @""
                                             } ];
 
     return [ self fetchResourceWithParameters: paramsDict
@@ -347,6 +350,7 @@ NSString* const kParamValListAllImages = @"allimages";
     return [ self queryLists: @[ kParamValListSearch ]
                        limit: 10
              otherParameters: parameters
+                continuation: nil
                      success:
         ^( __NSDictionary_of( NSString*, __NSArray_of( WikiJSONObject* ) ) _Results, WikiContinuation* _Continuation )
             {
@@ -433,6 +437,7 @@ NSString* const kParamValListAllImages = @"allimages";
     return [ self queryLists: @[ kParamValListAllImages ]
                        limit: 1
              otherParameters: parameters
+                continuation: nil
                      success:
         ^( __NSDictionary_of( NSString*, __NSArray_of( WikiJSONObject* ) ) _Results, WikiContinuation* _Continuation )
             {
@@ -547,18 +552,17 @@ NSString* const kParamValListAllImages = @"allimages";
         {
         id paramValue = _UnnormalizedParams[ _ParamName ];
 
-        NSObject* normalizedObjectVal = nil;
         if ( [ paramValue isKindOfClass: [ NSArray class ] ] )
-            normalizedObjectVal = [ paramValue componentsJoinedByString: @"|" ];
+            [ normalizedParams addEntriesFromDictionary: @{ _ParamName : [ paramValue componentsJoinedByString: @"|" ] } ];
 
         else if ( [ paramValue isKindOfClass: [ NSString class ] ] )
-            normalizedObjectVal= paramValue;
+            [ normalizedParams addEntriesFromDictionary: @{ _ParamName : paramValue } ];
 
         else if ( [ paramValue isKindOfClass: [ NSNumber class ] ] )
-            normalizedObjectVal = [ ( NSNumber* )paramValue stringValue ];
+            [ normalizedParams addEntriesFromDictionary: @{ _ParamName : [ ( NSNumber* )paramValue stringValue ] } ];
 
-        if ( normalizedObjectVal )
-            [ normalizedParams addEntriesFromDictionary: @{ _ParamName : normalizedObjectVal } ];
+        else if ( [ paramValue isKindOfClass: [ WikiContinuation class ] ] )
+            [ normalizedParams addEntriesFromDictionary: [ ( WikiContinuation* )paramValue continuations ] ];
         }
 
     return [ normalizedParams copy ];
