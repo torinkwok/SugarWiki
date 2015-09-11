@@ -38,7 +38,7 @@
     return YES;
     }
 
-- ( BOOL ) isComplete
+- ( BOOL ) isCompleted
     {
     return NO;
     }

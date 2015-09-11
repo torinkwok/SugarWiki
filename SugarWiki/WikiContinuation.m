@@ -37,7 +37,7 @@
 @dynamic continuations;
 
 @dynamic isInitial;
-@dynamic isComplete;
+@dynamic isCompleted;
 
 #pragma mark
 + ( instancetype ) initialContinuation
@@ -56,7 +56,7 @@
     __throw_exception_due_to_invocation_of_pure_virtrual_method_;
     }
 
-- ( BOOL ) isComplete
+- ( BOOL ) isCompleted
     {
     __throw_exception_due_to_invocation_of_pure_virtrual_method_;
     }

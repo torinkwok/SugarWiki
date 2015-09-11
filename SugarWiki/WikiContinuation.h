@@ -31,7 +31,7 @@
 @property ( strong, readonly ) __NSDictionary_of( NSString*, NSString* ) continuations;
 
 @property ( assign, readonly ) BOOL isInitial;
-@property ( assign, readonly ) BOOL isComplete;
+@property ( assign, readonly ) BOOL isCompleted;
 
 #pragma mark
 + ( instancetype ) initialContinuation;
