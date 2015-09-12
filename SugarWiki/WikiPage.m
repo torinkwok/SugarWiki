@@ -174,39 +174,36 @@
     }
 
 // Overrides WikiJSONObject + SugarWikiPrivate
-- ( instancetype ) __initWithJSONDict: ( NSDictionary* )_JSONDict
+- ( void ) __extractUseful: ( NSDictionary* )_JSONDict
     {
-    if ( self = [ super __initWithJSONDict: _JSONDict ] )
+    [ super __extractUseful: _JSONDict ];
+
+    self->_ID = _WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"pageid" );
+    self->_wikiNamespace = ( WikiNamespace )_WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"ns" );
+    self->_title = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"title" );
+    self->_displayTitle = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"displaytitle" );
+    self->_contentModel = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"contentmodel" );
+    self->_language = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"pagelanguage" );
+
+    self->_touched = [ NSDate dateWithMediaWikiJSONDateString: _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"touched" ) ];
+
+    self->_URL = [ NSURL URLWithString: _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"fullurl" ) ];
+    self->_editURL = [ NSURL URLWithString: _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"editurl" ) ];
+    self->_canonicalURL = [ NSURL URLWithString: _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"canonicalurl" ) ];
+
+    self->_talkID = _WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"talkid" );
+
+    NSDictionary* pagepropsJSON = self->_json[ @"pageprops" ];
+    if ( pagepropsJSON )
         {
-        self->_ID = _WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"pageid" );
-        self->_wikiNamespace = ( WikiNamespace )_WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"ns" );
-        self->_title = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"title" );
-        self->_displayTitle = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"displaytitle" );
-        self->_contentModel = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"contentmodel" );
-        self->_language = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"pagelanguage" );
-
-        self->_touched = [ NSDate dateWithMediaWikiJSONDateString: _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"touched" ) ];
-
-        self->_URL = [ NSURL URLWithString: _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"fullurl" ) ];
-        self->_editURL = [ NSURL URLWithString: _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"editurl" ) ];
-        self->_canonicalURL = [ NSURL URLWithString: _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"canonicalurl" ) ];
-
-        self->_talkID = _WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"talkid" );
-
-        NSDictionary* pagepropsJSON = self->_json[ @"pageprops" ];
-        if ( pagepropsJSON )
-            {
-            self->_defaultSort = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( pagepropsJSON, @"defaultsort" );
-            self->_pageImageName = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( pagepropsJSON, @"page_image" );
-            self->_wikiBaseItem = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( pagepropsJSON, @"wikibase_item" );
-            }
-
-        NSArray* revisionsJSON  = self->_json[ @"revisions" ];
-        if ( revisionsJSON.count > 0 )
-            self->_lastRevision = [ WikiRevision __revisionWithJSONDict: revisionsJSON.firstObject ];
+        self->_defaultSort = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( pagepropsJSON, @"defaultsort" );
+        self->_pageImageName = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( pagepropsJSON, @"page_image" );
+        self->_wikiBaseItem = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( pagepropsJSON, @"wikibase_item" );
         }
 
-    return self;
+    NSArray* revisionsJSON  = self->_json[ @"revisions" ];
+    if ( revisionsJSON.count > 0 )
+        self->_lastRevision = [ WikiRevision __revisionWithJSONDict: revisionsJSON.firstObject ];
     }
 
 @end // WikiPage + SugarWikiPrivate

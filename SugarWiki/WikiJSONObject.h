@@ -33,6 +33,8 @@
 
 @property ( strong, readonly ) NSDictionary* json;
 
+- ( void ) mergeFrom: ( WikiJSONObject* )_Another;
+
 @end // WikiJSONObject class
 
 /*================================================================================┐

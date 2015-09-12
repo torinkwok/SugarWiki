@@ -32,6 +32,11 @@
 
 @dynamic json;
 
+- ( void ) mergeFrom: ( WikiJSONObject* )_Another
+    {
+    [ self __extractUseful: _Another.json ];
+    }
+
 #pragma mark Dynamic Properties
 - ( NSDictionary* ) json
     {
@@ -55,9 +60,17 @@
         return nil;
 
     if ( self = [ super init ] )
+        {
         self->_json = _JSONDict;
+        [ self __extractUseful: self->_json ];
+        }
 
     return self;
+    }
+
+- ( void ) __extractUseful: ( NSDictionary* )_JSONDict
+    {
+    NSLog( @"🍉" );
     }
 
 @end // WikiJSONObject + SugarWikiPrivate
