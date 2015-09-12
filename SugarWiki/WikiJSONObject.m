@@ -37,7 +37,16 @@
     NSMutableDictionary* mergedJSON = [ NSMutableDictionary dictionaryWithDictionary: self->_json ];
 
     for ( NSString* _JSONKey in _Another.json )
-        mergedJSON[ _JSONKey ] = _Another.json[ _JSONKey ];
+        {
+        NSObject* myJSONElem = self->_json[ _JSONKey ];
+        NSObject* anotherJSONElem = _Another.json[ _JSONKey ];
+
+        if ( [ anotherJSONElem isKindOfClass: [ NSArray class ] ]
+                && [ myJSONElem isKindOfClass: [ NSArray class ] ] )
+            mergedJSON[ _JSONKey ] = [ ( NSArray* )myJSONElem arrayByAddingObjectsFromArray: ( NSArray* )anotherJSONElem ];
+        else
+            mergedJSON[ _JSONKey ] = anotherJSONElem;
+        }
 
     self->_json = [ mergedJSON copy ];
     [ self __extractUseful: self->_json ];
