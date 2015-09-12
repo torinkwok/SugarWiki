@@ -83,28 +83,28 @@
 // WikiSearchResult + SugarWikiPrivate
 @implementation WikiSearchResult ( SugarWikiPrivate )
 
+#pragma mark Private Initializations ( only used by friend classes )
 + ( instancetype ) __searchResultWithJSONDict: ( NSDictionary* )_JSONDict
     {
     return [ [ self alloc ] __initWithJSONDict: _JSONDict ];
     }
 
-- ( instancetype ) __initWithJSONDict: ( NSDictionary* )_JSONDict
+#pragma mark Processing JSON
+// Overrides WikiJSONObject + SugarWikiPrivate
+- ( void ) __extractUseful: ( NSDictionary* )_JSONDict
     {
-    if ( self = [ super __initWithJSONDict: _JSONDict ] )
-        {
-        self->_wikiNamespace = ( WikiNamespace )_WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"namespace" );
+    [ super __extractUseful: _JSONDict ];
 
-        self->_title = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"title" );
-        self->_resultSnippet = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"snippet" );
-        self->_resultTitleSnippet = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"titlesnippet" );
+    self->_wikiNamespace = ( WikiNamespace )_WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"namespace" );
 
-        self->_size = _WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"size" );
-        self->_wordCount = _WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"wordcount" );
+    self->_title = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"title" );
+    self->_resultSnippet = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"snippet" );
+    self->_resultTitleSnippet = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"titlesnippet" );
 
-        self->_timestamp = [ NSDate dateWithMediaWikiJSONDateString: _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"timestamp" ) ];
-        }
+    self->_size = _WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"size" );
+    self->_wordCount = _WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"wordcount" );
 
-    return self;
+    self->_timestamp = [ NSDate dateWithMediaWikiJSONDateString: _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"timestamp" ) ];
     }
 
 @end // WikiSearchResult + SugarWikiPrivate

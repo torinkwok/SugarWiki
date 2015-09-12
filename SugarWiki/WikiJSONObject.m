@@ -68,9 +68,10 @@
     return self;
     }
 
+#pragma mark Processing JSON
 - ( void ) __extractUseful: ( NSDictionary* )_JSONDict
     {
-    NSLog( @"🍉" );
+    // TODO: Should be overrided by subclasses
     }
 
 @end // WikiJSONObject + SugarWikiPrivate

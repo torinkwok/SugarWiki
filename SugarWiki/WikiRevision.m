@@ -126,33 +126,31 @@
     return [ [ [ self class ] alloc ] __initWithJSONDict: _JSONDict ];
     }
 
-// Overrides WikiJSONObject
-- ( instancetype ) __initWithJSONDict: ( NSDictionary* )_JSONDict
+#pragma mark Processing JSON
+// Overrides WikiJSONObject + SugarWikiPrivate
+- ( void ) __extractUseful: ( NSDictionary* )_JSONDict
     {
-    if ( self = [ super __initWithJSONDict: _JSONDict ] )
-        {
-        self->_ID = _WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"revid" );
-        self->_parentID = _WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"parentid" );
+    [ super __extractUseful: _JSONDict ];
 
-        self->_userName = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"user" );
-        self->_userID = _WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"userid" );
+    self->_ID = _WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"revid" );
+    self->_parentID = _WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"parentid" );
 
-        self->_timestamp = [ NSDate dateWithMediaWikiJSONDateString: _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"timestamp" ) ];
-        self->_contentFormat = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"contentformat" );
-        self->_contentModel = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"contentmodel" );
-        self->_content = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"*" );
+    self->_userName = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"user" );
+    self->_userID = _WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"userid" );
 
-        self->_sizeInByte = _WikiUnsignedIntWhichHasBeenParsedOutOfJSON( self->_json, @"size" );
+    self->_timestamp = [ NSDate dateWithMediaWikiJSONDateString: _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"timestamp" ) ];
+    self->_contentFormat = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"contentformat" );
+    self->_contentModel = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"contentmodel" );
+    self->_content = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"*" );
 
-        self->_comment = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"comment" );
-        self->_parsedComment = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"parsedcomment" );
+    self->_sizeInByte = _WikiUnsignedIntWhichHasBeenParsedOutOfJSON( self->_json, @"size" );
 
-        self->_isMinorEdit = ( _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"minor" ) ) ? YES : NO;
+    self->_comment = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"comment" );
+    self->_parsedComment = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"parsedcomment" );
 
-        self->_SHA1 = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"sha1" );
-        }
+    self->_isMinorEdit = ( _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"minor" ) ) ? YES : NO;
 
-    return self;
+    self->_SHA1 = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"sha1" );
     }
 
 @end // WikiRevision + SugarWikiPrivate

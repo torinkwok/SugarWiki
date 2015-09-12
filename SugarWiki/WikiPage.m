@@ -173,6 +173,7 @@
     return [ [ [ self class ] alloc ] __initWithJSONDict: _JSONDict ];
     }
 
+#pragma mark Processing JSON
 // Overrides WikiJSONObject + SugarWikiPrivate
 - ( void ) __extractUseful: ( NSDictionary* )_JSONDict
     {

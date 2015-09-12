@@ -31,6 +31,7 @@
 + ( instancetype ) __jsonObjectWithJSONDict: ( NSDictionary* )_JSONDict;
 - ( instancetype ) __initWithJSONDict: ( NSDictionary* )_JSONDict;
 
+#pragma mark Processing JSON
 - ( void ) __extractUseful: ( NSDictionary* )_JSONDict;
 
 @end // WikiJSONObject + SugarWikiPrivate
