@@ -49,6 +49,14 @@
 
 @dynamic talkID;
 
+@dynamic defaultSort;
+@dynamic pageImageName;
+@dynamic wikiBaseItem;
+
+@dynamic externalLinks;
+
+@dynamic lastRevision;
+
 #pragma mark Conforms to <NSCopying>
 - ( id ) copyWithZone: ( nullable NSZone* )_Zone
     {
@@ -128,6 +136,16 @@
     return self->_wikiBaseItem;
     }
 
+- ( NSArray* ) externalLinks
+    {
+    return self->_externalLinks;
+    }
+
+- ( WikiRevision* ) lastRevision
+    {
+    return self->_lastRevision;
+    }
+
 #pragma mark Debugging
 - ( NSString* ) description
     {
@@ -145,6 +163,7 @@
                                          "Default Sort: %@\n"
                                          "Page Image Name: %@\n"
                                          "WikiBase Item: %@\n"
+                                         "External Links: %@\n"
            , @( self->_ID )
            , @( self->_wikiNamespace )
            , self->_title
@@ -159,6 +178,7 @@
            , self->_defaultSort
            , self->_pageImageName
            , self->_wikiBaseItem
+           , self->_externalLinks
            ];
     }
 
@@ -200,6 +220,17 @@
         self->_defaultSort = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( pagepropsJSON, @"defaultsort" );
         self->_pageImageName = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( pagepropsJSON, @"page_image" );
         self->_wikiBaseItem = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( pagepropsJSON, @"wikibase_item" );
+        }
+
+    NSArray* externalLinksJSON = self->_json[ @"extlinks" ];
+    if ( externalLinksJSON )
+        {
+        NSMutableArray* tmp = [ NSMutableArray arrayWithCapacity: externalLinksJSON.count ];
+
+        for ( NSDictionary* _Dict in externalLinksJSON )
+            [ tmp addObject: _Dict[ @"*" ] ];
+
+        self->_externalLinks = [ tmp copy ];
         }
 
     NSArray* revisionsJSON  = self->_json[ @"revisions" ];

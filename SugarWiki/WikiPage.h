@@ -51,6 +51,8 @@
     NSString __strong* _pageImageName;
     NSString __strong* _wikiBaseItem;
 
+    NSArray __strong* _externalLinks;
+
     WikiRevision __strong* _lastRevision;
     }
 
@@ -71,6 +73,8 @@
 @property ( strong, readonly ) NSString* defaultSort;
 @property ( strong, readonly ) NSString* pageImageName;
 @property ( strong, readonly ) NSString* wikiBaseItem;
+
+@property ( strong, readonly ) NSArray* externalLinks;
 
 @property ( strong, readonly ) WikiRevision* lastRevision;
 
