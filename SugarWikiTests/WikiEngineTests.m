@@ -31,6 +31,7 @@
 #import "SugarWikiDefines.h"
 #import "AFNetworking.h"
 #import "WikiContinuation.h"
+#import "NSArray+SugarWiki.h"
 
 #import "__WikiEngine.h"
 
@@ -302,10 +303,10 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     {
     WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: @"en" ];
 
-    NSArray* posSamples = @[ @[ @"C++" ] ];
-//    NSMutableArray* posSamples = [ NSMutableArray arrayWithCapacity: self->_posTitleSamples.count + self->_posPageIDSamples.count ];
-//    [ posSamples addObjectsFromArray: self->_posTitleSamples ];
-//    [ posSamples addObjectsFromArray: self->_posPageIDSamples ];
+//    NSArray* posSamples = @[ @[ @"C++" ] ];
+    NSMutableArray* posSamples = [ NSMutableArray arrayWithCapacity: self->_posTitleSamples.count + self->_posPageIDSamples.count ];
+    [ posSamples addObjectsFromArray: self->_posTitleSamples ];
+    [ posSamples addObjectsFromArray: self->_posPageIDSamples ];
     for ( __NSArray_of( NSObject* ) _PosSample in posSamples )
         {
         int index = 0;
@@ -314,7 +315,8 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
             WikiContinuation __block* continuation = [ WikiContinuation initialContinuation ];
             [ self _testWikiContinuation: continuation ];
 
-            WikiPage __block* mergedWikiPage = nil;
+//            WikiPage __block* mergedWikiPage = nil;
+            NSArray __block* mergedWikiPages = nil;
             while ( !continuation.isCompleted )
                 {
                 XCTestExpectation* jsonExpectation = [ self expectationWithDescription: [ NSString stringWithFormat: @"🔥JSON Exception %d", index ] ];
@@ -335,20 +337,25 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                                                success:
                     ^( __NSArray_of( WikiPage* ) _WikiPages, WikiContinuation* _Continuation )
                         {
-                        NSLog( @"👻%lu", _WikiPages.count );
-                        if ( !mergedWikiPage )
-                            mergedWikiPage = _WikiPages.firstObject;
+//                        NSLog( @"👻%lu", _WikiPages.count );
+//                        if ( !mergedWikiPage )
+//                            mergedWikiPage = _WikiPages.firstObject;
+//                        else
+//                            [ mergedWikiPage mergeFrom: _WikiPages.firstObject ];
+
+                        if ( !mergedWikiPages )
+                            mergedWikiPages = _WikiPages;
                         else
-                            [ mergedWikiPage mergeFrom: _WikiPages.firstObject ];
+                            [ mergedWikiPages mergeWikiObjectsFrom: _WikiPages ];
 
                         continuation = _Continuation;
                         [ self _testWikiContinuation: continuation ];
 
-                        XCTAssertNotNil( _WikiPages );
-                        XCTAssertEqual( _WikiPages.count, _PosSample.count );
-                        NSLog( @">>> (Log🐑) Matched Pages Count vs. Positive Sample Count: %lu vs. %lu", _WikiPages.count, _PosSample.count );
+                        XCTAssertNotNil( mergedWikiPages );
+                        XCTAssertEqual( mergedWikiPages.count, _PosSample.count );
+                        NSLog( @">>> (Log🐑) Matched Pages Count vs. Positive Sample Count: %lu vs. %lu", mergedWikiPages.count, _PosSample.count );
 
-                        for ( WikiPage* _WikiPage in _WikiPages )
+                        for ( WikiPage* _WikiPage in mergedWikiPages )
                             [ self _testWikiPage: _WikiPage ];
 
                         WikiFulfillExpectation( jsonExpectation );
@@ -369,7 +376,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                         } ];
                 }
 
-            NSLog( @"🌻Merged Page:\n%@", mergedWikiPage );
+//            NSLog( @"🌻Merged Page:\n%@", mergedWikiPage );
 
             index++;
             }
@@ -608,7 +615,11 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
     XCTAssertGreaterThanOrEqual( _Page.talkID, 0 );
 
-    XCTAssertNotNil( _Page.externalLinks );
+    if ( _Page.json[ @"extlinks" ] )
+        XCTAssertNotNil( _Page.externalLinks );
+    else
+        XCTAssertNil( _Page.externalLinks );
+
     XCTAssertGreaterThanOrEqual( _Page.externalLinks.count, 0 );
 
     WikiRevision* lastRevision = _Page.lastRevision;

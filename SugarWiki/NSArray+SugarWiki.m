@@ -30,7 +30,10 @@
 
 - ( void ) mergeWikiObjectsFrom: ( __NSArray_of( WikiJSONObject* ) )_Others
     {
-    // TODO:
+    NSParameterAssert( ( self.count >= _Others.count ) );
+
+    for ( int _Index = 0; _Index < self.count; _Index++ )
+        [ self[ _Index ] mergeFrom: _Others[ _Index ] ];
     }
 
 @end // NSArray + SugarWiki
