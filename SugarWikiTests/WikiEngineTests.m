@@ -314,6 +314,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
             WikiContinuation __block* continuation = [ WikiContinuation initialContinuation ];
             [ self _testWikiContinuation: continuation ];
 
+            WikiPage __block* mergedWikiPage = nil;
             while ( !continuation.isCompleted )
                 {
                 XCTestExpectation* jsonExpectation = [ self expectationWithDescription: [ NSString stringWithFormat: @"🔥JSON Exception %d", index ] ];
@@ -334,6 +335,12 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                                                success:
                     ^( __NSArray_of( WikiPage* ) _WikiPages, WikiContinuation* _Continuation )
                         {
+                        NSLog( @"👻%lu", _WikiPages.count );
+                        if ( !mergedWikiPage )
+                            mergedWikiPage = _WikiPages.firstObject;
+                        else
+                            [ mergedWikiPage mergeFrom: _WikiPages.firstObject ];
+
                         continuation = _Continuation;
                         [ self _testWikiContinuation: continuation ];
 
@@ -361,6 +368,8 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                             NSLog( @"%@", _Error );
                         } ];
                 }
+
+            NSLog( @"🌻Merged Page:\n%@", mergedWikiPage );
 
             index++;
             }
@@ -598,6 +607,9 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     XCTAssertNotNil( _Page.canonicalURL );
 
     XCTAssertGreaterThanOrEqual( _Page.talkID, 0 );
+
+    XCTAssertNotNil( _Page.externalLinks );
+    XCTAssertGreaterThanOrEqual( _Page.externalLinks.count, 0 );
 
     WikiRevision* lastRevision = _Page.lastRevision;
     XCTAssertNotNil( lastRevision );

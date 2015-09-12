@@ -64,6 +64,8 @@
 		834E1DDF1B9DC683007A8E58 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 834E1D321B9DC683007A8E58 /* AFURLResponseSerialization.m */; };
 		834E1DE01B9DC683007A8E58 /* AFURLSessionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 834E1D331B9DC683007A8E58 /* AFURLSessionManager.h */; };
 		834E1DE11B9DC683007A8E58 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 834E1D341B9DC683007A8E58 /* AFURLSessionManager.m */; };
+		83612ADE1BA42AF700AE83D3 /* NSArray+SugarWiki.h in Headers */ = {isa = PBXBuildFile; fileRef = 83612ADC1BA42AF700AE83D3 /* NSArray+SugarWiki.h */; settings = {ASSET_TAGS = (); }; };
+		83612ADF1BA42AF700AE83D3 /* NSArray+SugarWiki.m in Sources */ = {isa = PBXBuildFile; fileRef = 83612ADD1BA42AF700AE83D3 /* NSArray+SugarWiki.m */; settings = {ASSET_TAGS = (); }; };
 		83A1DD3F1BA2762900296C96 /* __WikiContinuation.h in Headers */ = {isa = PBXBuildFile; fileRef = 83A1DD3D1BA2762900296C96 /* __WikiContinuation.h */; settings = {ASSET_TAGS = (); }; };
 		83A1DD431BA2CB6C00296C96 /* __WikiContinuationInitial.h in Headers */ = {isa = PBXBuildFile; fileRef = 83A1DD411BA2CB6C00296C96 /* __WikiContinuationInitial.h */; settings = {ASSET_TAGS = (); }; };
 		83A1DD441BA2CB6C00296C96 /* __WikiContinuationInitial.m in Sources */ = {isa = PBXBuildFile; fileRef = 83A1DD421BA2CB6C00296C96 /* __WikiContinuationInitial.m */; settings = {ASSET_TAGS = (); }; };
@@ -145,6 +147,8 @@
 		834E1D321B9DC683007A8E58 /* AFURLResponseSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLResponseSerialization.m; sourceTree = "<group>"; };
 		834E1D331B9DC683007A8E58 /* AFURLSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLSessionManager.h; sourceTree = "<group>"; };
 		834E1D341B9DC683007A8E58 /* AFURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLSessionManager.m; sourceTree = "<group>"; };
+		83612ADC1BA42AF700AE83D3 /* NSArray+SugarWiki.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+SugarWiki.h"; sourceTree = "<group>"; };
+		83612ADD1BA42AF700AE83D3 /* NSArray+SugarWiki.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+SugarWiki.m"; sourceTree = "<group>"; };
 		83A1DD3D1BA2762900296C96 /* __WikiContinuation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = __WikiContinuation.h; sourceTree = "<group>"; };
 		83A1DD411BA2CB6C00296C96 /* __WikiContinuationInitial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = __WikiContinuationInitial.h; sourceTree = "<group>"; };
 		83A1DD421BA2CB6C00296C96 /* __WikiContinuationInitial.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = __WikiContinuationInitial.m; sourceTree = "<group>"; };
@@ -179,6 +183,8 @@
 			children = (
 				834E1CEA1B9DC205007A8E58 /* NSDate+SugarWiki.h */,
 				834E1CEB1B9DC205007A8E58 /* NSDate+SugarWiki.m */,
+				83612ADC1BA42AF700AE83D3 /* NSArray+SugarWiki.h */,
+				83612ADD1BA42AF700AE83D3 /* NSArray+SugarWiki.m */,
 			);
 			name = extensions;
 			sourceTree = "<group>";
@@ -342,6 +348,7 @@
 				83A1DD471BA2CB7300296C96 /* __WikiContinuationCompleted.h in Headers */,
 				831C513F1B9DFB6E00790B38 /* __WikiPage.h in Headers */,
 				834E1DD81B9DC683007A8E58 /* AFSecurityPolicy.h in Headers */,
+				83612ADE1BA42AF700AE83D3 /* NSArray+SugarWiki.h in Headers */,
 				834E1D1A1B9DC205007A8E58 /* WikiQueryTask.h in Headers */,
 				834E1D0B1B9DC205007A8E58 /* WikiEngine.h in Headers */,
 				83A1DD431BA2CB6C00296C96 /* __WikiContinuationInitial.h in Headers */,
@@ -469,6 +476,7 @@
 				834E1DD91B9DC683007A8E58 /* AFSecurityPolicy.m in Sources */,
 				834E1CDE1B9DC1A1007A8E58 /* README.md in Sources */,
 				834E1CE91B9DC1F6007A8E58 /* __WikiJSONUtilities.m in Sources */,
+				83612ADF1BA42AF700AE83D3 /* NSArray+SugarWiki.m in Sources */,
 				834E1DDD1B9DC683007A8E58 /* AFURLRequestSerialization.m in Sources */,
 				83A1DD441BA2CB6C00296C96 /* __WikiContinuationInitial.m in Sources */,
 				834E1DD71B9DC683007A8E58 /* AFNetworkReachabilityManager.m in Sources */,
