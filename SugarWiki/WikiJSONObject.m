@@ -34,7 +34,13 @@
 
 - ( void ) mergeFrom: ( WikiJSONObject* )_Another
     {
-    [ self __extractUseful: _Another.json ];
+    NSMutableDictionary* mergedJSON = [ NSMutableDictionary dictionaryWithDictionary: self->_json ];
+
+    for ( NSString* _JSONKey in _Another.json )
+        mergedJSON[ _JSONKey ] = _Another.json[ _JSONKey ];
+
+    self->_json = [ mergedJSON copy ];
+    [ self __extractUseful: self->_json ];
     }
 
 #pragma mark Dynamic Properties

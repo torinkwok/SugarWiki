@@ -302,9 +302,10 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     {
     WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: @"en" ];
 
-    NSMutableArray* posSamples = [ NSMutableArray arrayWithCapacity: self->_posTitleSamples.count + self->_posPageIDSamples.count ];
-    [ posSamples addObjectsFromArray: self->_posTitleSamples ];
-    [ posSamples addObjectsFromArray: self->_posPageIDSamples ];
+    NSArray* posSamples = @[ @[ @"C++" ] ];
+//    NSMutableArray* posSamples = [ NSMutableArray arrayWithCapacity: self->_posTitleSamples.count + self->_posPageIDSamples.count ];
+//    [ posSamples addObjectsFromArray: self->_posTitleSamples ];
+//    [ posSamples addObjectsFromArray: self->_posPageIDSamples ];
     for ( __NSArray_of( NSObject* ) _PosSample in posSamples )
         {
         int index = 0;
