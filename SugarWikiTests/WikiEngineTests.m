@@ -180,7 +180,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
         [ positiveSessionDataTask0 resume ];
 
-        [ self waitForExpectationsWithTimeout: 150
+        [ self waitForExpectationsWithTimeout: 15
                                       handler:
             ^( NSError* __nullable _Error )
                 {
@@ -222,7 +222,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
     [ positiveSessionDataTask0 resume ];
 
-    [ self waitForExpectationsWithTimeout: 150
+    [ self waitForExpectationsWithTimeout: 15
                                   handler:
         ^( NSError* __nullable _Error )
             {
@@ -359,7 +359,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
                 [ self _testReturnedWikiQueryTask: WikiQueryTask ];
 
-                [ self waitForExpectationsWithTimeout: 1500
+                [ self waitForExpectationsWithTimeout: 15
                                               handler:
                     ^( NSError* __nullable _Error )
                         {
@@ -425,37 +425,52 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     int count = 0;
     for ( __NSArray_of( NSString* ) _PosSample in self->_posTitleSamples )
         {
-        XCTestExpectation* jsonExpectation = [ self expectationWithDescription: [ NSString stringWithFormat: @"🔥JSON Exception %d", count ] ];
+        WikiContinuation __block* continuation = [ WikiContinuation initialContinuation ];
+        [ self _testWikiContinuation: continuation ];
 
-        WikiQueryTask* WikiQueryTask =
-            [ positiveTestCase pagesWithTitles: _PosSample
-                                  continuation: nil
-                                       success:
-            ^( NSArray* _MatchedPages, WikiContinuation* _Continuation )
-                {
-                XCTAssertNotNil( _MatchedPages );
-                XCTAssertEqual( _MatchedPages.count, _PosSample.count );
-                NSLog( @">>> (Log🐑) Matched Pages Count vs. Positive Sample Count: %lu vs. %lu", _MatchedPages.count, _PosSample.count );
+        NSArray __block* mergedWikiPages = nil;
+        while ( !continuation.isCompleted )
+            {
+            XCTestExpectation* jsonExpectation = [ self expectationWithDescription: [ NSString stringWithFormat: @"🔥JSON Exception %d", count ] ];
 
-                for ( WikiPage* _WikiPage in _MatchedPages )
-                    [ self _testWikiPage: _WikiPage ];
+            WikiQueryTask* WikiQueryTask =
+                [ positiveTestCase pagesWithTitles: _PosSample
+                                      continuation: nil
+                                           success:
+                ^( NSArray* _MatchedPages, WikiContinuation* _Continuation )
+                    {
+                    if ( !mergedWikiPages )
+                        mergedWikiPages = _MatchedPages;
+                    else
+                        [ mergedWikiPages mergeWikiObjectsFrom: _MatchedPages ];
 
-                WikiFulfillExpectation( jsonExpectation );
-                } failure:
-                    ^( NSError* _Error )
-                        {
-                        NSLog( @"❌%@", _Error );
-                        }    stopAllOtherTasks: NO ];
+                    continuation = _Continuation;
+                    [ self _testWikiContinuation: continuation ];
 
-        [ self _testReturnedWikiQueryTask: WikiQueryTask ];
+                    XCTAssertNotNil( mergedWikiPages );
+                    XCTAssertEqual( mergedWikiPages.count, _PosSample.count );
+                    NSLog( @">>> (Log🐑) Matched Pages Count vs. Positive Sample Count: %lu vs. %lu", mergedWikiPages.count, _PosSample.count );
 
-        [ self waitForExpectationsWithTimeout: 15
-                                      handler:
-            ^( NSError* __nullable _Error )
-                {
-                if ( _Error )
-                    NSLog( @"%@", _Error );
-                } ];
+                    for ( WikiPage* _WikiPage in mergedWikiPages )
+                        [ self _testWikiPage: _WikiPage ];
+
+                    WikiFulfillExpectation( jsonExpectation );
+                    } failure:
+                        ^( NSError* _Error )
+                            {
+                            NSLog( @"❌%@", _Error );
+                            }    stopAllOtherTasks: NO ];
+
+            [ self _testReturnedWikiQueryTask: WikiQueryTask ];
+
+            [ self waitForExpectationsWithTimeout: 15
+                                          handler:
+                ^( NSError* __nullable _Error )
+                    {
+                    if ( _Error )
+                        NSLog( @"%@", _Error );
+                    } ];
+            }
 
         count++;
         }
@@ -468,37 +483,52 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     int count = 0;
     for ( __NSArray_of( NSNumber* ) _PosSample in self->_posPageIDSamples )
         {
-        XCTestExpectation* jsonExpectation = [ self expectationWithDescription: [ NSString stringWithFormat: @"🔥JSON Exception %d", count ] ];
+        WikiContinuation __block* continuation = [ WikiContinuation initialContinuation ];
+        [ self _testWikiContinuation: continuation ];
 
-        WikiQueryTask* WikiQueryTask =
-            [ positiveTestCase pagesWithPageIDs: _PosSample
-                                   continuation: nil
-                                        success:
-            ^( NSArray* _MatchedPages, WikiContinuation* _Continuation )
-                {
-                XCTAssertNotNil( _MatchedPages );
-                XCTAssertEqual( _MatchedPages.count, _PosSample.count );
-                NSLog( @">>> (Log🐑) Matched Pages Count vs. Positive Sample Count: %lu vs. %lu", _MatchedPages.count, _PosSample.count );
+        NSArray __block* mergedWikiPages = nil;
+        while ( !continuation.isCompleted )
+            {
+            XCTestExpectation* jsonExpectation = [ self expectationWithDescription: [ NSString stringWithFormat: @"🔥JSON Exception %d", count ] ];
 
-                for ( WikiPage* _WikiPage in _MatchedPages )
-                    [ self _testWikiPage: _WikiPage ];
+            WikiQueryTask* WikiQueryTask =
+                [ positiveTestCase pagesWithPageIDs: _PosSample
+                                       continuation: nil
+                                            success:
+                ^( NSArray* _MatchedPages, WikiContinuation* _Continuation )
+                    {
+                    if ( !mergedWikiPages )
+                        mergedWikiPages = _MatchedPages;
+                    else
+                        [ mergedWikiPages mergeWikiObjectsFrom: _MatchedPages ];
 
-                WikiFulfillExpectation( jsonExpectation );
-                } failure:
-                    ^( NSError* _Error )
-                        {
-                        NSLog( @"❌%@", _Error );
-                        }    stopAllOtherTasks: NO ];
+                    continuation = _Continuation;
+                    [ self _testWikiContinuation: continuation ];
 
-        [ self _testReturnedWikiQueryTask: WikiQueryTask ];
+                    XCTAssertNotNil( _MatchedPages );
+                    XCTAssertEqual( _MatchedPages.count, _PosSample.count );
+                    NSLog( @">>> (Log🐑) Matched Pages Count vs. Positive Sample Count: %lu vs. %lu", _MatchedPages.count, _PosSample.count );
 
-        [ self waitForExpectationsWithTimeout: 15
-                                      handler:
-            ^( NSError* __nullable _Error )
-                {
-                if ( _Error )
-                    NSLog( @"%@", _Error );
-                } ];
+                    for ( WikiPage* _WikiPage in _MatchedPages )
+                        [ self _testWikiPage: _WikiPage ];
+
+                    WikiFulfillExpectation( jsonExpectation );
+                    } failure:
+                        ^( NSError* _Error )
+                            {
+                            NSLog( @"❌%@", _Error );
+                            }    stopAllOtherTasks: NO ];
+
+            [ self _testReturnedWikiQueryTask: WikiQueryTask ];
+
+            [ self waitForExpectationsWithTimeout: 15
+                                          handler:
+                ^( NSError* __nullable _Error )
+                    {
+                    if ( _Error )
+                        NSLog( @"%@", _Error );
+                    } ];
+            }
 
         count++;
         }
@@ -527,7 +557,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
     [ self _testReturnedWikiQueryTask: WikiQueryTask ];
 
-    [ self waitForExpectationsWithTimeout: 150
+    [ self waitForExpectationsWithTimeout: 15
                                   handler:
         ^( NSError* __nullable _Error )
             {
