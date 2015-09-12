@@ -303,7 +303,6 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     {
     WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: @"en" ];
 
-//    NSArray* posSamples = @[ @[ @"C++" ] ];
     NSMutableArray* posSamples = [ NSMutableArray arrayWithCapacity: self->_posTitleSamples.count + self->_posPageIDSamples.count ];
     [ posSamples addObjectsFromArray: self->_posTitleSamples ];
     [ posSamples addObjectsFromArray: self->_posPageIDSamples ];
@@ -315,7 +314,6 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
             WikiContinuation __block* continuation = [ WikiContinuation initialContinuation ];
             [ self _testWikiContinuation: continuation ];
 
-//            WikiPage __block* mergedWikiPage = nil;
             NSArray __block* mergedWikiPages = nil;
             while ( !continuation.isCompleted )
                 {
@@ -337,12 +335,6 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                                                success:
                     ^( __NSArray_of( WikiPage* ) _WikiPages, WikiContinuation* _Continuation )
                         {
-//                        NSLog( @"👻%lu", _WikiPages.count );
-//                        if ( !mergedWikiPage )
-//                            mergedWikiPage = _WikiPages.firstObject;
-//                        else
-//                            [ mergedWikiPage mergeFrom: _WikiPages.firstObject ];
-
                         if ( !mergedWikiPages )
                             mergedWikiPages = _WikiPages;
                         else
@@ -375,8 +367,6 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                             NSLog( @"%@", _Error );
                         } ];
                 }
-
-//            NSLog( @"🌻Merged Page:\n%@", mergedWikiPage );
 
             index++;
             }
