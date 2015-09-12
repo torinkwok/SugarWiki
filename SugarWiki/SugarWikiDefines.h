@@ -33,6 +33,7 @@
 // Using generics with collection containers is so common in SugarWiki
 // that it gets a dedicated preprocessor macro for better readability.
 #define __NSArray_of(type)                  __SugarWiki_GENERICS(NSArray, type)*
+#define __NSMutableArray_of(type)           __SugarWiki_GENERICS(NSMutableArray, type)*
 #define __NSSet_of(type)                    __SugarWiki_GENERICS(NSSet, type)*
 #define __NSDictionary_of(keytype, valtype) __SugarWiki_GENERICS(NSDictionary, keytype,valtype)*
 
