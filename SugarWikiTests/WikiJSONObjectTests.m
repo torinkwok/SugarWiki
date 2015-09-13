@@ -24,9 +24,7 @@
 
 @import XCTest;
 
-#import "WikiJSONObject.h"
-
-#import "__WikiJSONObject.h"
+#import "__SugarWiki.h"
 
 // WikiJSONObjectTests class
 @interface WikiJSONObjectTests : XCTestCase

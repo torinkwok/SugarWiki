@@ -22,14 +22,7 @@
   ████████████████████████████████████████████████████████████████████████████████
   ██████████████████████████████████████████████████████████████████████████████*/
 
-#import "SugarWiki.h"
-#import "AFNetworking.h"
-
-#import "__WikiEngine.h"
-
-#import "__WikiContinuationInitial.h"
-#import "__WikiContinuationCompleted.h"
-#import "__WikiContinuationUncompleted.h"
+#import "__SugarWiki.h"
 
 @import XCTest;
 

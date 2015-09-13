@@ -14,6 +14,7 @@
 		831C51471B9E011300790B38 /* __WikiRevision.h in Headers */ = {isa = PBXBuildFile; fileRef = 831C51451B9E011300790B38 /* __WikiRevision.h */; };
 		831C514B1B9E01CF00790B38 /* __WikiSearchResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 831C51491B9E01CF00790B38 /* __WikiSearchResult.h */; };
 		83362CC81BA5A226001277E1 /* SugarWiki.h in Headers */ = {isa = PBXBuildFile; fileRef = 83362CC61BA5A226001277E1 /* SugarWiki.h */; settings = {ASSET_TAGS = (); }; };
+		83362CCD1BA5A634001277E1 /* __SugarWiki.h in Headers */ = {isa = PBXBuildFile; fileRef = 83362CCB1BA5A634001277E1 /* __SugarWiki.h */; settings = {ASSET_TAGS = (); }; };
 		834E1CCE1B9DC18C007A8E58 /* SugarWiki.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 834E1CC31B9DC18C007A8E58 /* SugarWiki.framework */; };
 		834E1CE21B9DC1D0007A8E58 /* SugarWikiTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 834E1CDF1B9DC1D0007A8E58 /* SugarWikiTests.m */; };
 		834E1CE31B9DC1D0007A8E58 /* WikiEngineTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 834E1CE01B9DC1D0007A8E58 /* WikiEngineTests.m */; };
@@ -94,6 +95,7 @@
 		831C51451B9E011300790B38 /* __WikiRevision.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = __WikiRevision.h; sourceTree = "<group>"; };
 		831C51491B9E01CF00790B38 /* __WikiSearchResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = __WikiSearchResult.h; sourceTree = "<group>"; };
 		83362CC61BA5A226001277E1 /* SugarWiki.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SugarWiki.h; sourceTree = "<group>"; };
+		83362CCB1BA5A634001277E1 /* __SugarWiki.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = __SugarWiki.h; sourceTree = "<group>"; };
 		834E1CC31B9DC18C007A8E58 /* SugarWiki.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SugarWiki.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		834E1CC81B9DC18C007A8E58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		834E1CCD1B9DC18C007A8E58 /* SugarWikiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SugarWikiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -273,6 +275,7 @@
 		834E1CE51B9DC1F6007A8E58 /* internal */ = {
 			isa = PBXGroup;
 			children = (
+				83362CCB1BA5A634001277E1 /* __SugarWiki.h */,
 				834E1CE61B9DC1F6007A8E58 /* __WikiJSONUtilities.h */,
 				834E1CE71B9DC1F6007A8E58 /* __WikiJSONUtilities.m */,
 				83A1DD411BA2CB6C00296C96 /* __WikiContinuationInitial.h */,
@@ -339,6 +342,7 @@
 				834E1D161B9DC205007A8E58 /* WikiRevision.h in Headers */,
 				834E1D181B9DC205007A8E58 /* WikiSearchResult.h in Headers */,
 				834E1D071B9DC205007A8E58 /* WikiConstants.h in Headers */,
+				83362CCD1BA5A634001277E1 /* __SugarWiki.h in Headers */,
 				834E1D1A1B9DC205007A8E58 /* WikiQueryTask.h in Headers */,
 				834E1D031B9DC205007A8E58 /* NSDate+SugarWiki.h in Headers */,
 				83612ADE1BA42AF700AE83D3 /* NSArray+SugarWiki.h in Headers */,

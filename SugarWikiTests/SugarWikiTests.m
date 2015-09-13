@@ -24,7 +24,7 @@
 
 @import XCTest;
 
-#import "SugarWiki.h"
+#import "__SugarWiki.h"
 
 // SugarWikiTests class
 @interface SugarWikiTests : XCTestCase
