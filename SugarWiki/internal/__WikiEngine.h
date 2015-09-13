@@ -30,7 +30,7 @@
 
 #pragma mark Private Properties ( only used by friend classes )
 @property ( strong, readonly ) __NSDictionary_of( NSString*, NSString* ) __pageQueryGeneralPropParams;
-@property ( strong, readonly ) __NSArray_of( NSString* ) __pageQueryGeneralProps;
+@property ( strong, readonly ) __SugarArray_of( NSString* ) __pageQueryGeneralProps;
 
 @end // WikiEngine + SugarWikiPrivate
 

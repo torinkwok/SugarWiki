@@ -34,8 +34,8 @@
 
 @property ( assign, readwrite ) WikiQueryOptions queryOptions;
 @property ( strong, readwrite ) __NSDictionary_of( NSString*, NSString* ) parameters;
-@property ( strong, readwrite ) __NSArray_of( NSString* ) listNames;
-@property ( strong, readwrite ) __NSArray_of( NSString* ) propNames;
+@property ( strong, readwrite ) __SugarArray_of( NSString* ) listNames;
+@property ( strong, readwrite ) __SugarArray_of( NSString* ) propNames;
 
 @end // Private Interfaces
 

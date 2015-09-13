@@ -222,11 +222,11 @@ NSString* const kParamValListAllImages = @"allimages";
     }
 
 #pragma mark Generic Methods to Query
-- ( WikiQueryTask* ) queryLists: ( __NSArray_of( NSString* ) )_Lists
+- ( WikiQueryTask* ) queryLists: ( __SugarArray_of( NSString* ) )_Lists
                           limit: ( NSUInteger )_Limit
                 otherParameters: ( __NSDictionary_of( NSString*, NSString* ) )_ParamsDict
                    continuation: ( WikiContinuation* )_Continuation
-                        success: ( void (^)( __NSDictionary_of( NSString*, __NSArray_of( WikiJSONObject* ) ) _Results, WikiContinuation* _Continuation ) )_SuccessBlock
+                        success: ( void (^)( __NSDictionary_of( NSString*, __SugarArray_of( WikiJSONObject* ) ) _Results, WikiContinuation* _Continuation ) )_SuccessBlock
                         failure: ( void (^)( NSError* _Error ) )_FailureBlock
               stopAllOtherTasks: ( BOOL )_WillStop
     {
@@ -282,10 +282,10 @@ NSString* const kParamValListAllImages = @"allimages";
     }
 
 
-- ( WikiQueryTask* ) queryProperties: ( __NSArray_of( NSString* ) )_PropValues
+- ( WikiQueryTask* ) queryProperties: ( __SugarArray_of( NSString* ) )_PropValues
                      otherParameters: ( __NSDictionary_of( NSString*, NSString* ) )_Params
                         continuation: ( WikiContinuation* )_Continuation
-                             success: ( void (^)( __NSArray_of( WikiPage* ) _Results, WikiContinuation* _Continuation ) )_SuccessBlock
+                             success: ( void (^)( __SugarArray_of( WikiPage* ) _Results, WikiContinuation* _Continuation ) )_SuccessBlock
                              failure: ( void (^)( NSError* _Error ) )_FailureBlock
                    stopAllOtherTasks: ( BOOL )_WillStop
     {
@@ -356,7 +356,7 @@ NSString* const kParamValListAllImages = @"allimages";
              otherParameters: parameters
                 continuation: nil
                      success:
-        ^( __NSDictionary_of( NSString*, __NSArray_of( WikiJSONObject* ) ) _Results, WikiContinuation* _Continuation )
+        ^( __NSDictionary_of( NSString*, __SugarArray_of( WikiJSONObject* ) ) _Results, WikiContinuation* _Continuation )
             {
             if ( _SuccessBlock )
                 _SuccessBlock( _Results[ kParamValListSearch ] );
@@ -370,9 +370,9 @@ NSString* const kParamValListAllImages = @"allimages";
     }
 
 #pragma mark Pages
-- ( WikiQueryTask* ) pagesWithTitles: ( __NSArray_of( NSString* ) )_Titles
+- ( WikiQueryTask* ) pagesWithTitles: ( __SugarArray_of( NSString* ) )_Titles
                         continuation: ( WikiContinuation* )_Continuation
-                             success: ( void (^)( __NSArray_of( WikiPage* ) _MatchedPage, WikiContinuation* _Continuation ) )_SuccessBlock
+                             success: ( void (^)( __SugarArray_of( WikiPage* ) _MatchedPage, WikiContinuation* _Continuation ) )_SuccessBlock
                              failure: ( void (^)( NSError* _Error ) )_FailureBlock
                    stopAllOtherTasks: ( BOOL )_WillStop
     {
@@ -385,7 +385,7 @@ NSString* const kParamValListAllImages = @"allimages";
                   otherParameters: parameters
                      continuation: _Continuation
                           success:
-        ^( __NSArray_of( WikiPage* ) _Results, WikiContinuation* _Continuation )
+        ^( __SugarArray_of( WikiPage* ) _Results, WikiContinuation* _Continuation )
             {
             if ( _SuccessBlock )
                 _SuccessBlock( _Results, _Continuation );
@@ -398,9 +398,9 @@ NSString* const kParamValListAllImages = @"allimages";
           stopAllOtherTasks: _WillStop ];
     }
 
-- ( WikiQueryTask* ) pagesWithPageIDs: ( __NSArray_of( NSNumber* ) )_PageIDs
+- ( WikiQueryTask* ) pagesWithPageIDs: ( __SugarArray_of( NSNumber* ) )_PageIDs
                          continuation: ( WikiContinuation* )_Continuation
-                              success: ( void (^)( __NSArray_of( WikiPage* ) _MatchedPage, WikiContinuation* _Continuation ) )_SuccessBlock
+                              success: ( void (^)( __SugarArray_of( WikiPage* ) _MatchedPage, WikiContinuation* _Continuation ) )_SuccessBlock
                               failure: ( void (^)( NSError* _Error ) )_FailureBlock
                     stopAllOtherTasks: ( BOOL )_WillStop
     {
@@ -413,7 +413,7 @@ NSString* const kParamValListAllImages = @"allimages";
                   otherParameters: parameters
                      continuation: _Continuation
                           success:
-        ^( __NSArray_of( WikiPage* ) _Results, WikiContinuation* _Continuation )
+        ^( __SugarArray_of( WikiPage* ) _Results, WikiContinuation* _Continuation )
             {
             if ( _SuccessBlock )
                 _SuccessBlock( _Results, _Continuation );
@@ -447,7 +447,7 @@ NSString* const kParamValListAllImages = @"allimages";
              otherParameters: parameters
                 continuation: nil
                      success:
-        ^( __NSDictionary_of( NSString*, __NSArray_of( WikiJSONObject* ) ) _Results, WikiContinuation* _Continuation )
+        ^( __NSDictionary_of( NSString*, __SugarArray_of( WikiJSONObject* ) ) _Results, WikiContinuation* _Continuation )
             {
             // If the image exists
             WikiImage* wikiImage = _Results[ kParamValListAllImages ].firstObject;
@@ -596,7 +596,7 @@ NSString* const kParamValListAllImages = @"allimages";
     return self->__pageQueryGeneralPropParams;
     }
 
-- ( __NSArray_of( NSString* ) ) __pageQueryGeneralProps
+- ( __SugarArray_of( NSString* ) ) __pageQueryGeneralProps
     {
     return self->__pageQueryGeneralProps;
     }

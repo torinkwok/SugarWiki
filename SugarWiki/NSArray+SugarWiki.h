@@ -31,7 +31,7 @@
 // NSArray + SugarWiki
 @interface NSArray ( SugarWiki )
 
-- ( void ) mergeWikiObjectsFrom: ( __NSArray_of( WikiJSONObject* ) )_Others;
+- ( void ) mergeWikiObjectsFrom: ( __SugarArray_of( WikiJSONObject* ) )_Others;
 
 @end // NSArray + SugarWiki
 

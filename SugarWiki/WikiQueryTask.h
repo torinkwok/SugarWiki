@@ -44,8 +44,8 @@ typedef NS_OPTIONS ( NSUInteger, WikiQueryOptions )
 
 @property ( assign, readonly ) WikiQueryOptions queryOptions;
 @property ( strong, readonly ) __NSDictionary_of( NSString*, NSString* ) parameters;
-@property ( strong, readonly ) __NSArray_of( NSString* ) listNames;
-@property ( strong, readonly ) __NSArray_of( NSString* ) propNames;
+@property ( strong, readonly ) __SugarArray_of( NSString* ) listNames;
+@property ( strong, readonly ) __SugarArray_of( NSString* ) propNames;
 
 @end // WikiQueryTask class
 

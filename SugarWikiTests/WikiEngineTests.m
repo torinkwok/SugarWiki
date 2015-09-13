@@ -53,14 +53,14 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     NSArray __strong* _languageCodesSamples0;
     NSDictionary __strong* _parametersSamples0;
 
-    __NSArray_of( __NSArray_of( NSString* ) ) _posTitleSamples;
-    __NSArray_of( __NSArray_of( NSNumber* ) ) _posPageIDSamples;
+    __SugarArray_of( __SugarArray_of( NSString* ) ) _posTitleSamples;
+    __SugarArray_of( __SugarArray_of( NSNumber* ) ) _posPageIDSamples;
 
-    __NSArray_of( __NSArray_of( NSString* ) ) _posQueryPropSamples;
-    __NSArray_of( __NSDictionary_of( NSString*, NSString* ) ) _posQueryPropParamSamples;
+    __SugarArray_of( __SugarArray_of( NSString* ) ) _posQueryPropSamples;
+    __SugarArray_of( __NSDictionary_of( NSString*, NSString* ) ) _posQueryPropParamSamples;
 
-    __NSArray_of( __NSArray_of( NSString* ) ) _posListNameSamples;
-    __NSArray_of( __NSDictionary_of( NSString*, NSString* ) ) _posListParamsSamples;
+    __SugarArray_of( __SugarArray_of( NSString* ) ) _posListNameSamples;
+    __SugarArray_of( __NSDictionary_of( NSString*, NSString* ) ) _posListParamsSamples;
     }
 
 @end
@@ -243,7 +243,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: @"en" ];
 
     int index = 0;
-    for ( __NSArray_of( NSString* ) _PosSample in self->_posListNameSamples )
+    for ( __SugarArray_of( NSString* ) _PosSample in self->_posListNameSamples )
         {
         WikiContinuation __block* continuation = [ WikiContinuation initialContinuation ];
         [ self _testWikiContinuation: continuation ];
@@ -257,7 +257,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                           otherParameters: self->_posListParamsSamples[ index ]
                              continuation: continuation
                                   success:
-                ^( __NSDictionary_of( NSString*, __NSArray_of( WikiJSONObject* ) ) _Results, WikiContinuation* _Continuation )
+                ^( __NSDictionary_of( NSString*, __SugarArray_of( WikiJSONObject* ) ) _Results, WikiContinuation* _Continuation )
                     {
                     continuation = _Continuation;
                     [ self _testWikiContinuation: continuation ];
@@ -268,7 +268,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                     for ( NSString* _OriginalSampleListName in _PosSample )
                         {
                         // Be sure that the _Result do contain all the original sample list names
-                        __NSArray_of( WikiJSONObject* ) genericJSONObjects = _Results[ _OriginalSampleListName ];
+                        __SugarArray_of( WikiJSONObject* ) genericJSONObjects = _Results[ _OriginalSampleListName ];
                         XCTAssert( genericJSONObjects || !genericJSONObjects );
                         XCTAssert( genericJSONObjects.count >= 0 );
 
@@ -306,10 +306,10 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     NSMutableArray* posSamples = [ NSMutableArray arrayWithCapacity: self->_posTitleSamples.count + self->_posPageIDSamples.count ];
     [ posSamples addObjectsFromArray: self->_posTitleSamples ];
     [ posSamples addObjectsFromArray: self->_posPageIDSamples ];
-    for ( __NSArray_of( NSObject* ) _PosSample in posSamples )
+    for ( __SugarArray_of( NSObject* ) _PosSample in posSamples )
         {
         int index = 0;
-        for ( __NSArray_of( NSString* ) _PropSample in self->_posQueryPropSamples )
+        for ( __SugarArray_of( NSString* ) _PropSample in self->_posQueryPropSamples )
             {
             WikiContinuation __block* continuation = [ WikiContinuation initialContinuation ];
             [ self _testWikiContinuation: continuation ];
@@ -333,7 +333,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                                        otherParameters: parameters
                                           continuation: continuation
                                                success:
-                    ^( __NSArray_of( WikiPage* ) _WikiPages, WikiContinuation* _Continuation )
+                    ^( __SugarArray_of( WikiPage* ) _WikiPages, WikiContinuation* _Continuation )
                         {
                         if ( !mergedWikiPages )
                             mergedWikiPages = _WikiPages;
@@ -378,7 +378,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: @"en" ];
 
     int count = 0;
-    for ( __NSArray_of( NSString* ) _PosSample in self->_posTitleSamples )
+    for ( __SugarArray_of( NSString* ) _PosSample in self->_posTitleSamples )
         {
         for ( NSString* _TitleSample in _PosSample )
             {
@@ -423,7 +423,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: @"en" ];
 
     int count = 0;
-    for ( __NSArray_of( NSString* ) _PosSample in self->_posTitleSamples )
+    for ( __SugarArray_of( NSString* ) _PosSample in self->_posTitleSamples )
         {
         WikiContinuation __block* continuation = [ WikiContinuation initialContinuation ];
         [ self _testWikiContinuation: continuation ];
@@ -481,7 +481,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: @"en" ];
 
     int count = 0;
-    for ( __NSArray_of( NSNumber* ) _PosSample in self->_posPageIDSamples )
+    for ( __SugarArray_of( NSNumber* ) _PosSample in self->_posPageIDSamples )
         {
         WikiContinuation __block* continuation = [ WikiContinuation initialContinuation ];
         [ self _testWikiContinuation: continuation ];

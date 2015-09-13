@@ -37,6 +37,11 @@
                BlueprintName = "SugarWikiTests"
                ReferencedContainer = "container:SugarWiki.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "WikiEngineTests/test_pos_queryProperties_genericMethod">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
       <MacroExpansion>

@@ -28,7 +28,7 @@
 // NSArray + SugarWiki
 @implementation NSArray ( SugarWiki )
 
-- ( void ) mergeWikiObjectsFrom: ( __NSArray_of( WikiJSONObject* ) )_Others
+- ( void ) mergeWikiObjectsFrom: ( __SugarArray_of( WikiJSONObject* ) )_Others
     {
     NSParameterAssert( ( self.count >= _Others.count ) );
 
