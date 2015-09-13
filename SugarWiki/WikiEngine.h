@@ -54,7 +54,7 @@ typedef NS_ENUM( NSUInteger, WikiEngineSearchApproach )
     NSString __strong* _ISOLanguageCode;
 
     __strong __SugarArray_of( NSString* ) __pageQueryGeneralProps;
-    __strong __NSDictionary_of( NSString*, NSString* ) __pageQueryGeneralPropParams;
+    __strong __SugarDictionary_of( NSString*, NSString* ) __pageQueryGeneralPropParams;
 
     __strong __SugarArray_of( NSString* ) __rvprop;
     __strong __SugarArray_of( NSString* ) __inprop;
@@ -79,7 +79,7 @@ typedef NS_ENUM( NSUInteger, WikiEngineSearchApproach )
 - ( void ) cancelAll;
 
 #pragma mark Generic Methods to GET and POST
-- ( WikiQueryTask* ) fetchResourceWithParameters: ( __NSDictionary_of( NSString*, NSString* ) )_Params
+- ( WikiQueryTask* ) fetchResourceWithParameters: ( __SugarDictionary_of( NSString*, NSString* ) )_Params
                                       HTTPMethod: ( NSString* )_HTTPMethod
                                          success: ( void (^)( WikiQueryTask* _WikiQueryTask, id _ResponseObject ) )_SuccessBlock
                                          failure: ( void (^)( WikiQueryTask* _WikiQueryTask, NSError* _Error ) )_FailureBlock
@@ -98,14 +98,14 @@ typedef NS_ENUM( NSUInteger, WikiEngineSearchApproach )
   */
 - ( WikiQueryTask* ) queryLists: ( __SugarArray_of( NSString* ) )_Lists
                           limit: ( NSUInteger )_Limit
-                otherParameters: ( __NSDictionary_of( NSString*, NSString* ) )_ParamsDict
+                otherParameters: ( __SugarDictionary_of( NSString*, NSString* ) )_ParamsDict
                    continuation: ( WikiContinuation* )_Continuation
-                        success: ( void (^)( __NSDictionary_of( NSString*, __SugarArray_of( WikiJSONObject* ) ) _Results, WikiContinuation* _Continuation ) )_SuccessBlock
+                        success: ( void (^)( __SugarDictionary_of( NSString*, __SugarArray_of( WikiJSONObject* ) ) _Results, WikiContinuation* _Continuation ) )_SuccessBlock
                         failure: ( void (^)( NSError* _Error ) )_FailureBlock
               stopAllOtherTasks: ( BOOL )_WillStop;
 
 - ( WikiQueryTask* ) queryProperties: ( __SugarArray_of( NSString* ) )_PropValues
-                     otherParameters: ( __NSDictionary_of( NSString*, NSString* ) )_ParamsDict
+                     otherParameters: ( __SugarDictionary_of( NSString*, NSString* ) )_ParamsDict
                         continuation: ( WikiContinuation* )_Continuation
                              success: ( void (^)( __SugarArray_of( WikiPage* ) _Results, WikiContinuation* _Continuation ) )_SuccessBlock
                              failure: ( void (^)( NSError* _Error ) )_FailureBlock

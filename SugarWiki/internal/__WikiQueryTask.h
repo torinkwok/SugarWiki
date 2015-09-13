@@ -33,7 +33,7 @@
 @property ( strong, readwrite ) NSURL* endPoint;
 
 @property ( assign, readwrite ) WikiQueryOptions queryOptions;
-@property ( strong, readwrite ) __NSDictionary_of( NSString*, NSString* ) parameters;
+@property ( strong, readwrite ) __SugarDictionary_of( NSString*, NSString* ) parameters;
 @property ( strong, readwrite ) __SugarArray_of( NSString* ) listNames;
 @property ( strong, readwrite ) __SugarArray_of( NSString* ) propNames;
 

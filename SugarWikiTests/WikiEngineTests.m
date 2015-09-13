@@ -57,10 +57,10 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     __SugarArray_of( __SugarArray_of( NSNumber* ) ) _posPageIDSamples;
 
     __SugarArray_of( __SugarArray_of( NSString* ) ) _posQueryPropSamples;
-    __SugarArray_of( __NSDictionary_of( NSString*, NSString* ) ) _posQueryPropParamSamples;
+    __SugarArray_of( __SugarDictionary_of( NSString*, NSString* ) ) _posQueryPropParamSamples;
 
     __SugarArray_of( __SugarArray_of( NSString* ) ) _posListNameSamples;
-    __SugarArray_of( __NSDictionary_of( NSString*, NSString* ) ) _posListParamsSamples;
+    __SugarArray_of( __SugarDictionary_of( NSString*, NSString* ) ) _posListParamsSamples;
     }
 
 @end
@@ -257,7 +257,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                           otherParameters: self->_posListParamsSamples[ index ]
                              continuation: continuation
                                   success:
-                ^( __NSDictionary_of( NSString*, __SugarArray_of( WikiJSONObject* ) ) _Results, WikiContinuation* _Continuation )
+                ^( __SugarDictionary_of( NSString*, __SugarArray_of( WikiJSONObject* ) ) _Results, WikiContinuation* _Continuation )
                     {
                     continuation = _Continuation;
                     [ self _testWikiContinuation: continuation ];

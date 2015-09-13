@@ -28,7 +28,7 @@
 // WikiContinuation class
 @interface WikiContinuation : WikiJSONObject
 
-@property ( strong, readonly ) __NSDictionary_of( NSString*, NSString* ) continuations;
+@property ( strong, readonly ) __SugarDictionary_of( NSString*, NSString* ) continuations;
 
 @property ( assign, readonly ) BOOL isInitial;
 @property ( assign, readonly ) BOOL isCompleted;

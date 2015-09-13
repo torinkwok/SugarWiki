@@ -28,7 +28,7 @@
 @implementation __WikiContinuationInitial
 
 #pragma mark Dynamic Properties
-- ( __NSDictionary_of( NSString*, NSString* ) ) continuations
+- ( __SugarDictionary_of( NSString*, NSString* ) ) continuations
     {
     return @{};
     }

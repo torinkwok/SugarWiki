@@ -76,7 +76,7 @@ NSString* const kParamValListAllImages = @"allimages";
 - ( void ) _cancelAll;
 
 - ( void ) __wikiClassAndSELDerivedFromQueryValue: ( NSString* )_QueryValue :( Class* )_Class :( SEL* )_SEL;
-- ( NSDictionary* ) __normalizedParameters: ( __NSDictionary_of( NSString*, NSString* ) )_UnnormalizedParams;
+- ( NSDictionary* ) __normalizedParameters: ( __SugarDictionary_of( NSString*, NSString* ) )_UnnormalizedParams;
 
 @end // Private Interfaces
 
@@ -167,7 +167,7 @@ NSString* const kParamValListAllImages = @"allimages";
     }
 
 #pragma mark Generic Methods to GET and POST
-- ( WikiQueryTask* ) fetchResourceWithParameters: ( __NSDictionary_of( NSString*, NSString* ) )_Params
+- ( WikiQueryTask* ) fetchResourceWithParameters: ( __SugarDictionary_of( NSString*, NSString* ) )_Params
                                       HTTPMethod: ( NSString* )_HTTPMethod
                                          success: ( void (^)( WikiQueryTask* _WikiQueryTask, id _ResponseObject ) )_SuccessBlock
                                          failure: ( void (^)( WikiQueryTask* _WikiQueryTask, NSError* _Error ) )_FailureBlock
@@ -224,9 +224,9 @@ NSString* const kParamValListAllImages = @"allimages";
 #pragma mark Generic Methods to Query
 - ( WikiQueryTask* ) queryLists: ( __SugarArray_of( NSString* ) )_Lists
                           limit: ( NSUInteger )_Limit
-                otherParameters: ( __NSDictionary_of( NSString*, NSString* ) )_ParamsDict
+                otherParameters: ( __SugarDictionary_of( NSString*, NSString* ) )_ParamsDict
                    continuation: ( WikiContinuation* )_Continuation
-                        success: ( void (^)( __NSDictionary_of( NSString*, __SugarArray_of( WikiJSONObject* ) ) _Results, WikiContinuation* _Continuation ) )_SuccessBlock
+                        success: ( void (^)( __SugarDictionary_of( NSString*, __SugarArray_of( WikiJSONObject* ) ) _Results, WikiContinuation* _Continuation ) )_SuccessBlock
                         failure: ( void (^)( NSError* _Error ) )_FailureBlock
               stopAllOtherTasks: ( BOOL )_WillStop
     {
@@ -283,7 +283,7 @@ NSString* const kParamValListAllImages = @"allimages";
 
 
 - ( WikiQueryTask* ) queryProperties: ( __SugarArray_of( NSString* ) )_PropValues
-                     otherParameters: ( __NSDictionary_of( NSString*, NSString* ) )_Params
+                     otherParameters: ( __SugarDictionary_of( NSString*, NSString* ) )_Params
                         continuation: ( WikiContinuation* )_Continuation
                              success: ( void (^)( __SugarArray_of( WikiPage* ) _Results, WikiContinuation* _Continuation ) )_SuccessBlock
                              failure: ( void (^)( NSError* _Error ) )_FailureBlock
@@ -356,7 +356,7 @@ NSString* const kParamValListAllImages = @"allimages";
              otherParameters: parameters
                 continuation: nil
                      success:
-        ^( __NSDictionary_of( NSString*, __SugarArray_of( WikiJSONObject* ) ) _Results, WikiContinuation* _Continuation )
+        ^( __SugarDictionary_of( NSString*, __SugarArray_of( WikiJSONObject* ) ) _Results, WikiContinuation* _Continuation )
             {
             if ( _SuccessBlock )
                 _SuccessBlock( _Results[ kParamValListSearch ] );
@@ -447,7 +447,7 @@ NSString* const kParamValListAllImages = @"allimages";
              otherParameters: parameters
                 continuation: nil
                      success:
-        ^( __NSDictionary_of( NSString*, __SugarArray_of( WikiJSONObject* ) ) _Results, WikiContinuation* _Continuation )
+        ^( __SugarDictionary_of( NSString*, __SugarArray_of( WikiJSONObject* ) ) _Results, WikiContinuation* _Continuation )
             {
             // If the image exists
             WikiImage* wikiImage = _Results[ kParamValListAllImages ].firstObject;
@@ -553,7 +553,7 @@ NSString* const kParamValListAllImages = @"allimages";
         }
     }
 
-- ( NSDictionary* ) __normalizedParameters: ( __NSDictionary_of( NSString*, NSString* ) )_UnnormalizedParams
+- ( NSDictionary* ) __normalizedParameters: ( __SugarDictionary_of( NSString*, NSString* ) )_UnnormalizedParams
     {
     NSMutableDictionary* normalizedParams = [ NSMutableDictionary dictionaryWithCapacity: _UnnormalizedParams.count ];
     for ( NSString* _ParamName in _UnnormalizedParams )
@@ -591,7 +591,7 @@ NSString* const kParamValListAllImages = @"allimages";
 @dynamic __pageQueryGeneralPropParams;
 
 #pragma mark Dynamic Properties
-- ( __NSDictionary_of( NSString*, NSString* ) ) __pageQueryGeneralPropParams
+- ( __SugarDictionary_of( NSString*, NSString* ) ) __pageQueryGeneralPropParams
     {
     return self->__pageQueryGeneralPropParams;
     }

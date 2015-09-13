@@ -43,7 +43,7 @@ typedef NS_OPTIONS ( NSUInteger, WikiQueryOptions )
 @property ( strong, readonly ) NSURL* endPoint;
 
 @property ( assign, readonly ) WikiQueryOptions queryOptions;
-@property ( strong, readonly ) __NSDictionary_of( NSString*, NSString* ) parameters;
+@property ( strong, readonly ) __SugarDictionary_of( NSString*, NSString* ) parameters;
 @property ( strong, readonly ) __SugarArray_of( NSString* ) listNames;
 @property ( strong, readonly ) __SugarArray_of( NSString* ) propNames;
 
