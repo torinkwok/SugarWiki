@@ -22,16 +22,8 @@
   ████████████████████████████████████████████████████████████████████████████████
   ██████████████████████████████████████████████████████████████████████████████*/
 
-#import "WikiEngine.h"
-#import "WikiPage.h"
-#import "WikiImage.h"
-#import "WikiSearchResult.h"
-#import "WikiRevision.h"
-#import "WikiQueryTask.h"
-#import "SugarWikiDefines.h"
+#import "SugarWiki.h"
 #import "AFNetworking.h"
-#import "WikiContinuation.h"
-#import "NSArray+SugarWiki.h"
 
 #import "__WikiEngine.h"
 
