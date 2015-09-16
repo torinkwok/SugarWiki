@@ -223,7 +223,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     XCTAssertNil( positiveTestCase.ISOLanguageCode );
     }
 
-- ( void ) test_queryLists_genericMethod
+- ( void ) test_queryLists_genericMethod_
     {
     WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: @"en" ];
 
@@ -284,7 +284,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
         }
     }
 
-- ( void ) test_pos_queryProperties_genericMethod
+- ( void ) test_pos_queryProperties_genericMethod_
     {
     WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: @"en" ];
 
@@ -358,7 +358,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
         }
     }
 
-- ( void ) test_pos_search
+- ( void ) test_pos_search_
     {
     WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: @"en" ];
 
@@ -553,8 +553,8 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 #pragma mark Private Interfaces
 - ( void ) _testReturnedWikiQueryTask: ( WikiQueryTask* )_WikiQueryTask
     {
-    NSLog( @"%@", _WikiQueryTask );
     printf( "==============================================================\n" );
+    NSLog( @"%@", _WikiQueryTask );
 
     XCTAssertNotNil( _WikiQueryTask );
     XCTAssertTrue( [ _WikiQueryTask isKindOfClass: [ WikiQueryTask class ] ] );
@@ -567,8 +567,8 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
 - ( void ) _testGenericWikiJSONObject: ( WikiJSONObject* )_WikiJSONObject
     {
-    NSLog( @"%@", _WikiJSONObject );
     printf( "==============================================================\n" );
+    NSLog( @"%@", _WikiJSONObject );
 
     XCTAssertNotNil( _WikiJSONObject );
     XCTAssertNotNil( _WikiJSONObject.json );
@@ -607,8 +607,8 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
 - ( void ) _testWikiPage: ( WikiPage* )_Page
     {
-    NSLog( @"%@", _Page );
     printf( "==============================================================\n" );
+    NSLog( @"%@", _Page );
 
     XCTAssertNotNil( _Page );
     XCTAssertNotNil( _Page.json );
@@ -662,8 +662,8 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
 - ( void ) _testWikiImage: ( WikiImage* )_Image
     {
-    NSLog( @"%@", _Image );
     printf( "==============================================================\n" );
+    NSLog( @"%@", _Image );
 
     XCTAssertNotNil( _Image );
     XCTAssertNotNil( _Image.json );
@@ -695,8 +695,8 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
 - ( void ) _testWikiContinuation: ( WikiContinuation* )_Continuation
     {
-    NSLog( @"%@", _Continuation );
     printf( "==============================================================\n" );
+    NSLog( @"%@", _Continuation );
 
     XCTAssertNotNil( _Continuation );
     XCTAssertNotNil( _Continuation.json );
