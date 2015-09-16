@@ -108,7 +108,7 @@ typedef NS_ENUM( NSUInteger, WikiEngineSearchApproach )
                            listParameters: ( __SugarDictionary_of( NSString*, NSString* ) )_ListParamsDict
                  realPagesQueryParameters: ( __SugarDictionary_of( NSString*, NSString* ) )_PagesQueryParamDict
                              continuation: ( WikiContinuation* )_Continuation
-                                  success: ( void (^)( __SugarArray_of( WikiPage* ) _Results, WikiContinuation* _Continuation ) )_SuccessBlock
+                                  success: ( void (^)( __SugarArray_of( WikiPage* ) _Results, WikiContinuation* _Continuation, BOOL _IsBatchComplete ) )_SuccessBlock
                                   failure: ( void (^)( NSError* _Error ) )_FailureBlock
                         stopAllOtherTasks: ( BOOL )_WillStop;
 

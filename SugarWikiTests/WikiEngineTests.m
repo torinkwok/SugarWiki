@@ -313,9 +313,10 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     for ( NSString* _PosSample in self->_posGeneratorListNameSamples )
         {
         WikiContinuation __block* continuation = [ WikiContinuation initialContinuation ];
+        BOOL __block isBatchComplete = NO;
         [ self _testWikiContinuation: continuation ];
 
-        while ( !continuation.isCompleted )
+        while ( !continuation.isCompleted && !isBatchComplete )
             {
             XCTestExpectation* jsonExpectation = [ self expectationWithDescription: [ NSString stringWithFormat: @"🔥JSON Exception %d", index ] ];
             WikiQueryTask* WikiQueryTask =
@@ -324,9 +325,11 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                            realPagesQueryParameters: self->_posGeneratorRealPageQueryParamsSamples[ index ]
                                        continuation: continuation
                                             success:
-                ^( __SugarArray_of( WikiPage* ) _Results, WikiContinuation* _Continuation )
+                ^( __SugarArray_of( WikiPage* ) _Results, WikiContinuation* _Continuation, BOOL _IsBatchComplete )
                     {
                     continuation = _Continuation;
+                    isBatchComplete = _IsBatchComplete;
+                    NSLog( @"🍌%d", isBatchComplete );
                     [ self _testWikiContinuation: continuation ];
 
                     for ( WikiPage* _WikiPage in _Results )
@@ -342,7 +345,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
             [ self _testReturnedWikiQueryTask: WikiQueryTask ];
 
-            [ self waitForExpectationsWithTimeout: 150000
+            [ self waitForExpectationsWithTimeout: 15000
                                           handler:
                 ^( NSError* __nullable _Error )
                     {

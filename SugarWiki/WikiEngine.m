@@ -289,7 +289,7 @@ NSString* const kParamKeyRevision = @"revision";
                            listParameters: ( __SugarDictionary_of( NSString*, NSString* ) )_ListParamsDict
                  realPagesQueryParameters: ( __SugarDictionary_of( NSString*, NSString* ) )_PagesQueryParamDict
                              continuation: ( WikiContinuation* )_Continuation
-                                  success: ( void (^)( __SugarArray_of( WikiPage* ) _Results, WikiContinuation* _Continuation ) )_SuccessBlock
+                                  success: ( void (^)( __SugarArray_of( WikiPage* ) _Results, WikiContinuation* _Continuation, BOOL _IsBatchComplete ) )_SuccessBlock
                                   failure: ( void (^)( NSError* _Error ) )_FailureBlock
                         stopAllOtherTasks: ( BOOL )_WillStop
     {
@@ -317,20 +317,20 @@ NSString* const kParamKeyRevision = @"revision";
             NSDictionary* resultsJSONDict = ( NSDictionary* )_ResponseObject;
             NSDictionary* pageResultsJSONDict = resultsJSONDict[ kParamValActionQuery ][ kParamValListPages ];
 
-            __SugarMutableArray_of( WikiPage* ) results = [ NSMutableArray array ];
+            __SugarMutableArray_of( WikiPage* ) finalResults = [ NSMutableArray array ];
             for ( NSDictionary* _WikiPageJSONDict in pageResultsJSONDict )
                 {
                 WikiPage* wikiPage = [ WikiPage __pageWithJSONDict: pageResultsJSONDict[ _WikiPageJSONDict ] ];
 
                 if ( wikiPage )
-                    [ results addObject: wikiPage ];
+                    [ finalResults addObject: wikiPage ];
                 }
 
             WikiContinuation* continuation =
                 [ WikiContinuation __continuationWithJSONDict: resultsJSONDict[ @"continue" ] ];
 
             if ( _SuccessBlock )
-                _SuccessBlock( results, continuation );
+                _SuccessBlock( finalResults, continuation, ( resultsJSONDict[ @"batchcomplete" ] != nil ) );
             } failure:
                 ^( NSURLSessionDataTask* __nonnull _Task, NSError* __nonnull _Error )
                     {
