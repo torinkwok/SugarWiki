@@ -99,8 +99,8 @@
 
     self->_title = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"title" );
 
-    self->_resultSnippet = [ self __snippet2HTML: _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"snippet" ) ];
-    self->_resultTitleSnippet = [ self __snippet2HTML: _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"titlesnippet" ) ];
+    self->_resultSnippet = [ self __snippet2NSHTML: _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"snippet" ) ];
+    self->_resultTitleSnippet = [ self __snippet2NSHTML: _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"titlesnippet" ) ];
 
     self->_size = _WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"size" );
     self->_wordCount = _WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"wordcount" );
@@ -108,7 +108,7 @@
     self->_timestamp = [ NSDate dateWithMediaWikiJSONDateString: _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"timestamp" ) ];
     }
 
-- ( NSXMLElement* ) __snippet2HTML: ( NSString* )_SnippetString
+- ( NSXMLElement* ) __snippet2NSHTML: ( NSString* )_SnippetString
     {
     NSError* error = nil;
     NSXMLElement* resultHTML = nil;
