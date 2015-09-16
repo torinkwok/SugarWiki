@@ -151,7 +151,9 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                           otherParameters: self->_posListParamsSamples[ index ]
                              continuation: continuation
                                   success:
-                ^( __SugarDictionary_of( NSString*, __SugarArray_of( WikiJSONObject* ) ) _Results, WikiContinuation* _Continuation )
+                ^( __SugarDictionary_of( NSString*, __SugarArray_of( WikiJSONObject* ) ) _Results
+                                       , WikiContinuation* _Continuation
+                                       , BOOL _IsBatchComplete )
                     {
                     continuation = _Continuation;
                     [ self testWikiContinuation: continuation ];
@@ -279,7 +281,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                                        otherParameters: parameters
                                           continuation: continuation
                                                success:
-                    ^( __SugarArray_of( WikiPage* ) _WikiPages, WikiContinuation* _Continuation )
+                    ^( __SugarArray_of( WikiPage* ) _WikiPages, WikiContinuation* _Continuation, BOOL _IsBatchComplete )
                         {
                         if ( !mergedWikiPages )
                             mergedWikiPages = _WikiPages;
@@ -384,7 +386,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                 [ positiveTestCase pagesWithTitles: _PosSample
                                       continuation: nil
                                            success:
-                ^( NSArray* _MatchedPages, WikiContinuation* _Continuation )
+                ^( NSArray* _MatchedPages, WikiContinuation* _Continuation, BOOL _IsBatchComplete )
                     {
                     if ( !mergedWikiPages )
                         mergedWikiPages = _MatchedPages;
@@ -442,7 +444,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                 [ positiveTestCase pagesWithPageIDs: _PosSample
                                        continuation: nil
                                             success:
-                ^( NSArray* _MatchedPages, WikiContinuation* _Continuation )
+                ^( NSArray* _MatchedPages, WikiContinuation* _Continuation, BOOL _IsBatchComplete )
                     {
                     if ( !mergedWikiPages )
                         mergedWikiPages = _MatchedPages;

@@ -231,7 +231,9 @@ NSString* const kParamKeyRevision = @"revision";
                           limit: ( NSUInteger )_Limit
                 otherParameters: ( __SugarDictionary_of( NSString*, NSString* ) )_ParamsDict
                    continuation: ( WikiContinuation* )_Continuation
-                        success: ( void (^)( __SugarDictionary_of( NSString*, __SugarArray_of( WikiJSONObject* ) ) _Results, WikiContinuation* _Continuation ) )_SuccessBlock
+                        success: ( void (^)( __SugarDictionary_of( NSString*, __SugarArray_of( WikiJSONObject* ) ) _Results
+                                 , WikiContinuation* _Continuation
+                                 , BOOL _IsBatchComplete ) )_SuccessBlock
                         failure: ( void (^)( NSError* _Error ) )_FailureBlock
               stopAllOtherTasks: ( BOOL )_WillStop
     {
@@ -277,7 +279,7 @@ NSString* const kParamKeyRevision = @"revision";
                 [ WikiContinuation __continuationWithJSONDict: resultsJSONDict[ @"continue" ] ];
 
             if ( _SuccessBlock )
-                _SuccessBlock( results, continuation );
+                _SuccessBlock( results, continuation, ( resultsJSONDict[ kParamValBatchComplete ] != nil ) );
             } failure:
                 ^( NSURLSessionDataTask* __nonnull _Task, NSError* __nonnull _Error )
                     {
@@ -290,7 +292,9 @@ NSString* const kParamKeyRevision = @"revision";
                            listParameters: ( __SugarDictionary_of( NSString*, NSString* ) )_ListParamsDict
                  realPagesQueryParameters: ( __SugarDictionary_of( NSString*, NSString* ) )_PagesQueryParamDict
                              continuation: ( WikiContinuation* )_Continuation
-                                  success: ( void (^)( __SugarArray_of( WikiPage* ) _Results, WikiContinuation* _Continuation, BOOL _IsBatchComplete ) )_SuccessBlock
+                                  success: ( void (^)( __SugarArray_of( WikiPage* ) _Results
+                                           , WikiContinuation* _Continuation
+                                           , BOOL _IsBatchComplete ) )_SuccessBlock
                                   failure: ( void (^)( NSError* _Error ) )_FailureBlock
                         stopAllOtherTasks: ( BOOL )_WillStop
     {
@@ -341,15 +345,17 @@ NSString* const kParamKeyRevision = @"revision";
     }
 
 - ( WikiQueryTask* ) queryProperties: ( __SugarArray_of( NSString* ) )_PropValues
-                     otherParameters: ( __SugarDictionary_of( NSString*, NSString* ) )_Params
+                     otherParameters: ( __SugarDictionary_of( NSString*, NSString* ) )_ParamsDict
                         continuation: ( WikiContinuation* )_Continuation
-                             success: ( void (^)( __SugarArray_of( WikiPage* ) _Results, WikiContinuation* _Continuation ) )_SuccessBlock
+                             success: ( void (^)( __SugarArray_of( WikiPage* ) _Results
+                                      , WikiContinuation* _Continuation
+                                      , BOOL _IsBatchComplete ) )_SuccessBlock
                              failure: ( void (^)( NSError* _Error ) )_FailureBlock
                    stopAllOtherTasks: ( BOOL )_WillStop
     {
-    NSParameterAssert( ( _PropValues.count > 0 ) && ( _Params.count > 0 ) );
+    NSParameterAssert( ( _PropValues.count > 0 ) && ( _ParamsDict.count > 0 ) );
 
-    NSMutableDictionary* paramsDict = [ NSMutableDictionary dictionaryWithDictionary: _Params ];
+    NSMutableDictionary* paramsDict = [ NSMutableDictionary dictionaryWithDictionary: _ParamsDict ];
     [ paramsDict addEntriesFromDictionary: @{ kParamKeyAction : kParamValActionQuery
                                             , kParamKeyFormat : kParamValFormatJSON
                                             , kParamKeyProp : _PropValues
@@ -383,7 +389,7 @@ NSString* const kParamKeyRevision = @"revision";
                 [ WikiContinuation __continuationWithJSONDict: resultsJSONDict[ @"continue" ] ];
 
             if ( _SuccessBlock )
-                _SuccessBlock( results, continuation );
+                _SuccessBlock( results, continuation, ( resultsJSONDict[ kParamValBatchComplete ] != nil ) );
             } failure:
                 ^( NSURLSessionDataTask* __nonnull _Task, NSError* __nonnull _Error )
                     {
@@ -415,7 +421,9 @@ NSString* const kParamKeyRevision = @"revision";
              otherParameters: parameters
                 continuation: nil
                      success:
-        ^( __SugarDictionary_of( NSString*, __SugarArray_of( WikiJSONObject* ) ) _Results, WikiContinuation* _Continuation )
+        ^( __SugarDictionary_of( NSString*, __SugarArray_of( WikiJSONObject* ) ) _Results
+                               , WikiContinuation* _Continuation
+                               , BOOL _IsBatchComplete )
             {
             if ( _SuccessBlock )
                 _SuccessBlock( _Results[ kParamValListSearch ] );
@@ -431,7 +439,9 @@ NSString* const kParamKeyRevision = @"revision";
 #pragma mark Pages
 - ( WikiQueryTask* ) pagesWithTitles: ( __SugarArray_of( NSString* ) )_Titles
                         continuation: ( WikiContinuation* )_Continuation
-                             success: ( void (^)( __SugarArray_of( WikiPage* ) _MatchedPage, WikiContinuation* _Continuation ) )_SuccessBlock
+                             success: ( void (^)( __SugarArray_of( WikiPage* ) _MatchedPage
+                                      , WikiContinuation* _Continuation
+                                      , BOOL _IsBatchComplete ) )_SuccessBlock
                              failure: ( void (^)( NSError* _Error ) )_FailureBlock
                    stopAllOtherTasks: ( BOOL )_WillStop
     {
@@ -444,10 +454,10 @@ NSString* const kParamKeyRevision = @"revision";
                   otherParameters: parameters
                      continuation: _Continuation
                           success:
-        ^( __SugarArray_of( WikiPage* ) _Results, WikiContinuation* _Continuation )
+        ^( __SugarArray_of( WikiPage* ) _Results, WikiContinuation* _Continuation, BOOL _IsBatchComplete )
             {
             if ( _SuccessBlock )
-                _SuccessBlock( _Results, _Continuation );
+                _SuccessBlock( _Results, _Continuation, _IsBatchComplete );
             } failure:
                 ^( NSError* _Error )
                     {
@@ -459,7 +469,9 @@ NSString* const kParamKeyRevision = @"revision";
 
 - ( WikiQueryTask* ) pagesWithPageIDs: ( __SugarArray_of( NSNumber* ) )_PageIDs
                          continuation: ( WikiContinuation* )_Continuation
-                              success: ( void (^)( __SugarArray_of( WikiPage* ) _MatchedPage, WikiContinuation* _Continuation ) )_SuccessBlock
+                              success: ( void (^)( __SugarArray_of( WikiPage* ) _MatchedPage
+                                       , WikiContinuation* _Continuation
+                                       , BOOL _IsBatchComplete ) )_SuccessBlock
                               failure: ( void (^)( NSError* _Error ) )_FailureBlock
                     stopAllOtherTasks: ( BOOL )_WillStop
     {
@@ -472,10 +484,10 @@ NSString* const kParamKeyRevision = @"revision";
                   otherParameters: parameters
                      continuation: _Continuation
                           success:
-        ^( __SugarArray_of( WikiPage* ) _Results, WikiContinuation* _Continuation )
+        ^( __SugarArray_of( WikiPage* ) _Results, WikiContinuation* _Continuation, BOOL _IsBatchComplete )
             {
             if ( _SuccessBlock )
-                _SuccessBlock( _Results, _Continuation );
+                _SuccessBlock( _Results, _Continuation, _IsBatchComplete );
             } failure:
                 ^( NSError* _Error )
                     {
@@ -506,7 +518,9 @@ NSString* const kParamKeyRevision = @"revision";
              otherParameters: parameters
                 continuation: nil
                      success:
-        ^( __SugarDictionary_of( NSString*, __SugarArray_of( WikiJSONObject* ) ) _Results, WikiContinuation* _Continuation )
+        ^( __SugarDictionary_of( NSString*, __SugarArray_of( WikiJSONObject* ) ) _Results
+                               , WikiContinuation* _Continuation
+                               , BOOL _IsBatchComplete )
             {
             // If the image exists
             WikiImage* wikiImage = _Results[ kParamValListAllImages ].firstObject;

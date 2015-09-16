@@ -188,8 +188,8 @@
 			isa = PBXGroup;
 			children = (
 				834E1CDF1B9DC1D0007A8E58 /* SugarWikiTests.m */,
-				834E1CE01B9DC1D0007A8E58 /* WikiEngineTests.m */,
 				834E1CE11B9DC1D0007A8E58 /* WikiJSONObjectTests.m */,
+				834E1CE01B9DC1D0007A8E58 /* WikiEngineTests.m */,
 			);
 			name = "test-cases";
 			sourceTree = "<group>";

@@ -100,7 +100,9 @@ typedef NS_ENUM( NSUInteger, WikiEngineSearchApproach )
                           limit: ( NSUInteger )_Limit
                 otherParameters: ( __SugarDictionary_of( NSString*, NSString* ) )_ParamsDict
                    continuation: ( WikiContinuation* )_Continuation
-                        success: ( void (^)( __SugarDictionary_of( NSString*, __SugarArray_of( WikiJSONObject* ) ) _Results, WikiContinuation* _Continuation ) )_SuccessBlock
+                        success: ( void (^)( __SugarDictionary_of( NSString*, __SugarArray_of( WikiJSONObject* ) ) _Results
+                                 , WikiContinuation* _Continuation
+                                 , BOOL _IsBatchComplete ) )_SuccessBlock
                         failure: ( void (^)( NSError* _Error ) )_FailureBlock
               stopAllOtherTasks: ( BOOL )_WillStop;
 
@@ -108,14 +110,18 @@ typedef NS_ENUM( NSUInteger, WikiEngineSearchApproach )
                            listParameters: ( __SugarDictionary_of( NSString*, NSString* ) )_ListParamsDict
                  realPagesQueryParameters: ( __SugarDictionary_of( NSString*, NSString* ) )_PagesQueryParamDict
                              continuation: ( WikiContinuation* )_Continuation
-                                  success: ( void (^)( __SugarArray_of( WikiPage* ) _Results, WikiContinuation* _Continuation, BOOL _IsBatchComplete ) )_SuccessBlock
+                                  success: ( void (^)( __SugarArray_of( WikiPage* ) _Results
+                                           , WikiContinuation* _Continuation
+                                           , BOOL _IsBatchComplete ) )_SuccessBlock
                                   failure: ( void (^)( NSError* _Error ) )_FailureBlock
                         stopAllOtherTasks: ( BOOL )_WillStop;
 
 - ( WikiQueryTask* ) queryProperties: ( __SugarArray_of( NSString* ) )_PropValues
                      otherParameters: ( __SugarDictionary_of( NSString*, NSString* ) )_ParamsDict
                         continuation: ( WikiContinuation* )_Continuation
-                             success: ( void (^)( __SugarArray_of( WikiPage* ) _Results, WikiContinuation* _Continuation ) )_SuccessBlock
+                             success: ( void (^)( __SugarArray_of( WikiPage* ) _Results
+                                      , WikiContinuation* _Continuation
+                                      , BOOL _IsBatchComplete ) )_SuccessBlock
                              failure: ( void (^)( NSError* _Error ) )_FailureBlock
                    stopAllOtherTasks: ( BOOL )_WillStop;
 
@@ -137,13 +143,17 @@ typedef NS_ENUM( NSUInteger, WikiEngineSearchApproach )
 
 - ( WikiQueryTask* ) pagesWithTitles: ( __SugarArray_of( NSString* ) )_Titles
                         continuation: ( WikiContinuation* )_Continuation
-                             success: ( void (^)( __SugarArray_of( WikiPage* ) _MatchedPage, WikiContinuation* _Continuation ) )_SuccessBlock
+                             success: ( void (^)( __SugarArray_of( WikiPage* ) _MatchedPage
+                                      , WikiContinuation* _Continuation
+                                      , BOOL _IsBatchComplete ) )_SuccessBlock
                              failure: ( void (^)( NSError* _Error ) )_FailureBlock
                    stopAllOtherTasks: ( BOOL )_WillStop;
 
 - ( WikiQueryTask* ) pagesWithPageIDs: ( __SugarArray_of( NSNumber* ) )_PageIDs
                          continuation: ( WikiContinuation* )_Continuation
-                              success: ( void (^)( __SugarArray_of( WikiPage* ) _MatchedPage, WikiContinuation* _Continuation ) )_SuccessBlock
+                              success: ( void (^)( __SugarArray_of( WikiPage* ) _MatchedPage
+                                       , WikiContinuation* _Continuation
+                                       , BOOL _IsBatchComplete ) )_SuccessBlock
                               failure: ( void (^)( NSError* _Error ) )_FailureBlock
                     stopAllOtherTasks: ( BOOL )_WillStop;
 
