@@ -22,7 +22,7 @@
   ████████████████████████████████████████████████████████████████████████████████
   ██████████████████████████████████████████████████████████████████████████████*/
 
-#import "__SugarWiki.h"
+#import "SugarWikiTestCase.h"
 
 @import XCTest;
 
@@ -30,7 +30,7 @@
 void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
 // WikiEngineTests class
-@interface WikiEngineTests : XCTestCase
+@interface WikiEngineTests : SugarWikiTestCase
     {
     AFHTTPSessionManager __strong* _httpSessionManager;
 
@@ -53,17 +53,6 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     }
 
 @end
-
-// Private Interfaces
-@interface WikiEngineTests ()
-
-- ( void ) _testReturnedWikiQueryTask: ( WikiQueryTask* )_WikiQueryTask;
-- ( void ) _testGenericWikiJSONObject: ( WikiJSONObject* )_WikiJSONObject;
-- ( void ) _testWikiPage: ( WikiPage* )_Page;
-- ( void ) _testWikiImage: ( WikiImage* )_Image;
-- ( void ) _testWikiContinuation: ( WikiContinuation* )_Continuation;
-
-@end // Private Interfaces
 
 @implementation WikiEngineTests
 
@@ -252,7 +241,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     for ( __SugarArray_of( NSString* ) _PosSample in self->_posListNameSamples )
         {
         WikiContinuation __block* continuation = [ WikiContinuation initialContinuation ];
-        [ self _testWikiContinuation: continuation ];
+        [ self testWikiContinuation: continuation ];
 
         while ( !continuation.isCompleted )
             {
@@ -266,7 +255,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                 ^( __SugarDictionary_of( NSString*, __SugarArray_of( WikiJSONObject* ) ) _Results, WikiContinuation* _Continuation )
                     {
                     continuation = _Continuation;
-                    [ self _testWikiContinuation: continuation ];
+                    [ self testWikiContinuation: continuation ];
 
                     XCTAssertNotNil( _Results );
                     XCTAssert( _Results.count <= _PosSample.count );
@@ -279,7 +268,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                         XCTAssert( genericJSONObjects.count >= 0 );
 
                         for ( WikiJSONObject* _GenericJSONObject in genericJSONObjects )
-                            [ self _testGenericWikiJSONObject: _GenericJSONObject ];
+                            [ self testGenericWikiJSONObject: _GenericJSONObject ];
                         }
 
                     WikiFulfillExpectation( jsonExpectation );
@@ -290,7 +279,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                             }
                         stopAllOtherTasks: NO ];
 
-            [ self _testReturnedWikiQueryTask: WikiQueryTask ];
+            [ self testReturnedWikiQueryTask: WikiQueryTask ];
 
             [ self waitForExpectationsWithTimeout: 15
                                           handler:
@@ -314,7 +303,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
         {
         WikiContinuation __block* continuation = [ WikiContinuation initialContinuation ];
         BOOL __block isBatchComplete = NO;
-        [ self _testWikiContinuation: continuation ];
+        [ self testWikiContinuation: continuation ];
 
         while ( !continuation.isCompleted && !isBatchComplete )
             {
@@ -329,10 +318,10 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                     {
                     continuation = _Continuation;
                     isBatchComplete = _IsBatchComplete;
-                    [ self _testWikiContinuation: continuation ];
+                    [ self testWikiContinuation: continuation ];
 
                     for ( WikiPage* _WikiPage in _Results )
-                        [ self _testWikiPage: _WikiPage ];
+                        [ self testWikiPage: _WikiPage ];
 
                     WikiFulfillExpectation( jsonExpectation );
                     } failure:
@@ -342,7 +331,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                             }
                         stopAllOtherTasks: NO ];
 
-            [ self _testReturnedWikiQueryTask: WikiQueryTask ];
+            [ self testReturnedWikiQueryTask: WikiQueryTask ];
 
             [ self waitForExpectationsWithTimeout: 15000
                                           handler:
@@ -370,7 +359,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
         for ( __SugarArray_of( NSString* ) _PropSample in self->_posQueryPropSamples )
             {
             WikiContinuation __block* continuation = [ WikiContinuation initialContinuation ];
-            [ self _testWikiContinuation: continuation ];
+            [ self testWikiContinuation: continuation ];
 
             NSArray __block* mergedWikiPages = nil;
             while ( !continuation.isCompleted )
@@ -399,14 +388,14 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                             [ mergedWikiPages mergeWikiObjectsFrom: _WikiPages ];
 
                         continuation = _Continuation;
-                        [ self _testWikiContinuation: continuation ];
+                        [ self testWikiContinuation: continuation ];
 
                         XCTAssertNotNil( mergedWikiPages );
                         XCTAssertEqual( mergedWikiPages.count, _PosSample.count );
                         NSLog( @">>> (Log🐑) Matched Pages Count vs. Positive Sample Count: %lu vs. %lu", mergedWikiPages.count, _PosSample.count );
 
                         for ( WikiPage* _WikiPage in mergedWikiPages )
-                            [ self _testWikiPage: _WikiPage ];
+                            [ self testWikiPage: _WikiPage ];
 
                         WikiFulfillExpectation( jsonExpectation );
                         } failure:
@@ -415,7 +404,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                                 NSLog( @"❌%@", _Error );
                                 }    stopAllOtherTasks: NO ];
 
-                [ self _testReturnedWikiQueryTask: WikiQueryTask ];
+                [ self testReturnedWikiQueryTask: WikiQueryTask ];
 
                 [ self waitForExpectationsWithTimeout: 15
                                               handler:
@@ -453,7 +442,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                     XCTAssertNotNil( _Results );
 
                     for ( WikiSearchResult* _SearchResult in _Results )
-                        [ self _testSearchResult: _SearchResult ];
+                        [ self testSearchResult: _SearchResult ];
 
                     WikiFulfillExpectation( jsonExpectation );
                     } failure:
@@ -462,7 +451,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
                             }    stopAllOtherTasks: NO ];
 
-            [ self _testReturnedWikiQueryTask: WikiQueryTask ];
+            [ self testReturnedWikiQueryTask: WikiQueryTask ];
 
             [ self waitForExpectationsWithTimeout: 15
                                           handler:
@@ -485,7 +474,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     for ( __SugarArray_of( NSString* ) _PosSample in self->_posTitleSamples )
         {
         WikiContinuation __block* continuation = [ WikiContinuation initialContinuation ];
-        [ self _testWikiContinuation: continuation ];
+        [ self testWikiContinuation: continuation ];
 
         NSArray __block* mergedWikiPages = nil;
         while ( !continuation.isCompleted )
@@ -504,14 +493,14 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                         [ mergedWikiPages mergeWikiObjectsFrom: _MatchedPages ];
 
                     continuation = _Continuation;
-                    [ self _testWikiContinuation: continuation ];
+                    [ self testWikiContinuation: continuation ];
 
                     XCTAssertNotNil( mergedWikiPages );
                     XCTAssertEqual( mergedWikiPages.count, _PosSample.count );
                     NSLog( @">>> (Log🐑) Matched Pages Count vs. Positive Sample Count: %lu vs. %lu", mergedWikiPages.count, _PosSample.count );
 
                     for ( WikiPage* _WikiPage in mergedWikiPages )
-                        [ self _testWikiPage: _WikiPage ];
+                        [ self testWikiPage: _WikiPage ];
 
                     WikiFulfillExpectation( jsonExpectation );
                     } failure:
@@ -520,7 +509,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                             NSLog( @"❌%@", _Error );
                             }    stopAllOtherTasks: NO ];
 
-            [ self _testReturnedWikiQueryTask: WikiQueryTask ];
+            [ self testReturnedWikiQueryTask: WikiQueryTask ];
 
             [ self waitForExpectationsWithTimeout: 15
                                           handler:
@@ -543,7 +532,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     for ( __SugarArray_of( NSNumber* ) _PosSample in self->_posPageIDSamples )
         {
         WikiContinuation __block* continuation = [ WikiContinuation initialContinuation ];
-        [ self _testWikiContinuation: continuation ];
+        [ self testWikiContinuation: continuation ];
 
         NSArray __block* mergedWikiPages = nil;
         while ( !continuation.isCompleted )
@@ -562,14 +551,14 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                         [ mergedWikiPages mergeWikiObjectsFrom: _MatchedPages ];
 
                     continuation = _Continuation;
-                    [ self _testWikiContinuation: continuation ];
+                    [ self testWikiContinuation: continuation ];
 
                     XCTAssertNotNil( _MatchedPages );
                     XCTAssertEqual( _MatchedPages.count, _PosSample.count );
                     NSLog( @">>> (Log🐑) Matched Pages Count vs. Positive Sample Count: %lu vs. %lu", _MatchedPages.count, _PosSample.count );
 
                     for ( WikiPage* _WikiPage in _MatchedPages )
-                        [ self _testWikiPage: _WikiPage ];
+                        [ self testWikiPage: _WikiPage ];
 
                     WikiFulfillExpectation( jsonExpectation );
                     } failure:
@@ -578,7 +567,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                             NSLog( @"❌%@", _Error );
                             }    stopAllOtherTasks: NO ];
 
-            [ self _testReturnedWikiQueryTask: WikiQueryTask ];
+            [ self testReturnedWikiQueryTask: WikiQueryTask ];
 
             [ self waitForExpectationsWithTimeout: 15
                                           handler:
@@ -605,7 +594,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                               success:
         ^( WikiImage* _Image )
             {
-            [ self _testWikiImage: _Image ];
+            [ self testWikiImage: _Image ];
             WikiFulfillExpectation( jsonExpectation0 );
             } failure:
                 ^( NSError* _Error )
@@ -614,7 +603,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                     }
                     stopAllOtherTasks: NO ];
 
-    [ self _testReturnedWikiQueryTask: WikiQueryTask ];
+    [ self testReturnedWikiQueryTask: WikiQueryTask ];
 
     [ self waitForExpectationsWithTimeout: 15
                                   handler:
@@ -622,178 +611,6 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
             {
             NSLog( @"%@", _Error );
             } ];
-    }
-
-#pragma mark Private Interfaces
-- ( void ) _testReturnedWikiQueryTask: ( WikiQueryTask* )_WikiQueryTask
-    {
-    printf( "==============================================================\n" );
-    NSLog( @"%@", _WikiQueryTask );
-
-    XCTAssertNotNil( _WikiQueryTask );
-    XCTAssertTrue( [ _WikiQueryTask isKindOfClass: [ WikiQueryTask class ] ] );
-
-    XCTAssertNotNil( _WikiQueryTask.HTTPMethod );
-    XCTAssertNotNil( _WikiQueryTask.endPoint );
-    XCTAssertNotNil( _WikiQueryTask.parameters );
-    XCTAssertNotNil( _WikiQueryTask.sessionDataTask );
-    }
-
-- ( void ) _testGenericWikiJSONObject: ( WikiJSONObject* )_WikiJSONObject
-    {
-    printf( "==============================================================\n" );
-    NSLog( @"%@", _WikiJSONObject );
-
-    XCTAssertNotNil( _WikiJSONObject );
-    XCTAssertNotNil( _WikiJSONObject.json );
-    XCTAssertTrue( [ _WikiJSONObject isKindOfClass: [ WikiJSONObject class ] ] );
-    }
-
-- ( void ) _testSearchResult: ( WikiSearchResult* )_SearchResult
-    {
-    printf( "==============================================================\n" );
-    NSLog( @"%@", _SearchResult );
-
-    XCTAssertNotNil( _SearchResult );
-    XCTAssertNotNil( _SearchResult.json );
-    XCTAssertTrue( [ _SearchResult isKindOfClass: [ WikiSearchResult class ] ] );
-
-    XCTAssertGreaterThanOrEqual( _SearchResult.wikiNamespace, 0 );
-
-    [ self _testNSHTML: _SearchResult.resultSnippet ];
-    [ self _testNSHTML: _SearchResult.resultTitleSnippet ];
-
-    XCTAssertGreaterThanOrEqual( _SearchResult.size, 0 );
-    XCTAssertGreaterThanOrEqual( _SearchResult.wordCount, 0 );
-
-    XCTAssertNotNil( _SearchResult.timestamp );
-    }
-
-- ( void ) _testNSHTML: ( NSXMLElement* )_NSHTML
-    {
-    NSLog( @"%@", _NSHTML );
-
-    XCTAssertNotNil( _NSHTML );
-    XCTAssertTrue( [ _NSHTML isKindOfClass: [ NSXMLElement class ] ] );
-    XCTAssertGreaterThan( _NSHTML.XMLString.length, 0 );
-    XCTAssertGreaterThanOrEqual( _NSHTML.childCount, 0 );
-    }
-
-- ( void ) _testWikiPage: ( WikiPage* )_Page
-    {
-    printf( "==============================================================\n" );
-    NSLog( @"%@", _Page );
-
-    XCTAssertNotNil( _Page );
-    XCTAssertNotNil( _Page.json );
-    XCTAssertTrue( [ _Page isKindOfClass: [ WikiPage class ] ] );
-
-    XCTAssertGreaterThanOrEqual( _Page.ID, 0 );
-    XCTAssertGreaterThanOrEqual( _Page.wikiNamespace, 0 );
-
-    XCTAssertNotNil( _Page.title );
-    XCTAssertNotNil( _Page.displayTitle );
-    XCTAssertNotNil( _Page.contentModel );
-    XCTAssertNotNil( _Page.language );
-    XCTAssertNotNil( _Page.touched );
-
-    XCTAssertNotNil( _Page.URL );
-    XCTAssertNotNil( _Page.editURL );
-    XCTAssertNotNil( _Page.canonicalURL );
-
-    XCTAssertGreaterThanOrEqual( _Page.talkID, 0 );
-
-    if ( _Page.json[ @"extlinks" ] )
-        XCTAssertNotNil( _Page.externalLinks );
-    else
-        XCTAssertNil( _Page.externalLinks );
-
-    XCTAssertGreaterThanOrEqual( _Page.externalLinks.count, 0 );
-
-    WikiRevision* lastRevision = _Page.lastRevision;
-    XCTAssertNotNil( lastRevision );
-        XCTAssertNotNil( lastRevision.json );
-        XCTAssertGreaterThanOrEqual( lastRevision.ID, 0 );
-        XCTAssertGreaterThanOrEqual( lastRevision.parentID, 0 );
-        XCTAssertNotNil( lastRevision.userName );
-        XCTAssertGreaterThanOrEqual( lastRevision.userID, 0 );
-        XCTAssertNotNil( lastRevision.timestamp );
-        XCTAssertNotNil( lastRevision.contentFormat );
-        XCTAssertNotNil( lastRevision.contentModel );
-        XCTAssertNotNil( lastRevision.content );
-        XCTAssertGreaterThanOrEqual( lastRevision.sizeInBytes, 0 );
-        XCTAssertNotNil( lastRevision.comment );
-        XCTAssertNotNil( lastRevision.parsedComment );
-
-//        NSData* lastRevisionContentData = [ lastRevision.content dataUsingEncoding: NSUTF8StringEncoding ];
-//        XCTAssertEqual( lastRevisionContentData.length, lastRevision.sizeInBytes );
-
-        XCTAssert( lastRevision.isMinorEdit || !lastRevision.isMinorEdit );
-
-        XCTAssertNotNil( lastRevision.SHA1 );
-        XCTAssertEqual( lastRevision.SHA1.length, 40 /* SHA-1 hash value is 40 digits long */ );
-    }
-
-- ( void ) _testWikiImage: ( WikiImage* )_Image
-    {
-    printf( "==============================================================\n" );
-    NSLog( @"%@", _Image );
-
-    XCTAssertNotNil( _Image );
-    XCTAssertNotNil( _Image.json );
-    XCTAssertTrue( [ _Image isKindOfClass: [ WikiImage class ] ] );
-
-    XCTAssertNotNil( _Image.name );
-    XCTAssertNotNil( _Image.title );
-    XCTAssertNotNil( _Image.canonicalTitle );
-
-    XCTAssertNotNil( _Image.timestamp );
-    XCTAssertNotNil( _Image.user );
-    XCTAssertGreaterThanOrEqual( _Image.userID, 0 );
-
-    XCTAssertGreaterThanOrEqual( _Image.sizeInByte, 0 );
-
-    XCTAssertGreaterThanOrEqual( _Image.width, 0.f );
-    XCTAssertGreaterThanOrEqual( _Image.height, 0.f );
-
-    XCTAssertNotNil( _Image.comment );
-    XCTAssertNotNil( _Image.parsedComment );
-
-    XCTAssertNotNil( _Image.URL );
-    XCTAssertNotNil( _Image.descriptionURL );
-
-    XCTAssertNotNil( _Image.SHA1 );
-
-    XCTAssertGreaterThanOrEqual( _Image.bitDepth, 0 );
-    }
-
-- ( void ) _testWikiContinuation: ( WikiContinuation* )_Continuation
-    {
-    printf( "==============================================================\n" );
-    NSLog( @"%@", _Continuation );
-
-    XCTAssertNotNil( _Continuation );
-    XCTAssertNotNil( _Continuation.json );
-    XCTAssertNotNil( _Continuation.continuations );
-    XCTAssertTrue( [ _Continuation isMemberOfClass: [ __WikiContinuationInitial class ] ]
-                        || [ _Continuation isMemberOfClass: [ __WikiContinuationCompleted class ] ]
-                        || [ _Continuation isMemberOfClass: [ __WikiContinuationUncompleted class ] ] );
-
-    if ( [ _Continuation isMemberOfClass: [ __WikiContinuationInitial class ] ] )
-        {
-        XCTAssertTrue( _Continuation.isInitial );
-        XCTAssertFalse( _Continuation.isCompleted );
-        }
-    else if ( [ _Continuation isMemberOfClass: [ __WikiContinuationCompleted class ] ] )
-        {
-        XCTAssertFalse( _Continuation.isInitial );
-        XCTAssertTrue( _Continuation.isCompleted );
-        }
-    else if ( [ _Continuation isMemberOfClass: [ __WikiContinuationUncompleted class ] ] )
-        {
-        XCTAssertFalse( _Continuation.isInitial );
-        XCTAssertFalse( _Continuation.isCompleted );
-        }
     }
 
 @end // WikiEngineTests class

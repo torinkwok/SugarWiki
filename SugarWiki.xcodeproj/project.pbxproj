@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8309B8A41BA9F96F009D55A8 /* SugarWikiTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 8309B8A31BA9F96F009D55A8 /* SugarWikiTestCase.m */; settings = {ASSET_TAGS = (); }; };
 		831C51371B9DF7CB00790B38 /* __WikiQueryTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 831C51351B9DF7CB00790B38 /* __WikiQueryTask.h */; };
 		831C513B1B9DF9C500790B38 /* __WikiJSONObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 831C51391B9DF9C500790B38 /* __WikiJSONObject.h */; };
 		831C513F1B9DFB6E00790B38 /* __WikiPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 831C513D1B9DFB6E00790B38 /* __WikiPage.h */; };
@@ -88,6 +89,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8309B8A21BA9F96F009D55A8 /* SugarWikiTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SugarWikiTestCase.h; sourceTree = "<group>"; };
+		8309B8A31BA9F96F009D55A8 /* SugarWikiTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SugarWikiTestCase.m; sourceTree = "<group>"; };
 		831C51351B9DF7CB00790B38 /* __WikiQueryTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = __WikiQueryTask.h; sourceTree = "<group>"; };
 		831C51391B9DF9C500790B38 /* __WikiJSONObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = __WikiJSONObject.h; sourceTree = "<group>"; };
 		831C513D1B9DFB6E00790B38 /* __WikiPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = __WikiPage.h; sourceTree = "<group>"; };
@@ -268,6 +271,8 @@
 				834E1CE01B9DC1D0007A8E58 /* WikiEngineTests.m */,
 				834E1CE11B9DC1D0007A8E58 /* WikiJSONObjectTests.m */,
 				834E1CD41B9DC18C007A8E58 /* Info.plist */,
+				8309B8A21BA9F96F009D55A8 /* SugarWikiTestCase.h */,
+				8309B8A31BA9F96F009D55A8 /* SugarWikiTestCase.m */,
 			);
 			path = SugarWikiTests;
 			sourceTree = "<group>";
@@ -502,6 +507,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8309B8A41BA9F96F009D55A8 /* SugarWikiTestCase.m in Sources */,
 				834E1CE41B9DC1D0007A8E58 /* WikiJSONObjectTests.m in Sources */,
 				834E1CE21B9DC1D0007A8E58 /* SugarWikiTests.m in Sources */,
 				834E1CE31B9DC1D0007A8E58 /* WikiEngineTests.m in Sources */,

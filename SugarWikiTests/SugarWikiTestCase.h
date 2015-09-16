@@ -22,36 +22,20 @@
   ████████████████████████████████████████████████████████████████████████████████
   ██████████████████████████████████████████████████████████████████████████████*/
 
-#import "SugarWikiTestCase.h"
+@import XCTest;
 
-// SugarWikiTests class
-@interface SugarWikiTests : SugarWikiTestCase
+#import "__SugarWiki.h"
+
+@interface SugarWikiTestCase : XCTestCase
+
+- ( void ) testReturnedWikiQueryTask: ( WikiQueryTask* )_WikiQueryTask;
+- ( void ) testGenericWikiJSONObject: ( WikiJSONObject* )_WikiJSONObject;
+- ( void ) testSearchResult: ( WikiSearchResult* )_SearchResult;
+- ( void ) testWikiImage: ( WikiImage* )_Image;
+- ( void ) testWikiContinuation: ( WikiContinuation* )_Continuation;
+- ( void ) testWikiPage: ( WikiPage* )_Page;
 
 @end
-
-@implementation SugarWikiTests
-
-- ( void ) setUp
-    {
-    [ super setUp ];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-- ( void ) tearDown
-    {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    [ super tearDown ];
-    }
-
-- ( void ) testPerformanceExample
-    {
-    // This is an example of a performance test case.
-    [ self measureBlock: ^{
-        // Put the code you want to measure the time of here.
-        } ];
-    }
-
-@end // SugarWikiTests class
 
 /*===============================================================================┐
 |                                                                                |
