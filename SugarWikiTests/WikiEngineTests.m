@@ -140,9 +140,10 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     for ( __SugarArray_of( NSString* ) _PosSample in self->_posListNameSamples )
         {
         WikiContinuation __block* continuation = [ WikiContinuation initialContinuation ];
+        BOOL __block isCompleteBatch = NO;
         [ self testWikiContinuation: continuation ];
 
-        while ( !continuation.isCompleted )
+        while ( !continuation.isCompleted && !isCompleteBatch )
             {
             XCTestExpectation* jsonExpectation = [ self expectationWithDescription: [ NSString stringWithFormat: @"🔥JSON Exception %d", index ] ];
             WikiQueryTask* WikiQueryTask =
@@ -156,6 +157,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                                        , BOOL _IsBatchComplete )
                     {
                     continuation = _Continuation;
+                    isCompleteBatch = _IsBatchComplete;
                     [ self testWikiContinuation: continuation ];
 
                     XCTAssertNotNil( _Results );
@@ -206,6 +208,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
         BOOL __block isBatchComplete = NO;
         [ self testWikiContinuation: continuation ];
 
+//        NSLog( @"🍌%d %@", isBatchComplete, continuation );
         while ( !continuation.isCompleted && !isBatchComplete )
             {
             XCTestExpectation* jsonExpectation = [ self expectationWithDescription: [ NSString stringWithFormat: @"🔥JSON Exception %d", index ] ];
@@ -219,6 +222,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                     {
                     continuation = _Continuation;
                     isBatchComplete = _IsBatchComplete;
+                    NSLog( @"🍌%d %@", isBatchComplete, continuation );
                     [ self testWikiContinuation: continuation ];
 
                     for ( WikiPage* _WikiPage in _Results )
@@ -234,7 +238,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
             [ self testReturnedWikiQueryTask: WikiQueryTask ];
 
-            [ self waitForExpectationsWithTimeout: 15000
+            [ self waitForExpectationsWithTimeout: 15
                                           handler:
                 ^( NSError* __nullable _Error )
                     {
@@ -260,11 +264,15 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
         for ( __SugarArray_of( NSString* ) _PropSample in self->_posQueryPropSamples )
             {
             WikiContinuation __block* continuation = [ WikiContinuation initialContinuation ];
+            BOOL __block isBatchComplete = NO;
             [ self testWikiContinuation: continuation ];
 
             NSArray __block* mergedWikiPages = nil;
-            while ( !continuation.isCompleted )
+
+            NSLog( @"🍌%d %@", isBatchComplete, continuation );
+            while ( !continuation.isCompleted && !isBatchComplete )
                 {
+//                NSLog( @"🍌%d %@", isBatchComplete, continuation );
                 XCTestExpectation* jsonExpectation = [ self expectationWithDescription: [ NSString stringWithFormat: @"🔥JSON Exception %d", index ] ];
 
                 NSMutableArray* queryProps = [ NSMutableArray arrayWithArray: positiveTestCase.__pageQueryGeneralProps ];
@@ -289,6 +297,9 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                             [ mergedWikiPages mergeWikiObjectsFrom: _WikiPages ];
 
                         continuation = _Continuation;
+                        isBatchComplete = _IsBatchComplete;
+//                        NSLog( @"🍌%d %@", isBatchComplete, continuation );
+
                         [ self testWikiContinuation: continuation ];
 
                         XCTAssertNotNil( mergedWikiPages );
@@ -375,10 +386,11 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     for ( __SugarArray_of( NSString* ) _PosSample in self->_posTitleSamples )
         {
         WikiContinuation __block* continuation = [ WikiContinuation initialContinuation ];
+        BOOL __block isBatchComplete = NO;
         [ self testWikiContinuation: continuation ];
 
         NSArray __block* mergedWikiPages = nil;
-        while ( !continuation.isCompleted )
+        while ( !continuation.isCompleted && !isBatchComplete )
             {
             XCTestExpectation* jsonExpectation = [ self expectationWithDescription: [ NSString stringWithFormat: @"🔥JSON Exception %d", count ] ];
 
@@ -394,6 +406,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                         [ mergedWikiPages mergeWikiObjectsFrom: _MatchedPages ];
 
                     continuation = _Continuation;
+                    isBatchComplete = _IsBatchComplete;
                     [ self testWikiContinuation: continuation ];
 
                     XCTAssertNotNil( mergedWikiPages );
@@ -433,10 +446,11 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
     for ( __SugarArray_of( NSNumber* ) _PosSample in self->_posPageIDSamples )
         {
         WikiContinuation __block* continuation = [ WikiContinuation initialContinuation ];
+        BOOL __block isBatchComplete = NO;
         [ self testWikiContinuation: continuation ];
 
         NSArray __block* mergedWikiPages = nil;
-        while ( !continuation.isCompleted )
+        while ( !continuation.isCompleted && !isBatchComplete )
             {
             XCTestExpectation* jsonExpectation = [ self expectationWithDescription: [ NSString stringWithFormat: @"🔥JSON Exception %d", count ] ];
 
@@ -452,6 +466,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                         [ mergedWikiPages mergeWikiObjectsFrom: _MatchedPages ];
 
                     continuation = _Continuation;
+                    isBatchComplete = _IsBatchComplete;
                     [ self testWikiContinuation: continuation ];
 
                     XCTAssertNotNil( _MatchedPages );

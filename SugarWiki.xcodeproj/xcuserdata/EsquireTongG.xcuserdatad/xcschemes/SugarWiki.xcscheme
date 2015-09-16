@@ -41,9 +41,6 @@
                <Test
                   Identifier = "WikiEngineTests/test_pos_generator_genericMethod_">
                </Test>
-               <Test
-                  Identifier = "WikiEngineTests/test_pos_queryProperties_genericMethod_">
-               </Test>
             </SkippedTests>
          </TestableReference>
       </Testables>
