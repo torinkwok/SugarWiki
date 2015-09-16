@@ -53,12 +53,12 @@
     return self->_title;
     }
 
-- ( NSString* ) resultSnippet
+- ( NSXMLElement* ) resultSnippet
     {
     return self->_resultSnippet;
     }
 
-- ( NSString* ) resultTitleSnippet
+- ( NSXMLElement* ) resultTitleSnippet
     {
     return self->_resultTitleSnippet;
     }
@@ -98,13 +98,39 @@
     self->_wikiNamespace = ( WikiNamespace )_WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"namespace" );
 
     self->_title = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"title" );
-    self->_resultSnippet = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"snippet" );
-    self->_resultTitleSnippet = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"titlesnippet" );
+
+    self->_resultSnippet = [ self __snippet2HTML: _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"snippet" ) ];
+    self->_resultTitleSnippet = [ self __snippet2HTML: _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"titlesnippet" ) ];
 
     self->_size = _WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"size" );
     self->_wordCount = _WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"wordcount" );
 
     self->_timestamp = [ NSDate dateWithMediaWikiJSONDateString: _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"timestamp" ) ];
+    }
+
+- ( NSXMLElement* ) __snippet2HTML: ( NSString* )_SnippetString
+    {
+    NSError* error = nil;
+    NSXMLElement* resultHTML = nil;
+
+    if ( _SnippetString )
+        {
+        NSMutableString* resultSnippetHTMLString = [ _SnippetString mutableCopy ];
+
+        if ( resultSnippetHTMLString )
+            {
+            [ resultSnippetHTMLString insertString: @"<span>" atIndex: 0 ];
+            [ resultSnippetHTMLString appendString: @"</span>" ];
+            resultHTML = [ [ NSXMLElement alloc ] initWithXMLString: resultSnippetHTMLString error: &error ];
+
+            #if DEBUG
+            if ( error )
+                NSLog( @">>> (Error:%s) %@", __PRETTY_FUNCTION__, error );
+            #endif
+            }
+        }
+
+    return resultHTML;
     }
 
 @end // WikiSearchResult + SugarWikiPrivate

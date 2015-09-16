@@ -577,8 +577,8 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
 - ( void ) _testSearchResult: ( WikiSearchResult* )_SearchResult
     {
-    NSLog( @"%@", _SearchResult );
     printf( "==============================================================\n" );
+    NSLog( @"%@", _SearchResult );
 
     XCTAssertNotNil( _SearchResult );
     XCTAssertNotNil( _SearchResult.json );
@@ -586,14 +586,23 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
     XCTAssertGreaterThanOrEqual( _SearchResult.wikiNamespace, 0 );
 
-    XCTAssertNotNil( _SearchResult.title );
-    XCTAssertNotNil( _SearchResult.resultSnippet );
-    XCTAssert( _SearchResult.resultTitleSnippet || !_SearchResult.resultTitleSnippet );
+    [ self _testNSHTML: _SearchResult.resultSnippet ];
+    [ self _testNSHTML: _SearchResult.resultTitleSnippet ];
 
     XCTAssertGreaterThanOrEqual( _SearchResult.size, 0 );
     XCTAssertGreaterThanOrEqual( _SearchResult.wordCount, 0 );
 
     XCTAssertNotNil( _SearchResult.timestamp );
+    }
+
+- ( void ) _testNSHTML: ( NSXMLElement* )_NSHTML
+    {
+    NSLog( @"%@", _NSHTML );
+
+    XCTAssertNotNil( _NSHTML );
+    XCTAssertTrue( [ _NSHTML isKindOfClass: [ NSXMLElement class ] ] );
+    XCTAssertGreaterThan( _NSHTML.XMLString.length, 0 );
+    XCTAssertGreaterThanOrEqual( _NSHTML.childCount, 0 );
     }
 
 - ( void ) _testWikiPage: ( WikiPage* )_Page

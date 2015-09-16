@@ -34,8 +34,8 @@
     WikiNamespace _wikiNamespace;
 
     NSString __strong* _title;
-    NSString __strong* _resultSnippet;
-    NSString __strong* _resultTitleSnippet;
+    NSXMLElement __strong* _resultSnippet;
+    NSXMLElement __strong* _resultTitleSnippet;
 
     SInt64 _size;
     SInt64 _wordCount;
@@ -46,8 +46,8 @@
 @property ( assign, readonly ) WikiNamespace wikiNamespace;
 
 @property ( strong, readonly ) NSString* title;
-@property ( strong, readonly ) NSString* resultSnippet;
-@property ( strong, readonly ) NSString* resultTitleSnippet;
+@property ( strong, readonly ) NSXMLElement* resultSnippet;
+@property ( strong, readonly ) NSXMLElement* resultTitleSnippet;
 
 @property ( assign, readonly ) SInt64 size;
 @property ( assign, readonly ) SInt64 wordCount;
