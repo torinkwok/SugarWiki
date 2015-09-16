@@ -135,7 +135,9 @@ typedef NS_ENUM( NSUInteger, WikiEngineSearchApproach )
                                            limit: ( NSUInteger )_Limit
                                    usesGenerator: ( BOOL )_UsesGenerator
                                     continuation: ( WikiContinuation* )_Continuation
-                                         success: ( void (^)( __SugarArray_of( WikiJSONObject* ) ) )_SuccessBlock
+                                         success: ( void (^)( __SugarArray_of( WikiJSONObject* )
+                                                  , WikiContinuation* _Continuation
+                                                  , BOOL _IsBatchComplete ) )_SuccessBlock
                                          failure: ( void (^)( NSError* _Error ) )_FailureBlock
                                stopAllOtherTasks: ( BOOL )_WillStop;
 #pragma mark Pages

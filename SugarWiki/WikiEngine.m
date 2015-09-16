@@ -405,7 +405,9 @@ NSString* const kParamKeyRevision = @"revision";
                                            limit: ( NSUInteger )_Limit
                                    usesGenerator: ( BOOL )_UsesGenerator
                                     continuation: ( WikiContinuation* )_Continuation
-                                         success: ( void (^)( __SugarArray_of( WikiJSONObject* ) ) )_SuccessBlock
+                                         success: ( void (^)( __SugarArray_of( WikiJSONObject* )
+                                                  , WikiContinuation* _Continuation
+                                                  , BOOL _IsBatchComplete ) )_SuccessBlock
                                          failure: ( void (^)( NSError* _Error ) )_FailureBlock
                                stopAllOtherTasks: ( BOOL )_WillStop
     {
@@ -431,7 +433,7 @@ NSString* const kParamKeyRevision = @"revision";
               , BOOL _IsBatchComplete )
                 {
                 if ( _SuccessBlock )
-                    _SuccessBlock( _Results );
+                    _SuccessBlock( _Results, _Continuation, _IsBatchComplete );
                 } failure: ^( NSError* _Error )
                     {
                     if ( _Error && _FailureBlock )
@@ -450,7 +452,7 @@ NSString* const kParamKeyRevision = @"revision";
              , BOOL _IsBatchComplete )
                 {
                 if ( _SuccessBlock )
-                    _SuccessBlock( _Results[ kParamValListSearch ] );
+                    _SuccessBlock( _Results[ kParamValListSearch ], _Continuation, _IsBatchComplete );
                 } failure:
                     ^( NSError* _Error )
                         {

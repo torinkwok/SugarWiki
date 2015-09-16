@@ -141,7 +141,6 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
         {
         WikiContinuation __block* continuation = [ WikiContinuation initialContinuation ];
         BOOL __block isCompleteBatch = NO;
-        [ self testWikiContinuation: continuation ];
 
         while ( !continuation.isCompleted && !isCompleteBatch )
             {
@@ -206,7 +205,6 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
         {
         WikiContinuation __block* continuation = [ WikiContinuation initialContinuation ];
         BOOL __block isBatchComplete = NO;
-        [ self testWikiContinuation: continuation ];
 
         while ( !continuation.isCompleted && !isBatchComplete )
             {
@@ -263,7 +261,6 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
             {
             WikiContinuation __block* continuation = [ WikiContinuation initialContinuation ];
             BOOL __block isBatchComplete = NO;
-            [ self testWikiContinuation: continuation ];
 
             NSArray __block* mergedWikiPages = nil;
 
@@ -327,7 +324,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
         }
     }
 
-- ( void ) test_pos_search_
+- ( void ) test_pos_search_without_generator
     {
     WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: @"en" ];
 
@@ -345,7 +342,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                                              usesGenerator: NO
                                               continuation: nil
                                                    success:
-                ^( __SugarArray_of( WikiSearchResult* ) _Results )
+                ^( __SugarArray_of( WikiSearchResult* ) _Results, WikiContinuation* _Continuation, BOOL _IsBatchComplete )
                     {
                     XCTAssertNotNil( _Results );
 
@@ -356,7 +353,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                     } failure:
                         ^( NSError* _Error )
                             {
-
+                            NSLog( @"❌%@", _Error );
                             }    stopAllOtherTasks: NO ];
 
             [ self testReturnedWikiQueryTask: WikiQueryTask ];
@@ -374,6 +371,63 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
         }
     }
 
+- ( void ) test_pos_search_with_generator
+    {
+    WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: @"en" ];
+
+    int count = 0;
+    for ( __SugarArray_of( NSString* ) _PosSample in self->_posTitleSamples )
+        {
+        for ( NSString* _TitleSample in _PosSample )
+            {
+            WikiContinuation __block* continuation = [ WikiContinuation initialContinuation ];
+            BOOL __block isBatchComplete = NO;
+
+            if ( !continuation.isCompleted )
+                {
+                XCTestExpectation* jsonExpectation = [ self expectationWithDescription: [ NSString stringWithFormat: @"🔥JSON Exception %d", count ] ];
+                WikiQueryTask* WikiQueryTask =
+                [ positiveTestCase searchAllPagesThatHaveValue: _TitleSample
+                                                  inNamespaces: nil
+                                                      approach: WikiEngineSearchApproachPageText
+                                                         limit: 10
+                                                 usesGenerator: YES
+                                                  continuation: continuation
+                                                       success:
+                    ^( __SugarArray_of( WikiPage* ) _ResultPages, WikiContinuation* _Continuation, BOOL _IsBatchComplete )
+                        {
+                        XCTAssertNotNil( _ResultPages );
+
+                        continuation = _Continuation;
+                        isBatchComplete = _IsBatchComplete;
+                        [ self testWikiContinuation: continuation ];
+
+                        for ( WikiPage* _WikiPage in _ResultPages )
+                            [ self testWikiPage: _WikiPage ];
+
+                        WikiFulfillExpectation( jsonExpectation );
+                        } failure:
+                            ^( NSError* _Error )
+                                {
+                                NSLog( @"❌%@", _Error );
+                                }    stopAllOtherTasks: NO ];
+
+                [ self testReturnedWikiQueryTask: WikiQueryTask ];
+
+                [ self waitForExpectationsWithTimeout: 15
+                                              handler:
+                    ^( NSError* __nullable _Error )
+                        {
+                        if ( _Error )
+                            NSLog( @"%@", _Error );
+                        } ];
+                }
+
+            count++;
+            }
+        }
+    }
+
 - ( void ) test_pos_pages_with_titles_
     {
     WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: @"en" ];
@@ -383,7 +437,6 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
         {
         WikiContinuation __block* continuation = [ WikiContinuation initialContinuation ];
         BOOL __block isBatchComplete = NO;
-        [ self testWikiContinuation: continuation ];
 
         NSArray __block* mergedWikiPages = nil;
         while ( !continuation.isCompleted && !isBatchComplete )
@@ -443,7 +496,6 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
         {
         WikiContinuation __block* continuation = [ WikiContinuation initialContinuation ];
         BOOL __block isBatchComplete = NO;
-        [ self testWikiContinuation: continuation ];
 
         NSArray __block* mergedWikiPages = nil;
         while ( !continuation.isCompleted && !isBatchComplete )
