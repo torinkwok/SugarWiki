@@ -64,6 +64,7 @@ NSString* const kParamValActionQuery = @"query";
 NSString* const kParamValFormatJSON = @"json";
 NSString* const kParamValFormatHTML = @"jsonfm";
 
+NSString* const kParamValBatchComplete = @"batchcomplete";
 NSString* const kParamValListPages = @"pages";
 NSString* const kParamValListSearch = @"search";
 NSString* const kParamValListAllImages = @"allimages";
@@ -330,7 +331,7 @@ NSString* const kParamKeyRevision = @"revision";
                 [ WikiContinuation __continuationWithJSONDict: resultsJSONDict[ @"continue" ] ];
 
             if ( _SuccessBlock )
-                _SuccessBlock( finalResults, continuation, ( resultsJSONDict[ @"batchcomplete" ] != nil ) );
+                _SuccessBlock( finalResults, continuation, ( resultsJSONDict[ kParamValBatchComplete ] != nil ) );
             } failure:
                 ^( NSURLSessionDataTask* __nonnull _Task, NSError* __nonnull _Error )
                     {

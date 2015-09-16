@@ -329,7 +329,6 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                     {
                     continuation = _Continuation;
                     isBatchComplete = _IsBatchComplete;
-                    NSLog( @"🍌%d", isBatchComplete );
                     [ self _testWikiContinuation: continuation ];
 
                     for ( WikiPage* _WikiPage in _Results )
