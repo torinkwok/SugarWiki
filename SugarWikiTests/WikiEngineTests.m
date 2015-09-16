@@ -146,7 +146,8 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                                             ];
 
     self->_posGeneratorRealPageQueryParamsSamples = @[ // 0)
-                                                       @{ @"pllimit" : @"50"
+                                                       @{ @"prop" : @"links|categories"
+                                                        , @"pllimit" : @"500"
                                                         }
                                                      ];
     }
@@ -314,19 +315,22 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
         WikiContinuation __block* continuation = [ WikiContinuation initialContinuation ];
         [ self _testWikiContinuation: continuation ];
 
-//        while ( !continuation.isCompleted )
-//            {
+        while ( !continuation.isCompleted )
+            {
             XCTestExpectation* jsonExpectation = [ self expectationWithDescription: [ NSString stringWithFormat: @"🔥JSON Exception %d", index ] ];
             WikiQueryTask* WikiQueryTask =
             [ positiveTestCase queryByGeneratorList: _PosSample
                                      listParameters: self->_posGeneratorListParamsSamples[ index ]
-                           realPagesQueryParameters: @{}
+                           realPagesQueryParameters: self->_posGeneratorRealPageQueryParamsSamples[ index ]
                                        continuation: continuation
                                             success:
                 ^( __SugarArray_of( WikiPage* ) _Results, WikiContinuation* _Continuation )
                     {
-//                    continuation = _Continuation;
-//                    [ self _testWikiContinuation: continuation ];
+                    continuation = _Continuation;
+                    [ self _testWikiContinuation: continuation ];
+
+                    for ( WikiPage* _WikiPage in _Results )
+                        [ self _testWikiPage: _WikiPage ];
 
                     WikiFulfillExpectation( jsonExpectation );
                     } failure:
@@ -338,14 +342,14 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
             [ self _testReturnedWikiQueryTask: WikiQueryTask ];
 
-            [ self waitForExpectationsWithTimeout: 15
+            [ self waitForExpectationsWithTimeout: 150000
                                           handler:
                 ^( NSError* __nullable _Error )
                     {
                     if ( _Error )
                         NSLog( @"%@", _Error );
                     } ];
-//            }
+            }
 
         index++;
         }

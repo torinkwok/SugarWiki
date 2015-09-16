@@ -1,5 +1,5 @@
 /*=============================================================================┐
-|             _  _  _       _                                                  |  
+|             _  _  _       _                                                  |
 |            (_)(_)(_)     | |                            _                    |██
 |             _  _  _ _____| | ____ ___  ____  _____    _| |_ ___              |██
 |            | || || | ___ | |/ ___) _ \|    \| ___ |  (_   _) _ \             |██
@@ -139,7 +139,7 @@ NSString* const kParamKeyRevision = @"revision";
 
         self->__pageQueryGeneralPropParams = @{ @"prop" : self->__pageQueryGeneralProps
                                               , @"rvprop" : self->__rvprop, @"rvsection" : @"0"
-                                              , @"inprop" : self->__inprop, @"continue" : @""
+                                              , @"inprop" : self->__inprop
                                               };
         }
 
@@ -315,28 +315,16 @@ NSString* const kParamKeyRevision = @"revision";
         ^( WikiQueryTask* __nonnull _QueryTask, id  __nonnull _ResponseObject )
             {
             NSDictionary* resultsJSONDict = ( NSDictionary* )_ResponseObject;
-//            NSDictionary* queryResultsJSONDict = resultsJSONDict[ kParamValActionQuery ];
+            NSDictionary* pageResultsJSONDict = resultsJSONDict[ kParamValActionQuery ][ kParamValListPages ];
 
             __SugarMutableArray_of( WikiPage* ) results = [ NSMutableArray array ];
-//            for ( NSString* _Key in _QueryTask.listNames )
-//                {
-//                NSArray* jsons = queryResultsJSONDict[ _Key ];
-//
-//                if ( jsons )
-//                    {
-//                    Class elementClass = NULL;
-//                    SEL initSEL = NULL;
-//
-//                    [ self __wikiClassAndSELDerivedFromQueryValue: _Key :&elementClass :&initSEL ];
-//                    NSArray* wikiJSONObjects = _WikiArrayValueWhichHasBeenParsedOutOfJSON( queryResultsJSONDict
-//                                                                                         , _Key
-//                                                                                         , elementClass
-//                                                                                         , initSEL
-//                                                                                         );
-//                    if ( wikiJSONObjects )
-//                        [ results addEntriesFromDictionary: @{ _Key : wikiJSONObjects } ];
-//                    }
-//                }
+            for ( NSDictionary* _WikiPageJSONDict in pageResultsJSONDict )
+                {
+                WikiPage* wikiPage = [ WikiPage __pageWithJSONDict: pageResultsJSONDict[ _WikiPageJSONDict ] ];
+
+                if ( wikiPage )
+                    [ results addObject: wikiPage ];
+                }
 
             WikiContinuation* continuation =
                 [ WikiContinuation __continuationWithJSONDict: resultsJSONDict[ @"continue" ] ];
