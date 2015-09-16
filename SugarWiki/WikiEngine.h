@@ -133,8 +133,9 @@ typedef NS_ENUM( NSUInteger, WikiEngineSearchApproach )
                                     inNamespaces: ( NSArray* )_Namespaces
                                         approach: ( WikiEngineSearchApproach )_SearchApproach
                                            limit: ( NSUInteger )_Limit
-                                   usesGenerator: ( BOOL )_YesOrNo
-                                         success: ( void (^)( WikiSearchResults _SearchResults ) )_SuccessBlock
+                                   usesGenerator: ( BOOL )_UsesGenerator
+                                    continuation: ( WikiContinuation* )_Continuation
+                                         success: ( void (^)( __SugarArray_of( WikiJSONObject* ) ) )_SuccessBlock
                                          failure: ( void (^)( NSError* _Error ) )_FailureBlock
                                stopAllOtherTasks: ( BOOL )_WillStop;
 #pragma mark Pages

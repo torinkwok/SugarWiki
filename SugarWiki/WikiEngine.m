@@ -403,8 +403,9 @@ NSString* const kParamKeyRevision = @"revision";
                                     inNamespaces: ( NSArray* )_Namespaces
                                         approach: ( WikiEngineSearchApproach )_SearchApproach
                                            limit: ( NSUInteger )_Limit
-                                   usesGenerator: ( BOOL )_YesOrNo
-                                         success: ( void (^)( WikiSearchResults _SearchResults ) )_SuccessBlock
+                                   usesGenerator: ( BOOL )_UsesGenerator
+                                    continuation: ( WikiContinuation* )_Continuation
+                                         success: ( void (^)( __SugarArray_of( WikiJSONObject* ) ) )_SuccessBlock
                                          failure: ( void (^)( NSError* _Error ) )_FailureBlock
                                stopAllOtherTasks: ( BOOL )_WillStop
     {
@@ -416,24 +417,50 @@ NSString* const kParamKeyRevision = @"revision";
                                 , @"srnamespace" : _Namespaces ?: @"0"
                                 };
 
-    return [ self queryLists: @[ kParamValListSearch ]
-                       limit: 10
-             otherParameters: parameters
-                continuation: nil
-                     success:
-        ^( __SugarDictionary_of( NSString*, __SugarArray_of( WikiJSONObject* ) ) _Results
-                               , WikiContinuation* _Continuation
-                               , BOOL _IsBatchComplete )
-            {
-            if ( _SuccessBlock )
-                _SuccessBlock( _Results[ kParamValListSearch ] );
-            } failure:
-                ^( NSError* _Error )
+    WikiQueryTask* queryTask = nil;
+
+    if ( _UsesGenerator )
+        {
+        queryTask = [ self queryByGeneratorList: kParamValListSearch
+                                 listParameters: parameters
+                       realPagesQueryParameters: self->__pageQueryGeneralPropParams
+                                   continuation: _Continuation
+                                        success:
+            ^ ( __SugarArray_of( WikiPage* )_Results
+              , WikiContinuation* _Continuation
+              , BOOL _IsBatchComplete )
+                {
+                if ( _SuccessBlock )
+                    _SuccessBlock( _Results );
+                } failure: ^( NSError* _Error )
                     {
                     if ( _Error && _FailureBlock )
                         _FailureBlock( _Error );
-                    }
-           stopAllOtherTasks: _WillStop ];
+                    }         stopAllOtherTasks: _WillStop ];
+        }
+    else
+        {
+        queryTask = [ self queryLists: @[ kParamValListSearch ]
+                                limit: 10
+                      otherParameters: parameters
+                         continuation: _Continuation
+                              success:
+            ^( __SugarDictionary_of( NSString*, __SugarArray_of( WikiJSONObject* ) ) _Results
+             , WikiContinuation* _Continuation
+             , BOOL _IsBatchComplete )
+                {
+                if ( _SuccessBlock )
+                    _SuccessBlock( _Results[ kParamValListSearch ] );
+                } failure:
+                    ^( NSError* _Error )
+                        {
+                        if ( _Error && _FailureBlock )
+                            _FailureBlock( _Error );
+                        }
+               stopAllOtherTasks: _WillStop ];
+        }
+
+    return queryTask;
     }
 
 #pragma mark Pages

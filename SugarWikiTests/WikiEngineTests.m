@@ -343,8 +343,9 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                                                   approach: WikiEngineSearchApproachPageText
                                                      limit: 10
                                              usesGenerator: NO
+                                              continuation: nil
                                                    success:
-                ^( NSArray* _Results )
+                ^( __SugarArray_of( WikiSearchResult* ) _Results )
                     {
                     XCTAssertNotNil( _Results );
 
