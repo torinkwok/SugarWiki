@@ -32,10 +32,11 @@
 
 // Using generics with collection containers is so common in SugarWiki
 // that it gets a dedicated preprocessor macro for better readability.
-#define __SugarArray_of(type)                  __SugarWiki_GENERICS(NSArray, type)*
-#define __SugarMutableArray_of(type)           __SugarWiki_GENERICS(NSMutableArray, type)*
-#define __SugarSet_of(type)                    __SugarWiki_GENERICS(NSSet, type)*
-#define __SugarDictionary_of(keytype, valtype) __SugarWiki_GENERICS(NSDictionary, keytype,valtype)*
+#define __SugarArray_of(type)                           __SugarWiki_GENERICS(NSArray, type)*
+#define __SugarMutableArray_of(type)                    __SugarWiki_GENERICS(NSMutableArray, type)*
+#define __SugarSet_of(type)                             __SugarWiki_GENERICS(NSSet, type)*
+#define __SugarDictionary_of(keytype, valtype)          __SugarWiki_GENERICS(NSDictionary, keytype,valtype)*
+#define __SugarMutableDictionary_of(keytype, valtype)   __SugarWiki_GENERICS(NSMutableDictionary, keytype,valtype)*
 
 #define __throw_exception_due_to_invocation_of_pure_virtrual_method_ \
     @throw [ NSException exceptionWithName: NSGenericException reason: [ NSString stringWithFormat: @"unimplemented pure virtual method `%@` in `%@` from instance: %p", NSStringFromSelector( _cmd ), NSStringFromClass( [ self class ] ), self ] userInfo: nil ]

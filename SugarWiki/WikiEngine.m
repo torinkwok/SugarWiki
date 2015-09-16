@@ -55,6 +55,7 @@ NSString* const kDELETE = @"DELETE";
 NSString* const kParamKeyAction = @"action";
 NSString* const kParamKeyFormat = @"format";
 NSString* const kParamKeyList = @"list";
+NSString* const kParamKeyGenerator = @"generator";
 NSString* const kParamKeyProp = @"prop";
 NSString* const kParamContinue = @"continue";
 
@@ -66,6 +67,8 @@ NSString* const kParamValFormatHTML = @"jsonfm";
 NSString* const kParamValListPages = @"pages";
 NSString* const kParamValListSearch = @"search";
 NSString* const kParamValListAllImages = @"allimages";
+
+NSString* const kParamKeyRevision = @"revision";
 
 // Private Interfaces
 @interface WikiEngine ()
@@ -134,7 +137,8 @@ NSString* const kParamValListAllImages = @"allimages";
 
         self->__pageQueryGeneralProps = @[ @"info", @"revisions", @"pageprops" ];
 
-        self->__pageQueryGeneralPropParams = @{ @"rvprop" : self->__rvprop, @"rvsection" : @"0"
+        self->__pageQueryGeneralPropParams = @{ @"prop" : self->__pageQueryGeneralProps
+                                              , @"rvprop" : self->__rvprop, @"rvsection" : @"0"
                                               , @"inprop" : self->__inprop, @"continue" : @""
                                               };
         }
@@ -281,6 +285,71 @@ NSString* const kParamValListAllImages = @"allimages";
                     }       stopAllOtherTasks: _WillStop ];
     }
 
+- ( WikiQueryTask* ) queryByGeneratorList: ( NSString* )_ListName
+                           listParameters: ( __SugarDictionary_of( NSString*, NSString* ) )_ListParamsDict
+                 realPagesQueryParameters: ( __SugarDictionary_of( NSString*, NSString* ) )_PagesQueryParamDict
+                             continuation: ( WikiContinuation* )_Continuation
+                                  success: ( void (^)( __SugarArray_of( WikiPage* ) _Results, WikiContinuation* _Continuation ) )_SuccessBlock
+                                  failure: ( void (^)( NSError* _Error ) )_FailureBlock
+                        stopAllOtherTasks: ( BOOL )_WillStop
+    {
+    NSParameterAssert( ( _ListName.length > 0 ) && ( _ListParamsDict.count > 0 ) );
+
+    NSMutableDictionary* finalParamsDict = [ NSMutableDictionary dictionaryWithDictionary:
+        @{ kParamKeyGenerator : _ListName
+         , kParamKeyAction : kParamValActionQuery
+         , kParamKeyFormat : kParamValFormatJSON
+         , kParamContinue : _Continuation ?: @""
+         } ];
+
+    NSMutableDictionary* generatorParams = [ NSMutableDictionary dictionaryWithCapacity: _ListParamsDict.count ];
+    for ( NSString* _Key in _ListParamsDict )
+        [ generatorParams addEntriesFromDictionary: @{ [ @"g" stringByAppendingString: _Key ] :  _ListParamsDict[ _Key ] } ];
+
+    [ finalParamsDict addEntriesFromDictionary: generatorParams ];
+    [ finalParamsDict addEntriesFromDictionary: ( ( _PagesQueryParamDict.count > 0 ) ? _PagesQueryParamDict : self->__pageQueryGeneralPropParams ) ];
+
+    return [ self fetchResourceWithParameters: finalParamsDict
+                                   HTTPMethod: kGET
+                                      success:
+        ^( WikiQueryTask* __nonnull _QueryTask, id  __nonnull _ResponseObject )
+            {
+            NSDictionary* resultsJSONDict = ( NSDictionary* )_ResponseObject;
+//            NSDictionary* queryResultsJSONDict = resultsJSONDict[ kParamValActionQuery ];
+
+            __SugarMutableArray_of( WikiPage* ) results = [ NSMutableArray array ];
+//            for ( NSString* _Key in _QueryTask.listNames )
+//                {
+//                NSArray* jsons = queryResultsJSONDict[ _Key ];
+//
+//                if ( jsons )
+//                    {
+//                    Class elementClass = NULL;
+//                    SEL initSEL = NULL;
+//
+//                    [ self __wikiClassAndSELDerivedFromQueryValue: _Key :&elementClass :&initSEL ];
+//                    NSArray* wikiJSONObjects = _WikiArrayValueWhichHasBeenParsedOutOfJSON( queryResultsJSONDict
+//                                                                                         , _Key
+//                                                                                         , elementClass
+//                                                                                         , initSEL
+//                                                                                         );
+//                    if ( wikiJSONObjects )
+//                        [ results addEntriesFromDictionary: @{ _Key : wikiJSONObjects } ];
+//                    }
+//                }
+
+            WikiContinuation* continuation =
+                [ WikiContinuation __continuationWithJSONDict: resultsJSONDict[ @"continue" ] ];
+
+            if ( _SuccessBlock )
+                _SuccessBlock( results, continuation );
+            } failure:
+                ^( NSURLSessionDataTask* __nonnull _Task, NSError* __nonnull _Error )
+                    {
+                    if ( _Error && _FailureBlock )
+                        _FailureBlock( _Error );
+                    }       stopAllOtherTasks: _WillStop ];
+    }
 
 - ( WikiQueryTask* ) queryProperties: ( __SugarArray_of( NSString* ) )_PropValues
                      otherParameters: ( __SugarDictionary_of( NSString*, NSString* ) )_Params
@@ -339,6 +408,7 @@ NSString* const kParamValListAllImages = @"allimages";
                                     inNamespaces: ( NSArray* )_Namespaces
                                         approach: ( WikiEngineSearchApproach )_SearchApproach
                                            limit: ( NSUInteger )_Limit
+                                   usesGenerator: ( BOOL )_YesOrNo
                                          success: ( void (^)( WikiSearchResults _SearchResults ) )_SuccessBlock
                                          failure: ( void (^)( NSError* _Error ) )_FailureBlock
                                stopAllOtherTasks: ( BOOL )_WillStop

@@ -104,6 +104,14 @@ typedef NS_ENUM( NSUInteger, WikiEngineSearchApproach )
                         failure: ( void (^)( NSError* _Error ) )_FailureBlock
               stopAllOtherTasks: ( BOOL )_WillStop;
 
+- ( WikiQueryTask* ) queryByGeneratorList: ( NSString* )_ListName
+                           listParameters: ( __SugarDictionary_of( NSString*, NSString* ) )_ListParamsDict
+                 realPagesQueryParameters: ( __SugarDictionary_of( NSString*, NSString* ) )_PagesQueryParamDict
+                             continuation: ( WikiContinuation* )_Continuation
+                                  success: ( void (^)( __SugarArray_of( WikiPage* ) _Results, WikiContinuation* _Continuation ) )_SuccessBlock
+                                  failure: ( void (^)( NSError* _Error ) )_FailureBlock
+                        stopAllOtherTasks: ( BOOL )_WillStop;
+
 - ( WikiQueryTask* ) queryProperties: ( __SugarArray_of( NSString* ) )_PropValues
                      otherParameters: ( __SugarDictionary_of( NSString*, NSString* ) )_ParamsDict
                         continuation: ( WikiContinuation* )_Continuation
@@ -119,6 +127,7 @@ typedef NS_ENUM( NSUInteger, WikiEngineSearchApproach )
                                     inNamespaces: ( NSArray* )_Namespaces
                                         approach: ( WikiEngineSearchApproach )_SearchApproach
                                            limit: ( NSUInteger )_Limit
+                                   usesGenerator: ( BOOL )_YesOrNo
                                          success: ( void (^)( WikiSearchResults _SearchResults ) )_SuccessBlock
                                          failure: ( void (^)( NSError* _Error ) )_FailureBlock
                                stopAllOtherTasks: ( BOOL )_WillStop;

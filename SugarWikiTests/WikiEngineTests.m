@@ -46,6 +46,10 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
     __SugarArray_of( __SugarArray_of( NSString* ) ) _posListNameSamples;
     __SugarArray_of( __SugarDictionary_of( NSString*, NSString* ) ) _posListParamsSamples;
+
+    __SugarArray_of( NSString* ) _posGeneratorListNameSamples;
+    __SugarArray_of( __SugarDictionary_of( NSString*, NSString* ) ) _posGeneratorListParamsSamples;
+    __SugarArray_of( __SugarDictionary_of( NSString*, NSString* ) ) _posGeneratorRealPageQueryParamsSamples;
     }
 
 @end
@@ -129,6 +133,22 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                                       , @"eulimit" : @"10"
                                       }
                                    ];
+
+    self->_posGeneratorListNameSamples = @[ // 0)
+                                            @"allpages"
+                                          ];
+
+    self->_posGeneratorListParamsSamples = @[ // 0)
+                                              @{ @"apfrom" : @"C++"
+                                               , @"aplimit" : @"3"
+                                               , @"apfilterredir" : @"nonredirects"
+                                               }
+                                            ];
+
+    self->_posGeneratorRealPageQueryParamsSamples = @[ // 0)
+                                                       @{ @"pllimit" : @"50"
+                                                        }
+                                                     ];
     }
 
 - ( void ) tearDown
@@ -284,6 +304,53 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
         }
     }
 
+- ( void ) test_pos_generator_genericMethod_
+    {
+    WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: @"en" ];
+
+    int index = 0;
+    for ( NSString* _PosSample in self->_posGeneratorListNameSamples )
+        {
+        WikiContinuation __block* continuation = [ WikiContinuation initialContinuation ];
+        [ self _testWikiContinuation: continuation ];
+
+//        while ( !continuation.isCompleted )
+//            {
+            XCTestExpectation* jsonExpectation = [ self expectationWithDescription: [ NSString stringWithFormat: @"🔥JSON Exception %d", index ] ];
+            WikiQueryTask* WikiQueryTask =
+            [ positiveTestCase queryByGeneratorList: _PosSample
+                                     listParameters: self->_posGeneratorListParamsSamples[ index ]
+                           realPagesQueryParameters: @{}
+                                       continuation: continuation
+                                            success:
+                ^( __SugarArray_of( WikiPage* ) _Results, WikiContinuation* _Continuation )
+                    {
+//                    continuation = _Continuation;
+//                    [ self _testWikiContinuation: continuation ];
+
+                    WikiFulfillExpectation( jsonExpectation );
+                    } failure:
+                        ^( NSError* _Error )
+                            {
+                            NSLog( @"❌%@", _Error );
+                            }
+                        stopAllOtherTasks: NO ];
+
+            [ self _testReturnedWikiQueryTask: WikiQueryTask ];
+
+            [ self waitForExpectationsWithTimeout: 15
+                                          handler:
+                ^( NSError* __nullable _Error )
+                    {
+                    if ( _Error )
+                        NSLog( @"%@", _Error );
+                    } ];
+//            }
+
+        index++;
+        }
+    }
+
 - ( void ) test_pos_queryProperties_genericMethod_
     {
     WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: @"en" ];
@@ -373,6 +440,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                                               inNamespaces: nil
                                                   approach: WikiEngineSearchApproachPageText
                                                      limit: 10
+                                             usesGenerator: NO
                                                    success:
                 ^( NSArray* _Results )
                     {
