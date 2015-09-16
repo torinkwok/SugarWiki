@@ -26,7 +26,28 @@
 
 #import "__SugarWiki.h"
 
+// SugarWikiTestCase class
 @interface SugarWikiTestCase : XCTestCase
+    {
+    AFHTTPSessionManager __strong* _httpSessionManager;
+
+    // Samples 0
+    NSArray __strong* _languageCodesSamples0;
+    NSDictionary __strong* _parametersSamples0;
+
+    __SugarArray_of( __SugarArray_of( NSString* ) ) _posTitleSamples;
+    __SugarArray_of( __SugarArray_of( NSNumber* ) ) _posPageIDSamples;
+
+    __SugarArray_of( __SugarArray_of( NSString* ) ) _posQueryPropSamples;
+    __SugarArray_of( __SugarDictionary_of( NSString*, NSString* ) ) _posQueryPropParamSamples;
+
+    __SugarArray_of( __SugarArray_of( NSString* ) ) _posListNameSamples;
+    __SugarArray_of( __SugarDictionary_of( NSString*, NSString* ) ) _posListParamsSamples;
+
+    __SugarArray_of( NSString* ) _posGeneratorListNameSamples;
+    __SugarArray_of( __SugarDictionary_of( NSString*, NSString* ) ) _posGeneratorListParamsSamples;
+    __SugarArray_of( __SugarDictionary_of( NSString*, NSString* ) ) _posGeneratorRealPageQueryParamsSamples;
+    }
 
 - ( void ) testReturnedWikiQueryTask: ( WikiQueryTask* )_WikiQueryTask;
 - ( void ) testGenericWikiJSONObject: ( WikiJSONObject* )_WikiJSONObject;
@@ -35,7 +56,7 @@
 - ( void ) testWikiContinuation: ( WikiContinuation* )_Continuation;
 - ( void ) testWikiPage: ( WikiPage* )_Page;
 
-@end
+@end // SugarWikiTestCase class
 
 /*===============================================================================┐
 |                                                                                |

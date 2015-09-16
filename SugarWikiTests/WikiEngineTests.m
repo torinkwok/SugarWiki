@@ -31,27 +31,6 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
 // WikiEngineTests class
 @interface WikiEngineTests : SugarWikiTestCase
-    {
-    AFHTTPSessionManager __strong* _httpSessionManager;
-
-    // Samples 0
-    NSArray __strong* _languageCodesSamples0;
-    NSDictionary __strong* _parametersSamples0;
-
-    __SugarArray_of( __SugarArray_of( NSString* ) ) _posTitleSamples;
-    __SugarArray_of( __SugarArray_of( NSNumber* ) ) _posPageIDSamples;
-
-    __SugarArray_of( __SugarArray_of( NSString* ) ) _posQueryPropSamples;
-    __SugarArray_of( __SugarDictionary_of( NSString*, NSString* ) ) _posQueryPropParamSamples;
-
-    __SugarArray_of( __SugarArray_of( NSString* ) ) _posListNameSamples;
-    __SugarArray_of( __SugarDictionary_of( NSString*, NSString* ) ) _posListParamsSamples;
-
-    __SugarArray_of( NSString* ) _posGeneratorListNameSamples;
-    __SugarArray_of( __SugarDictionary_of( NSString*, NSString* ) ) _posGeneratorListParamsSamples;
-    __SugarArray_of( __SugarDictionary_of( NSString*, NSString* ) ) _posGeneratorRealPageQueryParamsSamples;
-    }
-
 @end
 
 @implementation WikiEngineTests
@@ -59,86 +38,6 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 - ( void ) setUp
     {
     [ super setUp ];
-
-    self->_httpSessionManager = [ [ AFHTTPSessionManager alloc ] initWithSessionConfiguration: [ NSURLSessionConfiguration defaultSessionConfiguration ] ];
-    AFJSONResponseSerializer* JSONSerializer = [ [ AFJSONResponseSerializer alloc ] init ];
-    [ self->_httpSessionManager setResponseSerializer: JSONSerializer ];
-
-    // Samples 0
-    self->_languageCodesSamples0 = @[ @"en", @"zh", @"fr", @"ja", @"de" ];
-    self->_parametersSamples0 = @{ @"action" : @"query"
-                                 , @"meta" : @"siteinfo"
-                                 , @"format" : @"json"
-                                 , @"sipro" : @"general|languages|namespaces"
-                                 };
-
-    self->_posTitleSamples = @[ @[ @"C++", @"Ruby", @"C", @"Madonna in the Church", @"Ada (programming language)", @"Type system" ]
-                              , @[ @"Subroutine", @"Computer programming", @"Machine code", @"Barack Obama", @"Python (programming language)" ]
-                              , @[ @"Compiler", @"Central processing unit", @"Syria", @"Syria-Cilicia commemorative medal", @"Syria-Lebanon Campaign order of battle" ]
-                              , @[ @"Integrated circuit", @"Microprocessor", @"Semiconductor", @"Insulator (electricity)", @"Syria Fed Cup team" ]
-                              , @[ @"Otto Pérez Molina", @"President of Guatemala", @"Taiwan", @"Kuomintang" ]
-                              ];
-
-    self->_posPageIDSamples = @[ @[ @7515928, @43093687, @12816866, @10523677, @43472938, @888445 ]
-                               , @[ @5405, @28883152, @33099762, @33984313, @28175590 ]
-                               , @[ @19001, @6902276, @6147074, @29287604, @46349164 ]
-                               , @[ @14227967, @19961416, @7813116, @1955, @10280979 ]
-                               , @[ @856, @8260899, @31290263, @615972, @14653, @9008741, @40479341, @28320793, @46256893 ]
-                               ];
-
-    self->_posQueryPropSamples = @[ // 0)
-                                    @[ @"fileusage", @"extlinks" ]
-                                 ];
-
-    self->_posQueryPropParamSamples = @[ // 0)
-                                         @{ @"fuprop" : @"pageid|title|redirect"
-                                          , @"fulimit" : @"10"
-                                          , @"ellimit" : @"10"
-                                          , @"eloffset" : @""
-                                          , @"fucontinue" : @""
-                                          }
-                                      ];
-
-
-    self->_posListNameSamples = @[ // 0)
-                                   @[ @"backlinks" ]
-
-                                   // 1)
-                                 , @[ @"allcategories", @"exturlusage" ]
-                                 ];
-
-    self->_posListParamsSamples = @[ // 0)
-                                     @{ @"bltitle" : @"Main Page"
-                                      , @"bllimit" : @"10"
-                                      , @"blfilterredir" : @"redirects"
-                                      }
-
-                                     // 1)
-                                   , @{ @"acprop" : @"size|hidden"
-                                      , @"aclimit" : @"10"
-                                      , @"acprefix" : @"C++"
-
-                                      , @"euquery" : @"https://twitter.com"
-                                      , @"eulimit" : @"10"
-                                      }
-                                   ];
-
-    self->_posGeneratorListNameSamples = @[ // 0)
-                                            @"allpages"
-                                          ];
-
-    self->_posGeneratorListParamsSamples = @[ // 0)
-                                              @{ @"apfrom" : @"C++"
-                                               , @"aplimit" : @"3"
-                                               , @"apfilterredir" : @"nonredirects"
-                                               }
-                                            ];
-
-    self->_posGeneratorRealPageQueryParamsSamples = @[ // 0)
-                                                       @{ @"prop" : @"links|categories"
-                                                        , @"pllimit" : @"500"
-                                                        }
-                                                     ];
     }
 
 - ( void ) tearDown

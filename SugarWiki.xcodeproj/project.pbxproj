@@ -184,6 +184,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8309B8A51BA9FCBE009D55A8 /* test-cases */ = {
+			isa = PBXGroup;
+			children = (
+				834E1CDF1B9DC1D0007A8E58 /* SugarWikiTests.m */,
+				834E1CE01B9DC1D0007A8E58 /* WikiEngineTests.m */,
+				834E1CE11B9DC1D0007A8E58 /* WikiJSONObjectTests.m */,
+			);
+			name = "test-cases";
+			sourceTree = "<group>";
+		};
 		831C514D1B9E05DE00790B38 /* extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -267,12 +277,10 @@
 		834E1CD11B9DC18C007A8E58 /* SugarWikiTests */ = {
 			isa = PBXGroup;
 			children = (
-				834E1CDF1B9DC1D0007A8E58 /* SugarWikiTests.m */,
-				834E1CE01B9DC1D0007A8E58 /* WikiEngineTests.m */,
-				834E1CE11B9DC1D0007A8E58 /* WikiJSONObjectTests.m */,
-				834E1CD41B9DC18C007A8E58 /* Info.plist */,
 				8309B8A21BA9F96F009D55A8 /* SugarWikiTestCase.h */,
 				8309B8A31BA9F96F009D55A8 /* SugarWikiTestCase.m */,
+				8309B8A51BA9FCBE009D55A8 /* test-cases */,
+				834E1CD41B9DC18C007A8E58 /* Info.plist */,
 			);
 			path = SugarWikiTests;
 			sourceTree = "<group>";
