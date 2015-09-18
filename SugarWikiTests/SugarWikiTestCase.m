@@ -166,6 +166,7 @@
     }
 
 - ( void ) testWikiPage: ( WikiPage* )_Page
+                   info: ( NSDictionary* )_InfoDict
     {
     printf( "==============================================================\n" );
     NSLog( @"%@", _Page );
@@ -204,7 +205,10 @@
         XCTAssertNotNil( lastRevision.userName );
         XCTAssertGreaterThanOrEqual( lastRevision.userID, 0 );
         XCTAssertNotNil( lastRevision.timestamp );
-        XCTAssertNotNil( lastRevision.contentFormat );
+
+        if ( ![ _InfoDict[ @"parsed-wiki-text" ] boolValue ] )
+            XCTAssertNotNil( lastRevision.contentFormat );
+
         XCTAssertNotNil( lastRevision.contentModel );
         XCTAssertNotNil( lastRevision.content );
         XCTAssertGreaterThanOrEqual( lastRevision.sizeInBytes, 0 );

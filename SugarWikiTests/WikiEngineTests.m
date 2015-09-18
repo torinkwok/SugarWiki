@@ -222,7 +222,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                     [ self testWikiContinuation: continuation ];
 
                     for ( WikiPage* _WikiPage in _Results )
-                        [ self testWikiPage: _WikiPage ];
+                        [ self testWikiPage: _WikiPage info: nil ];
 
                     WikiFulfillExpectation( jsonExpectation );
                     } failure:
@@ -299,7 +299,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                         NSLog( @">>> (Log🐑) Matched Pages Count vs. Positive Sample Count: %lu vs. %lu", mergedWikiPages.count, _PosSample.count );
 
                         for ( WikiPage* _WikiPage in mergedWikiPages )
-                            [ self testWikiPage: _WikiPage ];
+                            [ self testWikiPage: _WikiPage info: nil ];
 
                         WikiFulfillExpectation( jsonExpectation );
                         } failure:
@@ -403,7 +403,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                         [ self testWikiContinuation: continuation ];
 
                         for ( WikiPage* _WikiPage in _ResultPages )
-                            [ self testWikiPage: _WikiPage ];
+                            [ self testWikiPage: _WikiPage info: nil ];
 
                         WikiFulfillExpectation( jsonExpectation );
                         } failure:
@@ -428,7 +428,19 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
         }
     }
 
-- ( void ) test_pos_pages_with_titles_
+- ( void ) test_pos_pages_with_titles
+    {
+    [ self pagesWithTitlesWithParseRevision: YES ];
+    [ self pagesWithTitlesWithParseRevision: NO ];
+    }
+
+- ( void ) test_pos_pages_with_pageIDs
+    {
+    [ self pagesWithPageIDsWithParseRevision: YES ];
+    [ self pagesWithPageIDsWithParseRevision: NO ];
+    }
+
+- ( void ) pagesWithTitlesWithParseRevision: ( BOOL )_YesOrNO
     {
     WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: @"en" ];
 
@@ -443,8 +455,9 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
             {
             XCTestExpectation* jsonExpectation = [ self expectationWithDescription: [ NSString stringWithFormat: @"🔥JSON Exception %d", count ] ];
 
-            WikiQueryTask* WikiQueryTask =
+            WikiQueryTask* wikiQueryTask =
                 [ positiveTestCase pagesWithTitles: _PosSample
+                                     parseRevision: _YesOrNO
                                       continuation: nil
                                            success:
                 ^( NSArray* _MatchedPages, WikiContinuation* _Continuation, BOOL _IsBatchComplete )
@@ -459,11 +472,15 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                     [ self testWikiContinuation: continuation ];
 
                     XCTAssertNotNil( mergedWikiPages );
-                    XCTAssertEqual( mergedWikiPages.count, _PosSample.count );
+
+                    if ( _YesOrNO )
+                        XCTAssertEqual( mergedWikiPages.count, 1 );
+                    else
+                        XCTAssertEqual( mergedWikiPages.count, _PosSample.count );
                     NSLog( @">>> (Log🐑) Matched Pages Count vs. Positive Sample Count: %lu vs. %lu", mergedWikiPages.count, _PosSample.count );
 
                     for ( WikiPage* _WikiPage in mergedWikiPages )
-                        [ self testWikiPage: _WikiPage ];
+                        [ self testWikiPage: _WikiPage info: @{ @"parsed-wiki-text" : @( _YesOrNO ) } ];
 
                     WikiFulfillExpectation( jsonExpectation );
                     } failure:
@@ -472,7 +489,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                             NSLog( @"❌%@", _Error );
                             }    stopAllOtherTasks: NO ];
 
-            [ self testReturnedWikiQueryTask: WikiQueryTask ];
+            [ self testReturnedWikiQueryTask: wikiQueryTask ];
 
             [ self waitForExpectationsWithTimeout: 15
                                           handler:
@@ -487,7 +504,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
         }
     }
 
-- ( void ) test_pos_pages_with_pageIDs_
+- ( void ) pagesWithPageIDsWithParseRevision: ( BOOL )_YesOrNO
     {
     WikiEngine* positiveTestCase = [ WikiEngine engineWithISOLanguageCode: @"en" ];
 
@@ -504,6 +521,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
             WikiQueryTask* WikiQueryTask =
                 [ positiveTestCase pagesWithPageIDs: _PosSample
+                                      parseRevision: _YesOrNO
                                        continuation: nil
                                             success:
                 ^( NSArray* _MatchedPages, WikiContinuation* _Continuation, BOOL _IsBatchComplete )
@@ -518,11 +536,15 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                     [ self testWikiContinuation: continuation ];
 
                     XCTAssertNotNil( _MatchedPages );
-                    XCTAssertEqual( _MatchedPages.count, _PosSample.count );
+
+                    if ( _YesOrNO )
+                        XCTAssertEqual( mergedWikiPages.count, 1 );
+                    else
+                        XCTAssertEqual( _MatchedPages.count, _PosSample.count );
                     NSLog( @">>> (Log🐑) Matched Pages Count vs. Positive Sample Count: %lu vs. %lu", _MatchedPages.count, _PosSample.count );
 
                     for ( WikiPage* _WikiPage in _MatchedPages )
-                        [ self testWikiPage: _WikiPage ];
+                        [ self testWikiPage: _WikiPage info: @{ @"parsed-wiki-text" : @( _YesOrNO ) } ];
 
                     WikiFulfillExpectation( jsonExpectation );
                     } failure:

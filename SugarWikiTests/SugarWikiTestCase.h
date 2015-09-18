@@ -54,7 +54,7 @@
 - ( void ) testSearchResult: ( WikiSearchResult* )_SearchResult;
 - ( void ) testWikiImage: ( WikiImage* )_Image;
 - ( void ) testWikiContinuation: ( WikiContinuation* )_Continuation;
-- ( void ) testWikiPage: ( WikiPage* )_Page;
+- ( void ) testWikiPage: ( WikiPage* )_Page info: ( NSDictionary* )_InfoDict;
 
 @end // SugarWikiTestCase class
 
