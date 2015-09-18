@@ -70,6 +70,7 @@ NSString* const kParamValListSearch = @"search";
 NSString* const kParamValListAllImages = @"allimages";
 
 NSString* const kParamKeyRevision = @"revision";
+NSString* const kParamParseRevision = @"rvparse";
 
 // Private Interfaces
 @interface WikiEngine ()
@@ -467,6 +468,7 @@ NSString* const kParamKeyRevision = @"revision";
 
 #pragma mark Pages
 - ( WikiQueryTask* ) pagesWithTitles: ( __SugarArray_of( NSString* ) )_Titles
+                       parseRevision: ( BOOL )_ParseRevision
                         continuation: ( WikiContinuation* )_Continuation
                              success: ( void (^)( __SugarArray_of( WikiPage* ) _MatchedPage
                                       , WikiContinuation* _Continuation
@@ -476,8 +478,18 @@ NSString* const kParamKeyRevision = @"revision";
     {
     NSParameterAssert( ( _Titles.count > 0 ) );
 
-    NSMutableDictionary* parameters = [ NSMutableDictionary dictionaryWithObject: _Titles forKey: @"titles" ];
-    [ parameters addEntriesFromDictionary: self->__pageQueryGeneralPropParams ];
+    __SugarArray_of( NSString* ) finalTitles = _Titles;
+    __SugarMutableDictionary_of( NSString*, NSString* ) finalParams =
+        [ NSMutableDictionary dictionaryWithDictionary: self->__pageQueryGeneralPropParams ];
+
+    if ( _ParseRevision )
+        {
+        finalTitles = [ finalTitles subarrayWithRange: NSMakeRange( 0, 1 ) ];
+        [ finalParams addEntriesFromDictionary: @{ kParamParseRevision : @"" } ];
+        }
+
+    NSMutableDictionary* parameters = [ NSMutableDictionary dictionaryWithObject: finalTitles forKey: @"titles" ];
+    [ parameters addEntriesFromDictionary: finalParams ];
 
     return [ self queryProperties: self->__pageQueryGeneralProps
                   otherParameters: parameters
@@ -497,6 +509,7 @@ NSString* const kParamKeyRevision = @"revision";
     }
 
 - ( WikiQueryTask* ) pagesWithPageIDs: ( __SugarArray_of( NSNumber* ) )_PageIDs
+                        parseRevision: ( BOOL )_ParseRevision
                          continuation: ( WikiContinuation* )_Continuation
                               success: ( void (^)( __SugarArray_of( WikiPage* ) _MatchedPage
                                        , WikiContinuation* _Continuation
@@ -506,8 +519,18 @@ NSString* const kParamKeyRevision = @"revision";
     {
     NSParameterAssert( ( _PageIDs.count > 0 ) );
 
-    NSMutableDictionary* parameters = [ NSMutableDictionary dictionaryWithObject: _PageIDs forKey: @"pageids" ];
-    [ parameters addEntriesFromDictionary: self->__pageQueryGeneralPropParams ];
+    __SugarArray_of( NSNumber* ) finalIDs = _PageIDs;
+    __SugarMutableDictionary_of( NSString*, NSString* ) finalParams =
+        [ NSMutableDictionary dictionaryWithDictionary: self->__pageQueryGeneralPropParams ];
+
+    if ( _ParseRevision )
+        {
+        finalIDs = [ finalIDs subarrayWithRange: NSMakeRange( 0, 1 ) ];
+        [ finalParams addEntriesFromDictionary: @{ kParamParseRevision : @"" } ];
+        }
+
+    NSMutableDictionary* parameters = [ NSMutableDictionary dictionaryWithObject: finalIDs forKey: @"pageids" ];
+    [ parameters addEntriesFromDictionary: finalParams ];
 
     return [ self queryProperties: self->__pageQueryGeneralProps
                   otherParameters: parameters
