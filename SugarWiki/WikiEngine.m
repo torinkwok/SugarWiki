@@ -140,7 +140,7 @@ NSString* const kParamParseRevision = @"rvparse";
         self->__pageQueryGeneralProps = @[ @"info", @"revisions", @"pageprops" ];
 
         self->__pageQueryGeneralPropParams = @{ @"prop" : self->__pageQueryGeneralProps
-                                              , @"rvprop" : self->__rvprop, @"rvsection" : @"0"
+                                              , @"rvprop" : self->__rvprop, @"rvsection" : @"1"
                                               , @"inprop" : self->__inprop
                                               };
         }
