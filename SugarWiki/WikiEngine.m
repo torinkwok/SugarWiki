@@ -140,7 +140,7 @@ NSString* const kParamParseRevision = @"rvparse";
         self->__pageQueryGeneralProps = @[ @"info", @"revisions", @"pageprops" ];
 
         self->__pageQueryGeneralPropParams = @{ @"prop" : self->__pageQueryGeneralProps
-                                              , @"rvprop" : self->__rvprop, @"rvsection" : @"1"
+                                              , @"rvprop" : self->__rvprop, @"rvsection" : @"0"
                                               , @"inprop" : self->__inprop
                                               };
         }
@@ -468,7 +468,7 @@ NSString* const kParamParseRevision = @"rvparse";
 
 #pragma mark Pages
 - ( WikiQueryTask* ) pagesWithTitles: ( __SugarArray_of( NSString* ) )_Titles
-                       parseRevision: ( BOOL )_ParseRevision
+                   parseLastRevision: ( BOOL )_Parse
                         continuation: ( WikiContinuation* )_Continuation
                              success: ( void (^)( __SugarArray_of( WikiPage* ) _MatchedPage
                                       , WikiContinuation* _Continuation
@@ -482,7 +482,7 @@ NSString* const kParamParseRevision = @"rvparse";
     __SugarMutableDictionary_of( NSString*, NSString* ) finalParams =
         [ NSMutableDictionary dictionaryWithDictionary: self->__pageQueryGeneralPropParams ];
 
-    if ( _ParseRevision )
+    if ( _Parse )
         {
         finalTitles = [ finalTitles subarrayWithRange: NSMakeRange( 0, 1 ) ];
         [ finalParams addEntriesFromDictionary: @{ kParamParseRevision : @"" } ];
@@ -509,7 +509,7 @@ NSString* const kParamParseRevision = @"rvparse";
     }
 
 - ( WikiQueryTask* ) pagesWithPageIDs: ( __SugarArray_of( NSNumber* ) )_PageIDs
-                        parseRevision: ( BOOL )_ParseRevision
+                    parseLastRevision: ( BOOL )_Parse
                          continuation: ( WikiContinuation* )_Continuation
                               success: ( void (^)( __SugarArray_of( WikiPage* ) _MatchedPage
                                        , WikiContinuation* _Continuation
@@ -523,7 +523,7 @@ NSString* const kParamParseRevision = @"rvparse";
     __SugarMutableDictionary_of( NSString*, NSString* ) finalParams =
         [ NSMutableDictionary dictionaryWithDictionary: self->__pageQueryGeneralPropParams ];
 
-    if ( _ParseRevision )
+    if ( _Parse )
         {
         finalIDs = [ finalIDs subarrayWithRange: NSMakeRange( 0, 1 ) ];
         [ finalParams addEntriesFromDictionary: @{ kParamParseRevision : @"" } ];

@@ -26,6 +26,8 @@
 
 #import "__SugarWiki.h"
 
+NSString extern* const kParsedWikiText;
+
 // SugarWikiTestCase class
 @interface SugarWikiTestCase : XCTestCase
     {
@@ -55,6 +57,7 @@
 - ( void ) testWikiImage: ( WikiImage* )_Image;
 - ( void ) testWikiContinuation: ( WikiContinuation* )_Continuation;
 - ( void ) testWikiPage: ( WikiPage* )_Page info: ( NSDictionary* )_InfoDict;
+- ( void ) testWikiRevision: ( WikiRevision* )_Revision info: ( NSDictionary* )_InfoDict;
 
 @end // SugarWikiTestCase class
 
