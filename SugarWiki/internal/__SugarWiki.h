@@ -42,6 +42,8 @@
 #import "__WikiRevision.h"
 #import "__WikiSearchResult.h"
 
+#import "NSXMLNode+__WikiRevision.h"
+
 /*================================================================================┐
 |                              The MIT License (MIT)                              |
 |                                                                                 |

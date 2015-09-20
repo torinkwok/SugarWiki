@@ -27,6 +27,7 @@
 
 #import "__WikiJSONObject.h"
 #import "__WikiRevision.h"
+#import "NSXMLNode+__WikiRevision.h"
 
 #import "__WikiJSONUtilities.h"
 
@@ -43,6 +44,7 @@
 @dynamic contentModel;
 @dynamic content;
 @dynamic isParsedContent;
+@dynamic parsedSnippet;
 
 @dynamic sizeInBytes;
 
@@ -88,6 +90,11 @@
 - ( BOOL ) isParsedContent
     {
     return self->_isParsedContent;
+    }
+
+- ( NSXMLDocument* ) parsedSnippet
+    {
+    return self->_parsedSnippet;
     }
 
 - ( NSUInteger ) sizeInBytes
@@ -146,6 +153,9 @@
     NSString* contentFormat = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"contentformat" );
     self->_isParsedContent = ( !contentFormat && self->_content );
 
+    if ( self->_isParsedContent )
+        self->_parsedSnippet = [ self __processedParsedContent: self->_content error: nil ];
+
     self->_sizeInByte = _WikiUnsignedIntWhichHasBeenParsedOutOfJSON( self->_json, @"size" );
 
     self->_comment = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"comment" );
@@ -154,6 +164,36 @@
     self->_isMinorEdit = ( _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"minor" ) ) ? YES : NO;
 
     self->_SHA1 = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"sha1" );
+    }
+
+- ( NSXMLDocument* ) __processedParsedContent: ( NSString* )_ParsedContent
+                                        error: ( NSError** )_Error
+    {
+    NSXMLDocument* HTMLDoc = [ [ NSXMLDocument alloc ] initWithXMLString: _ParsedContent
+                                                                      options: NSXMLDocumentTidyHTML
+                                                                        error: _Error ];
+    NSMutableArray* toBeCastrated = [ NSMutableArray array ];
+    NSXMLNode* currentNode = HTMLDoc;
+
+       do
+        {
+        if ( currentNode.isInComplicatedSet || currentNode.isCoordinate )
+            [ toBeCastrated addObject: currentNode ];
+
+        } while ( ( currentNode = currentNode.nextNode ) );
+
+    for ( int _Index = 0; _Index < toBeCastrated.count; _Index++ )
+        {
+        NSXMLNode* depNode = toBeCastrated[ _Index ];
+        if ( depNode.parent.childCount == 1 )
+            {
+            [ toBeCastrated removeObject: depNode ];
+            [ toBeCastrated addObject: depNode.parent ];
+            }
+        }
+
+    [ toBeCastrated makeObjectsPerformSelector: @selector( detach ) ];
+    return HTMLDoc;
     }
 
 @end // WikiRevision + SugarWikiPrivate
