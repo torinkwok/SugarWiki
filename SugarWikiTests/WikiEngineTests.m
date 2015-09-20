@@ -480,7 +480,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                     NSLog( @">>> (Log🐑) Matched Pages Count vs. Positive Sample Count: %lu vs. %lu", mergedWikiPages.count, _PosSample.count );
 
                     for ( WikiPage* _WikiPage in mergedWikiPages )
-                        [ self testWikiPage: _WikiPage info: @{ @"parsed-wiki-text" : @( _YesOrNO ) } ];
+                        [ self testWikiPage: _WikiPage info: @{ kParsedWikiText : @( _YesOrNO ) } ];
 
                     WikiFulfillExpectation( jsonExpectation );
                     } failure:
@@ -491,7 +491,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
             [ self testReturnedWikiQueryTask: wikiQueryTask ];
 
-            [ self waitForExpectationsWithTimeout: 15
+            [ self waitForExpectationsWithTimeout: 15000
                                           handler:
                 ^( NSError* __nullable _Error )
                     {
@@ -544,7 +544,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
                     NSLog( @">>> (Log🐑) Matched Pages Count vs. Positive Sample Count: %lu vs. %lu", _MatchedPages.count, _PosSample.count );
 
                     for ( WikiPage* _WikiPage in _MatchedPages )
-                        [ self testWikiPage: _WikiPage info: @{ @"parsed-wiki-text" : @( _YesOrNO ) } ];
+                        [ self testWikiPage: _WikiPage info: @{ kParsedWikiText : @( _YesOrNO ) } ];
 
                     WikiFulfillExpectation( jsonExpectation );
                     } failure:

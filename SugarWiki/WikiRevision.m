@@ -40,9 +40,9 @@
 @dynamic userID;
 
 @dynamic timestamp;
-@dynamic contentFormat;
 @dynamic contentModel;
 @dynamic content;
+@dynamic isParsedContent;
 
 @dynamic sizeInBytes;
 
@@ -75,11 +75,6 @@
     return self->_timestamp;
     }
 
-- ( NSString* ) contentFormat
-    {
-    return self->_contentFormat;
-    }
-
 - ( NSString* ) contentModel
     {
     return self->_contentModel;
@@ -88,6 +83,11 @@
 - ( NSString* ) content
     {
     return self->_content;
+    }
+
+- ( BOOL ) isParsedContent
+    {
+    return self->_isParsedContent;
     }
 
 - ( NSUInteger ) sizeInBytes
@@ -139,9 +139,12 @@
     self->_userID = _WikiSInt64WhichHasBeenParsedOutOfJSON( self->_json, @"userid" );
 
     self->_timestamp = [ NSDate dateWithMediaWikiJSONDateString: _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"timestamp" ) ];
-    self->_contentFormat = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"contentformat" );
+
     self->_contentModel = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"contentmodel" );
     self->_content = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"*" );
+
+    NSString* contentFormat = _WikiCocoaValueWhichHasBeenParsedOutOfJSON( self->_json, @"contentformat" );
+    self->_isParsedContent = ( !contentFormat && self->_content );
 
     self->_sizeInByte = _WikiUnsignedIntWhichHasBeenParsedOutOfJSON( self->_json, @"size" );
 

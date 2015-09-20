@@ -24,6 +24,8 @@
 
 #import "SugarWikiTestCase.h"
 
+NSString* const kParsedWikiText = @"parsed-wiki-text";
+
 // Private Interfaces
 @interface SugarWikiTestCase ()
 - ( void ) __init;
@@ -206,8 +208,8 @@
         XCTAssertGreaterThanOrEqual( lastRevision.userID, 0 );
         XCTAssertNotNil( lastRevision.timestamp );
 
-        if ( ![ _InfoDict[ @"parsed-wiki-text" ] boolValue ] )
-            XCTAssertNotNil( lastRevision.contentFormat );
+        if ( ![ _InfoDict[ kParsedWikiText ] boolValue ] )
+            XCTAssertFalse( lastRevision.isParsedContent );
 
         XCTAssertNotNil( lastRevision.contentModel );
         XCTAssertNotNil( lastRevision.content );
