@@ -44,7 +44,7 @@
 @dynamic contentModel;
 @dynamic content;
 @dynamic isParsedContent;
-@dynamic parsedSnippet;
+@dynamic prettyParsedSnippet;
 
 @dynamic sizeInBytes;
 
@@ -92,9 +92,9 @@
     return self->_isParsedContent;
     }
 
-- ( NSXMLDocument* ) parsedSnippet
+- ( NSXMLDocument* ) prettyParsedSnippet
     {
-    return self->_parsedSnippet;
+    return self->_prettyParsedSnippet;
     }
 
 - ( NSUInteger ) sizeInBytes
@@ -154,7 +154,7 @@
     self->_isParsedContent = ( !contentFormat && self->_content );
 
     if ( self->_isParsedContent )
-        self->_parsedSnippet = [ self __processedParsedContent: self->_content error: nil ];
+        self->_prettyParsedSnippet = [ self __processedParsedContent: self->_content error: nil ];
 
     self->_sizeInByte = _WikiUnsignedIntWhichHasBeenParsedOutOfJSON( self->_json, @"size" );
 

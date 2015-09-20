@@ -38,7 +38,7 @@
     NSString __strong* _contentModel;
     NSString __strong* _content;
     BOOL _isParsedContent;
-    NSXMLDocument __strong* _parsedSnippet;
+    NSXMLDocument __strong* _prettyParsedSnippet;
 
     NSUInteger _sizeInByte;
 
@@ -60,7 +60,7 @@
 @property ( strong, readonly ) NSString* contentModel;
 @property ( strong, readonly ) NSString* content;
 @property ( assign, readonly ) BOOL isParsedContent;
-@property ( strong, readonly ) NSXMLDocument* parsedSnippet;
+@property ( strong, readonly ) NSXMLDocument* prettyParsedSnippet;
 
 @property ( assign, readonly ) NSUInteger sizeInBytes;
 

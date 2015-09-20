@@ -218,12 +218,12 @@ NSString* const kParsedWikiText = @"parsed-wiki-text";
 
         if ( [ _InfoDict[ kParsedWikiText ] boolValue ] )
             {
-            NSXMLDocument* parsedSnippet =_Revision.parsedSnippet;
-            XCTAssertNotNil( parsedSnippet );
-            XCTAssertTrue( [ parsedSnippet isKindOfClass: [ NSXMLDocument class] ] );
+            NSXMLDocument* prettyParsedSnippet =_Revision.prettyParsedSnippet;
+            XCTAssertNotNil( prettyParsedSnippet );
+            XCTAssertTrue( [ prettyParsedSnippet isKindOfClass: [ NSXMLDocument class] ] );
 
-            if ( [ parsedSnippet isKindOfClass: [ NSXMLDocument class ] ] )
-                XCTAssertGreaterThan( parsedSnippet.childCount, 0 );
+            if ( [ prettyParsedSnippet isKindOfClass: [ NSXMLDocument class ] ] )
+                XCTAssertGreaterThan( prettyParsedSnippet.childCount, 0 );
             }
         else
             XCTAssertFalse( _Revision.isParsedContent );
