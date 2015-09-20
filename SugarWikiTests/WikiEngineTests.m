@@ -491,7 +491,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
             [ self testReturnedWikiQueryTask: wikiQueryTask ];
 
-            [ self waitForExpectationsWithTimeout: 15000
+            [ self waitForExpectationsWithTimeout: 15
                                           handler:
                 ^( NSError* __nullable _Error )
                     {

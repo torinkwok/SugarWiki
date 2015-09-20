@@ -199,31 +199,48 @@ NSString* const kParsedWikiText = @"parsed-wiki-text";
 
     XCTAssertGreaterThanOrEqual( _Page.externalLinks.count, 0 );
 
-    WikiRevision* lastRevision = _Page.lastRevision;
-    XCTAssertNotNil( lastRevision );
-        XCTAssertNotNil( lastRevision.json );
-        XCTAssertGreaterThanOrEqual( lastRevision.ID, 0 );
-        XCTAssertGreaterThanOrEqual( lastRevision.parentID, 0 );
-        XCTAssertNotNil( lastRevision.userName );
-        XCTAssertGreaterThanOrEqual( lastRevision.userID, 0 );
-        XCTAssertNotNil( lastRevision.timestamp );
+    [ self testWikiRevision: _Page.lastRevision info: _InfoDict ];
+    }
 
-        if ( ![ _InfoDict[ kParsedWikiText ] boolValue ] )
-            XCTAssertFalse( lastRevision.isParsedContent );
+- ( void ) testWikiRevision: ( WikiRevision* )_Revision
+                       info: ( NSDictionary* )_InfoDict
+    {
+    printf( "==============================================================\n" );
+    NSLog( @"%@", _Revision );
 
-        XCTAssertNotNil( lastRevision.contentModel );
-        XCTAssertNotNil( lastRevision.content );
-        XCTAssertGreaterThanOrEqual( lastRevision.sizeInBytes, 0 );
-        XCTAssertNotNil( lastRevision.comment );
-        XCTAssertNotNil( lastRevision.parsedComment );
+    XCTAssertNotNil( _Revision );
+        XCTAssertNotNil( _Revision.json );
+        XCTAssertGreaterThanOrEqual( _Revision.ID, 0 );
+        XCTAssertGreaterThanOrEqual( _Revision.parentID, 0 );
+        XCTAssertNotNil( _Revision.userName );
+        XCTAssertGreaterThanOrEqual( _Revision.userID, 0 );
+        XCTAssertNotNil( _Revision.timestamp );
+
+        if ( [ _InfoDict[ kParsedWikiText ] boolValue ] )
+            {
+            NSXMLDocument* parsedSnippet =_Revision.parsedSnippet;
+            XCTAssertNotNil( parsedSnippet );
+            XCTAssertTrue( [ parsedSnippet isKindOfClass: [ NSXMLDocument class] ] );
+
+            if ( [ parsedSnippet isKindOfClass: [ NSXMLDocument class ] ] )
+                XCTAssertGreaterThan( parsedSnippet.childCount, 0 );
+            }
+        else
+            XCTAssertFalse( _Revision.isParsedContent );
+
+        XCTAssertNotNil( _Revision.contentModel );
+        XCTAssertNotNil( _Revision.content );
+        XCTAssertGreaterThanOrEqual( _Revision.sizeInBytes, 0 );
+        XCTAssertNotNil( _Revision.comment );
+        XCTAssertNotNil( _Revision.parsedComment );
 
 //        NSData* lastRevisionContentData = [ lastRevision.content dataUsingEncoding: NSUTF8StringEncoding ];
 //        XCTAssertEqual( lastRevisionContentData.length, lastRevision.sizeInBytes );
 
-        XCTAssert( lastRevision.isMinorEdit || !lastRevision.isMinorEdit );
+        XCTAssert( _Revision.isMinorEdit || !_Revision.isMinorEdit );
 
-        XCTAssertNotNil( lastRevision.SHA1 );
-        XCTAssertEqual( lastRevision.SHA1.length, 40 /* SHA-1 hash value is 40 digits long */ );
+        XCTAssertNotNil( _Revision.SHA1 );
+        XCTAssertEqual( _Revision.SHA1.length, 40 /* SHA-1 hash value is 40 digits long */ );
     }
 
 #pragma mark Private Interfaces
