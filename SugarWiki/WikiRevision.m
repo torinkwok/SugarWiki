@@ -170,8 +170,8 @@
                                         error: ( NSError** )_Error
     {
     NSXMLDocument* HTMLDoc = [ [ NSXMLDocument alloc ] initWithXMLString: _ParsedContent
-                                                                      options: NSXMLDocumentTidyHTML
-                                                                        error: _Error ];
+                                                                 options: NSXMLDocumentTidyHTML
+                                                                   error: _Error ];
     NSMutableArray* toBeCastrated = [ NSMutableArray array ];
     NSXMLNode* currentNode = HTMLDoc;
 
