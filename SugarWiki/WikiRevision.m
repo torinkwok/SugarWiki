@@ -94,7 +94,7 @@
 
 - ( NSXMLDocument* ) prettyParsedSnippet
     {
-    return self->_prettyParsedSnippet;
+    return [ self->_prettyParsedSnippet copy ];
     }
 
 - ( NSUInteger ) sizeInBytes
