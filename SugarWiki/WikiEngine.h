@@ -145,7 +145,7 @@ typedef NS_ENUM( NSUInteger, WikiEngineSearchApproach )
 /** @name Pages */
 
 - ( WikiQueryTask* ) pagesWithTitles: ( __SugarArray_of( NSString* ) )_Titles
-                       parseRevision: ( BOOL )_ParseRevision
+                   parseLastRevision: ( BOOL )_Parse
                         continuation: ( WikiContinuation* )_Continuation
                              success: ( void (^)( __SugarArray_of( WikiPage* ) _MatchedPage
                                       , WikiContinuation* _Continuation
@@ -154,7 +154,7 @@ typedef NS_ENUM( NSUInteger, WikiEngineSearchApproach )
                    stopAllOtherTasks: ( BOOL )_WillStop;
 
 - ( WikiQueryTask* ) pagesWithPageIDs: ( __SugarArray_of( NSNumber* ) )_PageIDs
-                        parseRevision: ( BOOL )_ParseRevision
+                    parseLastRevision: ( BOOL )_Parse
                          continuation: ( WikiContinuation* )_Continuation
                               success: ( void (^)( __SugarArray_of( WikiPage* ) _MatchedPage
                                        , WikiContinuation* _Continuation

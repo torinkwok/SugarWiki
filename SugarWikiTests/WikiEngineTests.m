@@ -457,7 +457,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
             WikiQueryTask* wikiQueryTask =
                 [ positiveTestCase pagesWithTitles: _PosSample
-                                     parseRevision: _YesOrNO
+                                 parseLastRevision: _YesOrNO
                                       continuation: nil
                                            success:
                 ^( NSArray* _MatchedPages, WikiContinuation* _Continuation, BOOL _IsBatchComplete )
@@ -521,7 +521,7 @@ void WikiFulfillExpectation( XCTestExpectation* _Expection );
 
             WikiQueryTask* WikiQueryTask =
                 [ positiveTestCase pagesWithPageIDs: _PosSample
-                                      parseRevision: _YesOrNO
+                                  parseLastRevision: _YesOrNO
                                        continuation: nil
                                             success:
                 ^( NSArray* _MatchedPages, WikiContinuation* _Continuation, BOOL _IsBatchComplete )
