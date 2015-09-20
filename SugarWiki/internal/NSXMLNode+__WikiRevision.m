@@ -43,6 +43,7 @@
             || [ self.name isEqualToString: @"sup" ]
             || [ self.name isEqualToString: @"table" ]
             || [ self.name isEqualToString: @"dl" ]
+            || [ self.name isEqualToString: @"img" ]
 
             || ( [ self.name isEqualToString: @"p" ]
                     && ( self.nextNode.kind == NSXMLTextKind )
