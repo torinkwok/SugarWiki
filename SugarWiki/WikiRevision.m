@@ -33,6 +33,9 @@
 
 // WikiRevision class
 @implementation WikiRevision
+    {
+//    NSMutableArray __strong* __toBeCastrated;
+    }
 
 @dynamic ID;
 @dynamic parentID;
@@ -133,6 +136,15 @@
     return [ [ [ self class ] alloc ] __initWithJSONDict: _JSONDict ];
     }
 
+- ( instancetype ) __initWithJSONDict: ( NSDictionary* )_JSONDict
+    {
+    if ( self = [ super __initWithJSONDict: _JSONDict ] )
+        ;
+//        self->__toBeCastrated = [ NSMutableArray array ];
+
+    return self;
+    }
+
 #pragma mark Processing JSON
 // Overrides WikiJSONObject + SugarWikiPrivate
 - ( void ) __extractUseful: ( NSDictionary* )_JSONDict
@@ -172,9 +184,9 @@
     NSXMLDocument* HTMLDoc = [ [ NSXMLDocument alloc ] initWithXMLString: _ParsedContent
                                                                  options: NSXMLDocumentTidyHTML
                                                                    error: _Error ];
-    NSMutableArray* toBeCastrated = [ NSMutableArray array ];
     NSXMLNode* currentNode = HTMLDoc;
 
+    NSMutableArray* toBeCastrated = [ NSMutableArray array ];
        do
         {
         if ( currentNode.isInComplicatedSet || currentNode.isCoordinate )
@@ -182,18 +194,31 @@
 
         } while ( ( currentNode = currentNode.nextNode ) );
 
-    for ( int _Index = 0; _Index < toBeCastrated.count; _Index++ )
-        {
-        NSXMLNode* depNode = toBeCastrated[ _Index ];
-        if ( depNode.parent.childCount == 1 )
-            {
-            [ toBeCastrated removeObject: depNode ];
-            [ toBeCastrated addObject: depNode.parent ];
-            }
-        }
 
+    [ self __refineToBeCastrated: toBeCastrated ];
     [ toBeCastrated makeObjectsPerformSelector: @selector( detach ) ];
     return HTMLDoc;
+    }
+
+- ( void ) __refineToBeCastrated: ( NSMutableArray* )_ToBeCastratedList
+    {
+    for ( int _Index = 0; _Index < _ToBeCastratedList.count; _Index++ )
+        {
+        NSXMLNode* depNode = _ToBeCastratedList[ _Index ];
+
+        NSXMLNode* currentNode = depNode;
+        do
+            {
+            if ( [ _ToBeCastratedList containsObject: currentNode ] && currentNode.parent.childCount == 1 )
+                {
+                [ _ToBeCastratedList addObject: currentNode ];
+                [ _ToBeCastratedList removeObject : depNode ];
+
+                break;
+                }
+
+            } while ( ( currentNode = currentNode.parent ) );
+        }
     }
 
 @end // WikiRevision + SugarWikiPrivate
