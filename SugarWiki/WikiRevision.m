@@ -33,9 +33,6 @@
 
 // WikiRevision class
 @implementation WikiRevision
-    {
-//    NSMutableArray __strong* __toBeCastrated;
-    }
 
 @dynamic ID;
 @dynamic parentID;
@@ -136,15 +133,6 @@
     return [ [ [ self class ] alloc ] __initWithJSONDict: _JSONDict ];
     }
 
-- ( instancetype ) __initWithJSONDict: ( NSDictionary* )_JSONDict
-    {
-    if ( self = [ super __initWithJSONDict: _JSONDict ] )
-        ;
-//        self->__toBeCastrated = [ NSMutableArray array ];
-
-    return self;
-    }
-
 #pragma mark Processing JSON
 // Overrides WikiJSONObject + SugarWikiPrivate
 - ( void ) __extractUseful: ( NSDictionary* )_JSONDict
@@ -195,30 +183,32 @@
         } while ( ( currentNode = currentNode.nextNode ) );
 
 
-    [ self __refineToBeCastrated: toBeCastrated ];
-    [ toBeCastrated makeObjectsPerformSelector: @selector( detach ) ];
+    [ [ self __refinedCastratedList: toBeCastrated ] makeObjectsPerformSelector: @selector( detach ) ];
     return HTMLDoc;
     }
 
-- ( void ) __refineToBeCastrated: ( NSMutableArray* )_ToBeCastratedList
+- ( NSArray* ) __refinedCastratedList: ( NSArray* )_ToBeCastrated
     {
-    for ( int _Index = 0; _Index < _ToBeCastratedList.count; _Index++ )
+    NSMutableArray* __refined = [ NSMutableArray arrayWithArray: _ToBeCastrated ];
+
+    for ( int _Index = 0; _Index < __refined.count; _Index++ )
         {
-        NSXMLNode* depNode = _ToBeCastratedList[ _Index ];
+        NSXMLNode* parentNode = [ ( NSXMLNode* )( __refined[ _Index ] ) parent ];
 
-        NSXMLNode* currentNode = depNode;
-        do
+           do
             {
-            if ( [ _ToBeCastratedList containsObject: currentNode ] && currentNode.parent.childCount == 1 )
+            if ( ( parentNode.childCount == 1 ) && ![ parentNode isKindOfClass: [ NSXMLDocument class ] ] )
                 {
-                [ _ToBeCastratedList addObject: currentNode ];
-                [ _ToBeCastratedList removeObject : depNode ];
+                [ __refined addObject: parentNode ];
 
-                break;
+                NSXMLNode* wrappedSingleNode = parentNode.children.firstObject;
+                [ __refined removeObject: wrappedSingleNode ];
                 }
 
-            } while ( ( currentNode = currentNode.parent ) );
+            } while ( ( parentNode = parentNode.parent ) );
         }
+
+    return __refined;
     }
 
 @end // WikiRevision + SugarWikiPrivate
