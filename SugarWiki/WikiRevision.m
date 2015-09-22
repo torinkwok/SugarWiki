@@ -172,9 +172,9 @@
     NSXMLDocument* HTMLDoc = [ [ NSXMLDocument alloc ] initWithXMLString: _ParsedContent
                                                                  options: NSXMLDocumentTidyHTML
                                                                    error: _Error ];
-    NSMutableArray* toBeCastrated = [ NSMutableArray array ];
     NSXMLNode* currentNode = HTMLDoc;
 
+    NSMutableArray* toBeCastrated = [ NSMutableArray array ];
        do
         {
         if ( currentNode.isInComplicatedSet || currentNode.isCoordinate )
@@ -182,18 +182,33 @@
 
         } while ( ( currentNode = currentNode.nextNode ) );
 
-    for ( int _Index = 0; _Index < toBeCastrated.count; _Index++ )
+
+    [ [ self __refinedCastratedList: toBeCastrated ] makeObjectsPerformSelector: @selector( detach ) ];
+    return HTMLDoc;
+    }
+
+- ( NSArray* ) __refinedCastratedList: ( NSArray* )_ToBeCastrated
+    {
+    NSMutableArray* __refined = [ NSMutableArray arrayWithArray: _ToBeCastrated ];
+
+    for ( int _Index = 0; _Index < __refined.count; _Index++ )
         {
-        NSXMLNode* depNode = toBeCastrated[ _Index ];
-        if ( depNode.parent.childCount == 1 )
+        NSXMLNode* parentNode = [ ( NSXMLNode* )( __refined[ _Index ] ) parent ];
+
+           do
             {
-            [ toBeCastrated removeObject: depNode ];
-            [ toBeCastrated addObject: depNode.parent ];
-            }
+            if ( ( parentNode.childCount == 1 ) && ![ parentNode isKindOfClass: [ NSXMLDocument class ] ] )
+                {
+                [ __refined addObject: parentNode ];
+
+                NSXMLNode* wrappedSingleNode = parentNode.children.firstObject;
+                [ __refined removeObject: wrappedSingleNode ];
+                }
+
+            } while ( ( parentNode = parentNode.parent ) );
         }
 
-    [ toBeCastrated makeObjectsPerformSelector: @selector( detach ) ];
-    return HTMLDoc;
+    return __refined;
     }
 
 @end // WikiRevision + SugarWikiPrivate
