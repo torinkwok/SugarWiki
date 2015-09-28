@@ -55,7 +55,7 @@
 
 - ( NSXMLElement* ) resultSnippet
     {
-    return self->_resultSnippet;
+    return [ self->_resultSnippet copy ];
     }
 
 - ( NSXMLElement* ) resultTitleSnippet
